@@ -1,0 +1,10 @@
+<div class="card mb-1">
+    <div class="card-body">
+        {{ item.id }} /
+        {{ item.name }} /
+        {{ item.phone }} /
+        active: {{ item.itemstatus.active }} /
+        premium: {{ item.itemstatus.premium }} /
+        <a href="/user/item/photo/{{ item.id }}">Photo {{ item.photo|length }}</a>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+
+{% block body %}
+    {% for item in items %}
+        <div class="card">
+            <div class="card-body">
+                {{ item.name }}
+            </div>
+        </div>
+    {% else %}
+        <p>No items</p>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% set added_item_name = {
+    'ind': 'Индивидуалка',
+    'sal': 'Салон',
+    'man': 'Мужчина по выхову',
+    'tsl': 'Транссуксуалка'
+} %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-3">
+            <form method="POST" action="/user/logout">
+                <button class="btn btn-primary w-100 mb-1" type="submit">Выход</button>
+            </form>
+            {% for type in available_types %}
+                <a href="/user/item/add/{{ type }}" class="btn btn-outline-primary w-100 mb-1">Добавить анкету: {{ added_item_name[type] }}</a>
+            {% endfor %}
+        </div>
+        <div class="col-9">
+            {% for item in user.items %}
+                {% include 'user/lk-item.html.twig' with {item: item} %}
+            {% else %}
+                <p>Нет анкет</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

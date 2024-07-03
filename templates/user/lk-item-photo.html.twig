@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Редактирование фото анкеты ID: {{ id }}{% endblock %}
+
+{% block body %}
+    <form method="POST">
+        <input type="hidden" name="delete[item]" value="{{ id }}">
+        {% for photo in photos %}
+            <p>
+                <img src="{{ asset('/media/' ~ id ~ '/src/' ~ photo) | imagine_filter('editPhotoItem') }}"  alt=""/>
+                <label>
+                    <input type="checkbox" name="delete[file][]" value="{{ photo }}">
+                </label>
+            </p>
+            <button type="submit" name="delete[file]" value="{{ photo }}">Delete</button>
+        {% endfor %}
+        <button type="submit">Delete selected</button>
+    </form>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="upload[item]" value="{{ id }}">
+        <input type="file" name="upload[files][]" multiple="multiple" accept="image/*">
+        <button type="submit">Send</button>
+    </form>
+    <a href="/user/lk">Back to user lk</a>
+{% endblock %}

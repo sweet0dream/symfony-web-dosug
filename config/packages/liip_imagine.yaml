@@ -1,0 +1,21 @@
+liip_imagine:
+    resolvers:
+        default:
+            web_path: ~
+    webp:
+        generate: true
+    default_filter_set_settings:
+        quality: 30
+        format: webp
+
+    filter_sets:
+        cache: ~
+
+        editPhotoItem:
+            filters:
+                thumbnail: { size: [ 250, 250 ], mode: outbound }
+
+        renderIntroItem:
+            filters:
+                relative_resize:
+                    widen: 200

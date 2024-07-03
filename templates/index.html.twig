@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Main Page{% endblock %}
+
+{% block body %}
+    {% if items is not empty %}
+        {% for item in items %}
+            {% include 'render/intro.html.twig' with {item: item} %}
+        {% endfor %}
+    {% else %}
+            <p>No items</p>
+    {% endif %}
+{% endblock %}

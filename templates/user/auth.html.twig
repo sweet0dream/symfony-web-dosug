@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% set title = {
+    'login': ['Авторизация в личном кабинете', 'Личный кабинет', 'Войти', ['/user/regin', 'Регистрация рекламодателя']],
+    'regin': ['Регистрация рекламодателя', 'Регистрация', 'Зарегистрироваться', ['/user/login', 'Вход на сайт']]
+} %}
+
+{% block title %}{{ title[key][0] }}{% endblock %}
+
+{% block body %}
+        <main class="form-signin w-100 m-auto pt-2" style="max-width: 330px">
+            <form class="{{ key }}" method="POST">
+                <h3 class="h3 mb-3 fw-normal">{{ title[key][1] }}</h3>
+
+                {% for message in app.flashes('error') %}
+                    {{ message }}
+                {% endfor %}
+
+                {# Поля для авторизации #}
+                <div class="form-floating mb-1">
+                    <input type="text" class="form-control" id="floatingLogin" name="{{ key }}[login]" placeholder="Логин">
+                    <label for="floatingLogin">Ваш логин</label>
+                </div>
+                <div class="form-floating mb-1">
+                    <input type="password" class="form-control" id="floatingPassword" name="{{ key }}[password]" placeholder="Пароль">
+                    <label for="floatingPassword">Ваш пароль</label>
+                </div>
+                {% if key == 'regin' %}
+                    {# Поля для регистрации #}
+                    <div class="form-floating mb-1">
+                        <input type="password" class="form-control" id="floatingPasswordVerify" name="{{ key }}[password_verify]" placeholder="Пароль">
+                        <label for="floatingPasswordVerify">Повторите пароль</label>
+                    </div>
+                {% endif %}
+                <button class="btn btn-primary w-100 py-2" type="submit">{{ title[key][2] }}</button>
+                <a href="{{ title[key][3][0] }}" class="btn btn-link w-100 py-2">{{ title[key][3][1] }}</a>
+            </form>
+        </main>
+{% endblock %}
