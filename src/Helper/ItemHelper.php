@@ -30,9 +30,9 @@ readonly class ItemHelper {
     {
     }
 
-    public function getActiveItems($premium = false, $type = null): array
+    public function getActiveItems($type = null, $premium = false): array
     {
-        $items = isset(self::TYPE[$type]) ?
+        $items = $type && isset(self::TYPE[$type]) ?
             $this->em->getRepository(Item::class)->findBy(['type' => self::TYPE[$type]]) :
             $this->em->getRepository(Item::class)->findAll();
 

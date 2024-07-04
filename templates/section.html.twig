@@ -1,16 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
-{% block description %}{{ description }}{% endblock %}
+{% set meta = {
+    'main': {
+        'title': 'Главная страница',
+        'description': 'Главная страница'
+    },
+    'ind': {
+        'title': 'Индивидуалки',
+        'description': 'Индивидуалки'
+    },
+    'sal': {
+        'title': 'Салоны',
+        'description': 'Салоны'
+    },
+    'man': {
+        'title': 'Мужской эскорт',
+        'description': 'Мужской эскорт'
+    },
+    'tsl': {
+        'title': 'Транссексуалки',
+        'description': 'Транссексуалки'
+    }
+} %}
+
+{% block title %}{{ meta[key]['title'] }}{% endblock %}
+{% block description %}{{ meta[key]['description'] }}{% endblock %}
 
 {% block body %}
     {% for item in items %}
-        <div class="card">
-            <div class="card-body">
-                {{ item.name }}
+        {% include 'render/intro.html.twig' with {item: item} %}
+    {% else %}
+        <div class="card my-1">
+            <div class="card-body text-center">
+                Нет анкет
             </div>
         </div>
-    {% else %}
-        <p>No items</p>
     {% endfor %}
 {% endblock %}
