@@ -1,0 +1,8 @@
+<div class="card position-relative">
+    <div class="position-absolute top-0 end-0 p-2">
+        <input type="checkbox" class="btn-check" id="{{ key }}" autocomplete="off" name="delete[file][]" value="{{ photo }}">
+        <label class="btn btn-sm btn-outline-danger" for="{{ key }}">Выбрать</label>
+        <button type="submit" class="btn btn-sm btn-danger" name="delete[file]" value="{{ photo }}">x</button>
+    </div>
+    <img src="{{ asset('/media/' ~ id ~ '/src/' ~ photo) | imagine_filter('editPhotoItem') }}" class="card-img-top" alt="{{ photo }}">
+</div>

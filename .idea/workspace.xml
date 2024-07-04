@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1abbdeed-e2cc-4089-9aab-382fb1a29d1f" name="Changes" comment="" />
+    <list default="true" id="1abbdeed-e2cc-4089-9aab-382fb1a29d1f" name="Changes" comment="edit template: user lk photo">
+      <change afterPath="$PROJECT_DIR$/templates/render/photo-lk.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Item.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Item.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/lk-item-photo.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/lk-item-photo.html.twig" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,6 +19,10 @@
   <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="php83">
     <include_path>
@@ -163,6 +173,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;credentialsType com.jetbrains.php.remote.interpreter.ui.PhpCreateRemoteSdkForm&quot;: &quot;Docker Compose&quot;,
     &quot;credentialsType com.jetbrains.php.remote.interpreter.ui.PhpInplaceEditRemoteSdkForm&quot;: &quot;Docker Compose&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;last_opened_file_path&quot;: &quot;/home/dev/docker/src/backend/microservices/dosug/templates/user&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -221,11 +232,16 @@
       <workItem from="1719668879309" duration="247000" />
       <workItem from="1719762912638" duration="23793000" />
       <workItem from="1719909924961" duration="27000" />
-      <workItem from="1720014893529" duration="1670000" />
+      <workItem from="1720014893529" duration="3367000" />
+      <workItem from="1720100063418" duration="3424000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="edit template: user lk photo" />
+    <option name="LAST_COMMIT_MESSAGE" value="edit template: user lk photo" />
   </component>
 </project>

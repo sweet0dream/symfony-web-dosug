@@ -5,15 +5,13 @@
 {% block body %}
     <form method="POST">
         <input type="hidden" name="delete[item]" value="{{ id }}">
-        {% for photo in photos %}
-            <p>
-                <img src="{{ asset('/media/' ~ id ~ '/src/' ~ photo) | imagine_filter('editPhotoItem') }}"  alt=""/>
-                <label>
-                    <input type="checkbox" name="delete[file][]" value="{{ photo }}">
-                </label>
-            </p>
-            <button type="submit" name="delete[file]" value="{{ photo }}">Delete</button>
+        <div class="row g-1">
+        {% for key, photo in photos %}
+            <div class="col-2">
+                {% include 'render/photo-lk.html.twig' with {id, key, photo} %}
+            </div>
         {% endfor %}
+        </div>
         <button type="submit">Delete selected</button>
     </form>
     <form method="POST" enctype="multipart/form-data">

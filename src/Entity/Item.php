@@ -121,12 +121,12 @@ class Item
         return $this->photo ? explode(',', $this->photo) : null;
     }
 
-    public function getPhotoWithPath(): array
+    public function getPhotoWithPath(): ?array
     {
-        return array_map(
+        return !is_null($this->getPhoto()) ? array_map(
             fn($photo) => '/media/' . $this->getId() . '/src/' . $photo,
             $this->getPhoto()
-        );
+        ) : null;
     }
 
     public function setPhoto(array $photo): static
