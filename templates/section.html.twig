@@ -1,29 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% set meta = {
-    'main': {
-        'title': 'Главная страница',
-        'description': 'Главная страница'
-    },
-    'ind': {
-        'title': 'Индивидуалки',
-        'description': 'Индивидуалки'
-    },
-    'sal': {
-        'title': 'Салоны',
-        'description': 'Салоны'
-    },
-    'man': {
-        'title': 'Мужской эскорт',
-        'description': 'Мужской эскорт'
-    },
-    'tsl': {
-        'title': 'Транссексуалки',
-        'description': 'Транссексуалки'
-    }
-} %}
-
-{% block title %}{{ meta[key]['title'] }}{% endblock %}
+{% block title %}{{ meta[key]['title'] }} - {{ site_name }}{% endblock %}
 {% block description %}{{ meta[key]['description'] }}{% endblock %}
 
 {% block body %}

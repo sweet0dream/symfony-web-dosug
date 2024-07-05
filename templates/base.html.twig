@@ -1,3 +1,36 @@
+{% set city = city_term|split(',') %}
+{% set meta = {
+    'main': {
+        'slug': '',
+        'item_menu': 'Главная',
+        'title': 'Главная страница',
+        'description': 'Главная страница'
+    },
+    'ind': {
+        'slug': 'individualki',
+        'item_menu': 'Индивидуалки ',
+        'title': 'Индивидуалки ' ~ city[1],
+        'description': 'Индивидуалки'  ~ city[2]
+    },
+    'sal': {
+        'slug': 'salony',
+        'item_menu': 'Салоны',
+        'title': 'Салоны ' ~ city[1],
+        'description': 'Салоны ' ~ city[2]
+    },
+    'man': {
+        'slug': 'muzhskoi-eskort',
+        'item_menu': 'Мужской эскорт',
+        'title': 'Мужской эскорт '  ~ city[1],
+        'description': 'Мужской эскорт ' ~ city[2]
+    },
+    'tsl': {
+        'slug': 'transseksualki',
+        'item_menu': 'Трансы',
+        'title': 'Транссексуалки ' ~ city[1],
+        'description': 'Транссексуалки ' ~ city[2]
+    }
+} %}
 <!DOCTYPE html>
 <html data-bs-theme="dark" lang="ru-RU">
     <head>
@@ -7,13 +40,12 @@
         <meta name="description" content="{% block description %}Welcome!{% endblock %}">
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         {% block stylesheets %}{% endblock %}
-
         {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>{% endblock %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
     <body class="bg-body-tertiary p-2">
-    {% include 'widget/menu.html.twig' %}
+    {% include 'widget/menu.html.twig' with {menu: meta} %}
         {% block body %}
         {% endblock %}
     </body>
