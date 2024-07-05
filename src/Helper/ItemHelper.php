@@ -3,9 +3,11 @@
 namespace App\Helper;
 
 use App\Entity\Item;
+use App\Entity\ItemPhoto;
 use App\Entity\ItemStatus;
 use App\Entity\User;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use FilesystemIterator;
 use Sweet0dream\IntimAnketaContract;
@@ -63,7 +65,7 @@ readonly class ItemHelper {
             'phone' => $item->getPhone(),
             'info' => $item->getInfo(),
             'service' => $item->getService(),
-            'photo' => $item->getPhotoWithPath(),
+            'photo' => $item->getItemPhotos(),
             'price' => $item->getPrice()
         ];
     }
@@ -75,9 +77,32 @@ readonly class ItemHelper {
             'name' => $item->getName(),
             'info' => $this->getInfoValue($item->getInfo(), $type),
             'service' => $this->getServiceValue($item->getService(), $type),
-            'photo' => $item->getPhotoWithPath(),
+            'photo' => $this->getMainPhoto($item),
             'price' => $this->getPriceValue($item->getPrice(), $type)
         ];
+    }
+
+    private function getMainPhoto(Item $item): ?string
+    {
+        $photos = $item->getItemPhotos();
+
+        if (!empty($photos)) {
+            $filename = array_values(
+                array_filter(
+                    array_map(
+                        fn(ItemPhoto $photo) => $photo->hasMain() ? $photo->getFileName() : null,
+                        $photos->toArray()
+                    )
+                )
+            )[0] ?? $photos->last()->getFilename();
+        }
+
+        return isset($filename) ? $this->getPathPhoto($filename, $item->getId()) : null;
+    }
+
+    private function getPathPhoto(string $filename, int $itemId): string
+    {
+        return '/media/' . $itemId . '/src/' . $filename;
     }
 
     private function getInfoValue(array $info, string $type): array
@@ -128,7 +153,7 @@ readonly class ItemHelper {
 
     public function getPhoto(int $id): ?array
     {
-        return $this->em->getRepository(Item::class)->find($id)->getPhoto();
+        return $this->em->getRepository(Item::class)->find($id)->getItemPhotos()->toArray();
     }
 
     public function addItem(
@@ -177,11 +202,15 @@ readonly class ItemHelper {
 
         if (!empty($uploadedPhotos)) {
             $item = $this->em->getRepository(Item::class)->find($id);
-            $item->setPhoto(
-                $item->getPhoto()
-                    ? array_merge($item->getPhoto(), $uploadedPhotos)
-                    : $uploadedPhotos
-            );
+            foreach ($uploadedPhotos as $uploadedPhoto) {
+                $item->addItemPhoto(
+                    (new ItemPhoto())
+                        ->setFileName($uploadedPhoto)
+                        ->setHasMain(false)
+                        ->setCreatedAt(new DateTimeImmutable('now'))
+                );
+            }
+
             $this->em->persist($item);
             $this->em->flush();
 
@@ -206,16 +235,37 @@ readonly class ItemHelper {
 
         if (!empty($removePhotos)) {
             $item = $this->em->getRepository(Item::class)->find($id);
-            $itemPhotos = $item->getPhoto();
-
             foreach ($removePhotos as $removePhoto) {
-                unset($itemPhotos[array_search($removePhoto, $itemPhotos)]);
+                $itemPhoto = $this->em->getRepository(ItemPhoto::class)->findOneBy(['fileName' => $removePhoto]);
+                $this->em->remove($itemPhoto);
             }
-
-            $item->setPhoto($itemPhotos);
-            $this->em->persist($item);
             $this->em->flush();
         }
+
+        return true;
+    }
+
+    public function mainPhoto(
+        int $id,
+        string $file,
+    )
+    {
+        $item = $this->em->getRepository(Item::class)->find($id);
+        foreach ($item->getItemPhotos() as $photo) {
+            if ($photo->hasMain()) {
+                $this->em->persist(
+                    $photo->setHasMain(false)
+                );
+            }
+        }
+
+
+        $this->em->persist(
+            $this->em->getRepository(ItemPhoto::class)->findOneBy(['fileName' => $file, 'item' => $id])
+                ->setHasMain(true)
+        );
+
+        $this->em->flush();
 
         return true;
     }

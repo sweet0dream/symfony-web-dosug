@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ItemRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,9 +33,6 @@ class Item
     private ?string $service = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $photo = null;
-
-    #[ORM\Column(type: Types::TEXT)]
     private ?string $price = null;
 
     #[ORM\Column]
@@ -50,6 +49,17 @@ class Item
 
     #[ORM\OneToOne(mappedBy: 'item', cascade: ['persist', 'remove'])]
     private ?ItemStatus $itemStatus = null;
+
+    /**
+     * @var Collection<int, ItemPhoto>
+     */
+    #[ORM\OneToMany(targetEntity: ItemPhoto::class, mappedBy: 'item', cascade: ['persist'])]
+    private Collection $itemPhotos;
+
+    public function __construct()
+    {
+        $this->itemPhotos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -112,26 +122,6 @@ class Item
     public function setService(array $service): static
     {
         $this->service = json_encode($service);
-
-        return $this;
-    }
-
-    public function getPhoto(): ?array
-    {
-        return $this->photo ? explode(',', $this->photo) : null;
-    }
-
-    public function getPhotoWithPath(): ?array
-    {
-        return !is_null($this->getPhoto()) ? array_map(
-            fn($photo) => '/media/' . $this->getId() . '/src/' . $photo,
-            $this->getPhoto()
-        ) : null;
-    }
-
-    public function setPhoto(array $photo): static
-    {
-        $this->photo = implode(',', $photo);
 
         return $this;
     }
@@ -214,6 +204,36 @@ class Item
         }
 
         $this->itemStatus = $itemStatus;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ItemPhoto>
+     */
+    public function getItemPhotos(): Collection
+    {
+        return $this->itemPhotos;
+    }
+
+    public function addItemPhoto(ItemPhoto $itemPhoto): static
+    {
+        if (!$this->itemPhotos->contains($itemPhoto)) {
+            $this->itemPhotos->add($itemPhoto);
+            $itemPhoto->setItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItemPhoto(ItemPhoto $itemPhoto): static
+    {
+        if ($this->itemPhotos->removeElement($itemPhoto)) {
+            // set the owning side to null (unless already changed)
+            if ($itemPhoto->getItem() === $this) {
+                $itemPhoto->setItem(null);
+            }
+        }
 
         return $this;
     }

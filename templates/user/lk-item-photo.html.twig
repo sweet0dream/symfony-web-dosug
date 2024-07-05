@@ -4,7 +4,7 @@
 
 {% block body %}
     <form method="POST">
-        <input type="hidden" name="delete[item]" value="{{ id }}">
+        <input type="hidden" name="action[item]" value="{{ id }}">
         <div class="row g-1">
         {% for key, photo in photos %}
             <div class="col-2">
@@ -15,9 +15,15 @@
         <button type="submit">Delete selected</button>
     </form>
     <form method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="upload[item]" value="{{ id }}">
-        <input type="file" name="upload[files][]" multiple="multiple" accept="image/*">
-        <button type="submit">Send</button>
+        <input type="hidden" name="action[item]" value="{{ id }}">
+        <input
+                type="file"
+                id="files"
+                name="upload[files][]"
+                multiple="multiple"
+                accept="image/*"
+                oninput="form.submit()"
+        >
     </form>
     <a href="/user/lk">Back to user lk</a>
 {% endblock %}

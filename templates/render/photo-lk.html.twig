@@ -1,8 +1,18 @@
 <div class="card position-relative">
     <div class="position-absolute top-0 end-0 p-2">
-        <input type="checkbox" class="btn-check" id="{{ key }}" autocomplete="off" name="delete[file][]" value="{{ photo }}">
-        <label class="btn btn-sm btn-outline-danger" for="{{ key }}">Выбрать</label>
-        <button type="submit" class="btn btn-sm btn-danger" name="delete[file]" value="{{ photo }}">x</button>
+        <input type="checkbox" class="btn-check" id="p{{ key }}" autocomplete="off" name="action[delete][file][]" value="{{ photo.filename }}">
+        <label class="btn btn-sm btn-outline-danger" for="p{{ key }}">Выбрать</label>
+        <button type="submit" class="btn btn-sm btn-danger" name="action[delete][file]" value="{{ photo.filename }}">x</button>
     </div>
-    <img src="{{ asset('/media/' ~ id ~ '/src/' ~ photo) | imagine_filter('editPhotoItem') }}" class="card-img-top" alt="{{ photo }}">
+    <div class="position-absolute bottom-0 start-0 p-2">
+        <button
+                type="submit"
+                class="btn btn-sm btn-{% if photo.hasmain %}primary disabled{% else %}success{% endif %}"
+                name="action[main][file]"
+                value="{{ photo.filename }}"
+        >
+            {% if photo.hasmain %}Это главная{% else %}На главную{% endif %}
+        </button>
+    </div>
+    <img src="{{ asset('/media/' ~ id ~ '/src/' ~ photo.filename) | imagine_filter('editPhotoItem') }}" class="card-img-top" alt="{{ photo.filename }}">
 </div>

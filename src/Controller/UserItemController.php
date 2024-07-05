@@ -68,13 +68,11 @@ class UserItemController extends AbstractController
         }
 
         if ($request->getMethod() === 'POST') {
-            $action = key($request->request->all());
-            $data = $request->request->all()[$action];
-            if ($this->mappedAction(
-                $action,
-                $data['item'],
-                $request->files->all()['upload']['files'] ?? $data['file']
-            )) {
+            $data = $request->request->all()['action'];
+            $itemId = $data['item']; unset($data['item']);
+            $action = key($data) ?? 'upload';
+            $files = $data[$action]['file'] ?? $request->files->all()['upload']['files'];
+            if ($this->mappedAction($action, $itemId, $files)) {
                 return $this->redirectToRoute('user_item_photo', ['id' => $id]);
             }
         }
@@ -94,6 +92,7 @@ class UserItemController extends AbstractController
         return match ($action) {
             'upload' => $this->itemHelper->uploadPhoto($itemId, $files),
             'delete' => $this->itemHelper->deletePhoto($itemId, $files),
+            'main' => $this->itemHelper->mainPhoto($itemId, $files),
         };
     }
 

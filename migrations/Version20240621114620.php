@@ -28,7 +28,6 @@ final class Version20240621114620 extends AbstractMigration
                 'sex' => ['sk', 'sa'],
                 'min' => ['mp', 'mg']
             ],
-            'photo' => '1,2,3',
             'price' => [
                 'express' => 1500,
                 'onehour' => 2500,
@@ -50,7 +49,6 @@ final class Version20240621114620 extends AbstractMigration
                 'sex' => ['sk', 'sa'],
                 'min' => ['mp', 'mg']
             ],
-            'photo' => '4,5,6',
             'price' => [
                 'express' => 1000,
                 'onehour' => 1500,
@@ -75,7 +73,6 @@ final class Version20240621114620 extends AbstractMigration
         $tableItem->addColumn('type', Types::STRING)->setNotnull(true)->setLength(3);
         $tableItem->addColumn('info', Types::TEXT)->setNotnull(true);
         $tableItem->addColumn('service', Types::TEXT)->setNotnull(true);
-        $tableItem->addColumn('photo', Types::TEXT)->setDefault(null);
         $tableItem->addColumn('price', Types::TEXT)->setNotnull(true);
         $tableItem->addColumn('created_at', Types::DATETIME_IMMUTABLE)->setDefault('CURRENT_TIMESTAMP');
         $tableItem->addColumn('updated_at', Types::DATETIME_IMMUTABLE)->setDefault('CURRENT_TIMESTAMP');
@@ -84,13 +81,18 @@ final class Version20240621114620 extends AbstractMigration
             ->setPrimaryKey(['id'])
             ->addUniqueIndex(['phone'], 'UNIQ_1F1B251E444F97DD')
             ->addIndex(['user_id'], 'IDX_1F1B251EA76ED395')
+            ->addForeignKeyConstraint(
+                $schema->getTable('user'),
+                ['user_id'],
+                ['id'],
+                ['delete' => 'CASCADE', 'update' => 'CASCADE'],
+                'FK_1F1B251EA76ED395'
+            )
         ;
     }
 
     public function postUp(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE item ADD CONSTRAINT FK_1F1B251EA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
-
         foreach (self::TEST_ITEMS as $item) {
             $this->connection->insert(
                 $this->tableItem,
