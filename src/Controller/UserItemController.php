@@ -71,7 +71,7 @@ class UserItemController extends AbstractController
             $data = $request->request->all()['action'];
             $itemId = $data['item']; unset($data['item']);
             $action = key($data) ?? 'upload';
-            $files = $data[$action]['file'] ?? $request->files->all()['upload']['files'];
+            $files = $data[$action]['file'] ?? $request->files->all()['upload']['files'] ?? [];
             if ($this->mappedAction($action, $itemId, $files)) {
                 return $this->redirectToRoute('user_item_photo', ['id' => $id]);
             }

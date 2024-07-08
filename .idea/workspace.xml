@@ -5,15 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8d6c25f4-66f8-49dd-9c7a-cf597d999944" name="Changes" comment="gitignore">
+      <change afterPath="$PROJECT_DIR$/templates/render/premium.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/widget/intro.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/widget/premium.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/styles/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/liip_imagine.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/liip_imagine.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/migrations/Version20240621114620.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20240621114620.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20240705113517.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20240705113517.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ItemController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ItemController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/UserItemController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserItemController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Item.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Item.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Helper/ItemHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Helper/ItemHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/render/intro.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/render/intro.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/render/photo-lk.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/render/photo-lk.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/section.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/section.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/user/lk-item-photo.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/lk-item-photo.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/lk-item.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/lk-item.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -177,39 +183,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/dev/docker/src/backend/microservices/dosug/public/media",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.webide.settings.project.settings.php",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/dev/docker/src/backend/microservices/dosug/public/media/2/src&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.webide.settings.project.settings.php&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mariadb",
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mariadb&quot;,
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/public/media" />
+      <recent name="$PROJECT_DIR$/public/media/2/src" />
       <recent name="$PROJECT_DIR$/public/media/1/src" />
       <recent name="$PROJECT_DIR$/templates/widget" />
+      <recent name="$PROJECT_DIR$/public/media" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-PS-241.15989.102" />
-        <option value="bundled-php-predefined-ba97393d7c68-c76157a7178b-com.jetbrains.php.sharedIndexes-PS-241.15989.102" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-PS-241.17011.119" />
+        <option value="bundled-php-predefined-ba97393d7c68-48a1a656d44e-com.jetbrains.php.sharedIndexes-PS-241.17011.119" />
       </set>
     </attachedChunks>
   </component>
@@ -223,6 +230,7 @@
       <updated>1720035838493</updated>
       <workItem from="1720035839759" duration="219000" />
       <workItem from="1720036073050" duration="10886000" />
+      <workItem from="1720337789007" duration="35000" />
     </task>
     <task id="LOCAL-00001" summary="remove media test files">
       <option name="closed" value="true" />

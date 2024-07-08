@@ -35,6 +35,24 @@ class ItemController extends AbstractController
         ]);
     }
 
+    //#[Route('/{type}/{id}', name: 'page_item')]
+    public function viewFull(
+        string $type,
+        int $id
+    ): Response
+    {
+        $item = $this->itemHelper->getOneItem($type, $id);
+
+        if (!isset(ItemHelper::TYPE[$type]) || !$item) {
+            return $this->pageNotFound();
+        }
+
+        return $this->render('section.html.twig', [
+            'key' => ItemHelper::TYPE[$type],
+            'item' => $item
+        ]);
+    }
+
     private function pageNotFound(): Response
     {
         return $this->render('error/404.html.twig', [], (new Response())->setStatusCode(Response::HTTP_NOT_FOUND));

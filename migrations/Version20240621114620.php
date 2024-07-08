@@ -22,7 +22,8 @@ final class Version20240621114620 extends AbstractMigration
                 'height' => 20,
                 'weight' => 20,
                 'chest' => 2,
-                'hair' => 3
+                'hair' => 3,
+                'text' => 'Test1 test1 test1 test1 test1 test1 test1 test1 test1 test1'
             ],
             'service' => [
                 'sex' => ['sk', 'sa'],
@@ -43,7 +44,8 @@ final class Version20240621114620 extends AbstractMigration
                 'height' => 25,
                 'weight' => 25,
                 'mbr' => 4,
-                'body' => 2
+                'body' => 2,
+                'text' => 'Test2 test2 test2 test2 test2 test2 test2 test2 test2 test2'
             ],
             'service' => [
                 'sex' => ['sk', 'sa'],

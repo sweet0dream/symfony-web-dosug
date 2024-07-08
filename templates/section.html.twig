@@ -4,13 +4,16 @@
 {% block description %}{{ meta[key]['description'] }}{% endblock %}
 
 {% block body %}
-    {% for item in items %}
-        {% include 'render/intro.html.twig' with {item: item} %}
+    {% if items.premium is defined %}
+        {% include 'widget/premium.html.twig' with {items: items.premium} %}
+    {% endif %}
+    {% if items.intro is defined %}
+        {% include 'widget/intro.html.twig' with {items: items.intro} %}
     {% else %}
         <div class="card my-1">
             <div class="card-body text-center">
                 Нет анкет
             </div>
         </div>
-    {% endfor %}
+    {% endif %}
 {% endblock %}

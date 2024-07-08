@@ -7,3 +7,37 @@
 body {
     font: 16px/18px "Cuprum", sans-serif;
 }
+
+form.upload .input-file {
+    position: relative;
+    display: inline-block;
+}
+form.upload .input-file span {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+form.upload .input-file input[type=file] {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    display: block;
+    width: 0;
+    height: 0;
+}
+
+/* Focus */
+form.upload .input-file input[type=file]:focus + span {
+}
+
+/* Hover/active */
+form.upload .input-file:hover span {
+}
+form.upload .input-file:active span {
+}
+
+/* Disabled */
+form.upload .input-file input[type=file]:disabled + span {
+}

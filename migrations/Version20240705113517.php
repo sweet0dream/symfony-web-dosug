@@ -17,24 +17,35 @@ final class Version20240705113517 extends AbstractMigration
     private const array TEST_ITEMS_PHOTO = [
         [
             'item_id' => 1,
-            'file_name' => '1.png'
+            'file_name' => '1.jpg'
         ], [
             'item_id' => 1,
-            'file_name' => '2.png',
+            'file_name' => '2.jpg',
             'has_main' => 1
         ], [
             'item_id' => 1,
-            'file_name' => '3.png'
-        ],
-        [
-            'item_id' => 2,
-            'file_name' => '1.png',
+            'file_name' => '3.jpg'
+        ], [
+            'item_id' => 1,
+            'file_name' => '4.jpg'
+        ], [
+            'item_id' => 1,
+            'file_name' => '5.jpg'
         ], [
             'item_id' => 2,
-            'file_name' => '2.png'
+            'file_name' => '1.jpg',
         ], [
             'item_id' => 2,
-            'file_name' => '3.png'
+            'file_name' => '2.jpg'
+        ], [
+            'item_id' => 2,
+            'file_name' => '3.jpg'
+        ], [
+            'item_id' => 2,
+            'file_name' => '4.jpg'
+        ], [
+            'item_id' => 2,
+            'file_name' => '5.jpg'
         ]
     ];
 

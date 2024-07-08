@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-readonly class ItemHelper {
+class ItemHelper {
 
     public const array TYPE = [
         'individualki' => 'ind',
@@ -24,10 +24,36 @@ readonly class ItemHelper {
         'transseksualki' => 'tsl'
     ];
 
+    private const RENDER_TYPE_INTRO = 'intro';
+    private const FILTER_FIELDS_INTRO = [
+        'name',
+        'photo_main',
+        'info',
+        'price',
+        'text'
+    ];
+    private const RENDER_TYPE_PREMIUM = 'premium';
+    private const FILTER_FIELDS_PREMIUM = [
+        'name',
+        'photo_main',
+        'phone',
+        'info',
+        'service',
+        'price'
+    ];
+    private const RENDER_TYPE_FULL = 'full';
+
+    private const array RENDER_LIST = [
+        self::RENDER_TYPE_INTRO => self::FILTER_FIELDS_INTRO,
+        self::RENDER_TYPE_PREMIUM => self::FILTER_FIELDS_PREMIUM
+    ];
+
     public function __construct(
         private EntityManagerInterface $em,
         #[Autowire('%kernel.project_dir%/public/media')]
-        private readonly string $mediaDir
+        private readonly string $mediaDir,
+        private ?string $type = null,
+        private ?Item $item = null
     )
     {
     }
@@ -39,52 +65,55 @@ readonly class ItemHelper {
             $this->em->getRepository(Item::class)->findAll();
 
         foreach ($items as $item) {
-            $check = $premium
-                ? $item->getItemStatus()->isActive() && $item->getItemStatus()->isPremium()
-                : $item->getItemStatus()->isActive();
-            if ($check) {
-                $result[] = $this->prepareItem($item, $premium ? 'premium' : 'intro');
+            if ($item->getItemStatus()->isActive()) {
+                $this->item = $item;
+                $this->type = $item->getType();
+                $render = array_keys(self::RENDER_LIST)[(int)$item->getItemStatus()->isPremium()];
+                $result[$render][] = $this->prepareItem($render);
             }
         }
 
         return $result ?? [];
     }
 
-    private function prepareItem(Item $item, string $prepare = 'intro'): array
+    public function getOneItem(
+        string $type,
+        int $id
+    ): array|false
     {
-        return match ($prepare) {
-            'premium' => $this->renderPremium($item),
-            'intro' => $this->renderIntro($item)
-        };
+        $item = $this->em->getRepository(Item::class)->find($id);
+
+        return !is_null($item) || $type === $item->getType() ? $item : false;
     }
 
-    private function renderPremium(Item $item): array
+    private function prepareItem(?string $prepare = null): array
     {
-        return [
-            'name' => $item->getName(),
-            'phone' => $item->getPhone(),
-            'info' => $item->getInfo(),
-            'service' => $item->getService(),
-            'photo' => $item->getItemPhotos(),
-            'price' => $item->getPrice()
+        $data = [
+            'name' => $this->item->getName(),
+            'phone' => $this->item->getPhone(),
+            'info' => $this->getInfoValue(),
+            'service' => $this->getServiceValue(),
+            'photo_main' => $this->getMainPhoto(),
+            'photo' => $this->getPhotoValue(),
+            'price' => $this->getPriceValue(),
+            'text' => $this->item->getInfo()['text']
         ];
+
+        return is_null($prepare) ? $data : array_combine(
+            self::RENDER_LIST[$prepare],
+            array_map(
+                function($filter) use ($data) {
+                    return $data[$filter];
+                },
+                self::RENDER_LIST[$prepare]
+            )
+        );
+
     }
 
-    private function renderIntro(Item $item): array
+    private function getMainPhoto(): ?string
     {
-        $type = $item->getType();
-        return [
-            'name' => $item->getName(),
-            'info' => $this->getInfoValue($item->getInfo(), $type),
-            'service' => $this->getServiceValue($item->getService(), $type),
-            'photo' => $this->getMainPhoto($item),
-            'price' => $this->getPriceValue($item->getPrice(), $type)
-        ];
-    }
-
-    private function getMainPhoto(Item $item): ?string
-    {
-        $photos = $item->getItemPhotos();
+        $photos = $this->item->getItemPhotos();
 
         if (!empty($photos)) {
             $filename = array_values(
@@ -97,7 +126,17 @@ readonly class ItemHelper {
             )[0] ?? $photos->last()->getFilename();
         }
 
-        return isset($filename) ? $this->getPathPhoto($filename, $item->getId()) : null;
+        return isset($filename) ? $this->getPathPhoto($filename, $this->item->getId()) : null;
+    }
+
+    private function getPhotoValue(): array
+    {
+        $result = [];
+        foreach ($this->item->getItemPhotos() as $photo) {
+            $result[] = $this->getPathPhoto($photo->getFileName(), $this->item->getId());
+        }
+
+        return $result;
     }
 
     private function getPathPhoto(string $filename, int $itemId): string
@@ -105,11 +144,11 @@ readonly class ItemHelper {
         return '/media/' . $itemId . '/src/' . $filename;
     }
 
-    private function getInfoValue(array $info, string $type): array
+    private function getInfoValue(): array
     {
         $result = [];
-        $term = (new IntimAnketaContract($type))->getField()['info'];
-        foreach ($info as $infoKey => $infoValue) {
+        $term = (new IntimAnketaContract($this->type))->getField()['info'];
+        foreach ($this->item->getInfo() as $infoKey => $infoValue) {
             if (isset($term[$infoKey]['value'][$infoValue])) {
                 $result[$infoKey] = [
                     'name' => $term[$infoKey]['name'],
@@ -121,11 +160,11 @@ readonly class ItemHelper {
         return $result;
     }
 
-    private function getServiceValue(array $service, string $type): array
+    private function getServiceValue(): array
     {
         $result = [];
-        $term = (new IntimAnketaContract($type))->getField()['service'];
-        foreach ($service as $serviceKey => $serviceValue) {
+        $term = (new IntimAnketaContract($this->type))->getField()['service'];
+        foreach ($this->item->getService() as $serviceKey => $serviceValue) {
             if (is_array($serviceValue)) {
                 foreach ($serviceValue as $value) {
                     $result[$serviceKey]['name'] = $term[$serviceKey]['name'];
@@ -137,11 +176,11 @@ readonly class ItemHelper {
         return $result;
     }
 
-    private function getPriceValue(array $price, string $type): array
+    private function getPriceValue(): array
     {
         $result = [];
-        $term = (new IntimAnketaContract($type))->getField()['price'];
-        foreach ($price as $priceKey => $priceValue) {
+        $term = (new IntimAnketaContract($this->type))->getField()['price'];
+        foreach ($this->item->getPrice() as $priceKey => $priceValue) {
             $result[$priceKey] = [
                 'name' => $term[$priceKey]['name'],
                 'value' => $priceValue
@@ -170,7 +209,6 @@ readonly class ItemHelper {
             ->setType($item['type'])
             ->setInfo($item['info'])
             ->setService($item['service'])
-            ->setPhoto([])
             ->setPrice($item['price'])
             ->setItemStatus((new ItemStatus())->setDefaultValue())
             ->setCreatedAt($now)
@@ -251,20 +289,14 @@ readonly class ItemHelper {
     )
     {
         $item = $this->em->getRepository(Item::class)->find($id);
+
         foreach ($item->getItemPhotos() as $photo) {
-            if ($photo->hasMain()) {
-                $this->em->persist(
-                    $photo->setHasMain(false)
-                );
-            }
+            $photo->setHasMain(
+                $photo->getFileName() == $file ? !$photo->hasMain() : false
+            );
         }
 
-
-        $this->em->persist(
-            $this->em->getRepository(ItemPhoto::class)->findOneBy(['fileName' => $file, 'item' => $id])
-                ->setHasMain(true)
-        );
-
+        $this->em->persist($item);
         $this->em->flush();
 
         return true;
