@@ -195,6 +195,17 @@ class ItemHelper {
         return $this->em->getRepository(Item::class)->find($id)->getItemPhotos()->toArray();
     }
 
+    public function hasMainPhoto(int $id): bool
+    {
+        foreach ($this->getPhoto($id) as $checkMainPhoto) {
+            if ($checkMainPhoto->hasMain()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function addItem(
         array $item,
         User $user
@@ -275,7 +286,9 @@ class ItemHelper {
             $item = $this->em->getRepository(Item::class)->find($id);
             foreach ($removePhotos as $removePhoto) {
                 $itemPhoto = $this->em->getRepository(ItemPhoto::class)->findOneBy(['fileName' => $removePhoto]);
-                $this->em->remove($itemPhoto);
+                if (!is_null($itemPhoto)) {
+                    $this->em->remove($itemPhoto);
+                }
             }
             $this->em->flush();
         }
@@ -304,9 +317,11 @@ class ItemHelper {
 
     private function checkAndRemoveEmptyPath(string $path): void
     {
-        $isDirEmpty = !(new FilesystemIterator($path . '/src'))->valid();
+        if (is_dir($path . '/src')) {
+            $isDirEmpty = !(new FilesystemIterator($path . '/src'))->valid();
+        }
 
-        if ($isDirEmpty) {
+        if (isset($isDirEmpty) && $isDirEmpty) {
             rmdir($path . '/src');
             rmdir($path);
         }
@@ -320,8 +335,8 @@ class ItemHelper {
         $path = $this->mediaDir . '/' . $id;
         $filename = $path . '/src/' . $file;
 
-        if (!file_exists($filename) || !unlink($filename)) {
-            return null;
+        if (file_exists($filename)) {
+            unlink($filename);
         }
 
         $this->checkAndRemoveEmptyPath($path);

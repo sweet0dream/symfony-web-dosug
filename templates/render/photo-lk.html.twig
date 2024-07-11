@@ -26,7 +26,7 @@
         <img src="{{ asset('/media/' ~ id ~ '/src/' ~ photo.filename) | imagine_filter('editPhotoItem') }}" class="card-img-top" alt="{{ photo.filename }}">
     </div>
     <div class="card-footer py-1 px-2">
-        <div class="row">
+        <div class="row g-1">
             <div class="col-6 text-start">
                 <button
                         type="submit"
@@ -34,7 +34,7 @@
                         name="action[main][file]"
                         value="{{ photo.filename }}"
                 >
-                    {% if photo.hasmain %}<i class="fa-solid fa-check"></i> Основное{% else %}Сделать основной{% endif %}
+                    {% if photo.hasmain %}<i class="fa-solid fa-check"></i> Главное{% else %}На главную{% endif %}
                 </button>
             </div>
             <div class="col-6 text-end">
@@ -42,7 +42,14 @@
                     <label class="form-check-label text-secondary" style="margin-top:2px" for="p{{ key }}">
                         <small>отметить</small>
                     </label>
-                    <input class="form-check-input " type="checkbox" id="p{{ key }}" name="action[delete][file][]" value="{{ photo.filename }}">
+                    <input
+                            class="form-check-input"
+                            type="checkbox"
+                            id="p{{ key }}"
+                            name="action[delete][file][]"
+                            value="{{ photo.filename }}"
+                            onchange="massDelete()"
+                    >
                 </div>
             </div>
         </div>

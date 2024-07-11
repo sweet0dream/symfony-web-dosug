@@ -3,49 +3,76 @@
 {% block title %}Редактирование фото анкеты ID: {{ id }}{% endblock %}
 
 {% block body %}
-    {% if photos is not empty %}
-        <div class="alert alert-light text-center mb-1">Если не одно фото не отмечено как Основное то в списке анкет Основным будет показываться последнее загруженное</div>
-    {% endif %}
-
-            <a href="/user/lk" class="btn btn-light"><i class="fa-solid fa-chevron-left"></i></a>
-
-    <form method="POST">
-        <input type="hidden" name="action[item]" value="{{ id }}">
+    {% if photos is not empty and has_main_photo != true %}
         <div class="text-center mb-2">
-            <button type="submit" id="submit" class="btn btn-danger">Удалить отмеченные</button>
+            <div class="alert alert-light d-inline-block m-0">Последнее загруженное фото будет показываться в списке анкет как <strong>Главное</strong></div>
         </div>
+    {% endif %}
+    <form method="POST" id="operand">
+        <input type="hidden" name="action[item]" value="{{ id }}">
         <div class="row justify-content-center g-1">
         {% for key, photo in photos %}
             <div class="col-2">
                 {% include 'render/photo-lk.html.twig' with {id, key, photo} %}
             </div>
         {% else %}
-            <div class="alert alert-warning d-flex align-items-center" role="alert">
-                <i class="fa-solid fa-exclamation"></i>
-                <div class="ms-2">Не загружено ни одной фотографии. Необходимо загрузить минимум одно фото иначе будет невозможен показ анкеты.</div>
+            <div class="text-center mb-1">
+                <div class="alert alert-warning d-inline-block m-0" role="alert">
+                    <div class="ms-3">Не загружено ни одной фотографии. Необходимо загрузить минимум одно фото иначе будет невозможен показ анкеты.</div>
+                </div>
             </div>
         {% endfor %}
         </div>
         <script>
-            document.getElementById('allow').addEventListener('change', function (e) {
-                document.getElementById('submit').disabled = !e.target.checked
-            })
+            function massDelete() {
+                let checked = false;
+                document.querySelectorAll('input[type="checkbox"]')
+                    .forEach(function(element) {
+                        if (element.checked) { checked = true }
+                    });
+                document.getElementById('submit').disabled = !checked;
+                document.getElementById('mass-delete').style.display = ['none', 'block'][ + checked];
+                document.getElementById('upload').style.display = ['none', 'block'][ + !checked];
+            }
+            function checkAll()
+            {
+                let check = document.getElementsByTagName('input');
+                for (let i = 0;i < check.length; i++) {
+                    if (check[i].type === 'checkbox') {
+                        check[i].checked = true;
+                    }
+                }
+            }
         </script>
     </form>
-    <div class="text-center mt-2">
-        <form method="POST" class="upload" enctype="multipart/form-data">
-            <input type="hidden" name="action[item]" value="{{ id }}" />
-            <label class="input-file">
-                <input
-                        type="file"
-                        id="files"
-                        name="upload[files][]"
-                        multiple="multiple"
-                        accept="image/*"
-                        oninput="form.submit()"
-                >
-                <span class="btn btn-success"><i class="fa-solid fa-folder-plus"></i> Загрузить фото</span>
-            </label>
-        </form>
+    <div class="mt-2">
+        <div class="text-center" id="mass-delete" style="display:none">
+            <button
+                    onclick="checkAll()"
+                    class="btn btn-secondary"
+            >Выбрать все</button>
+            <button
+                    id="submit"
+                    onclick="document.getElementById('operand').submit()"
+                    class="btn btn-danger"
+                    disabled
+            >Удалить</button>
+        </div>
+        <div class="text-center" id="upload">
+            <form method="POST" class="upload" enctype="multipart/form-data">
+                <input type="hidden" name="action[item]" value="{{ id }}" />
+                <label class="input-file">
+                    <input
+                            type="file"
+                            id="files"
+                            name="upload[files][]"
+                            multiple="multiple"
+                            accept="image/*"
+                            oninput="form.submit()"
+                    >
+                    <span class="btn btn-success"><i class="fa-solid fa-folder-plus"></i> Загрузить фото</span>
+                </label>
+            </form>
+        </div>
     </div>
 {% endblock %}

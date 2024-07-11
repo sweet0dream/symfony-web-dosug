@@ -79,6 +79,7 @@ class UserItemController extends AbstractController
 
         return $this->render('user/lk-item-photo.html.twig', [
             'id' => $id,
+            'has_main_photo' => $this->itemHelper->hasMainPhoto($id),
             'photos' => $this->itemHelper->getPhoto($id)
         ]);
     }

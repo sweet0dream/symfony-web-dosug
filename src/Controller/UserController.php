@@ -35,6 +35,7 @@ class UserController extends AbstractController
         $user = $this->userHelper->validateAuth($request->cookies->get('auth_hash'));
 
         if (is_null($user)) {
+            $this->authLogout($request);
             return $this->redirectToRoute('user_auth', ['action' => 'login']);
         }
 

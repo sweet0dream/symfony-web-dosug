@@ -15,17 +15,23 @@
                 {% endfor %}
             </ul>
             <div class="navbar-text">
-                <div class="dropdown">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Размещение
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
-                        <li><a class="dropdown-item" href="/user/login">Вход в личный кабинет</a></li>
-                        <li><a class="dropdown-item" href="/user/regin">Регистрация рекламодателя</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Стоимость рекламы</a></li>
-                    </ul>
+                {% if app.request.cookies.get('auth_hash') is defined %}
+                <div class="row g-1">
+                    <div class="col">
+                        <a class="btn btn-outline-secondary btn-sm" href="/user/lk">Кабинет</a>
+                    </div>
+                    <div class="col">
+                        <form method="POST" action="/user/logout">
+                            <button class="btn btn-danger btn-sm" type="submit">Выход</button>
+                        </form>
+                    </div>
                 </div>
+                {% else %}
+                <div class="btn-group btn-group-sm" role="group">
+                    <a class="btn btn-outline-secondary" href="/user/login">Вход</a>
+                    <a class="btn btn-secondary" href="/user/regin">Регистрация</a>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>

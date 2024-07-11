@@ -53,8 +53,10 @@ class UserHelper
     public function actionLogout(string $hash): true
     {
         $userHash = $this->em->getRepository(UserHash::class)->findOneBy(['value' => $hash]);
-        $this->em->remove($userHash);
-        $this->em->flush();
+        if (!is_null($userHash)) {
+            $this->em->remove($userHash);
+            $this->em->flush();
+        }
 
         return true;
     }

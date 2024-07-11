@@ -12,9 +12,7 @@
 {% block body %}
     <div class="row">
         <div class="col-3">
-            <form method="POST" action="/user/logout">
-                <button class="btn btn-primary w-100 mb-1" type="submit">Выход</button>
-            </form>
+
             {% for type in available_types %}
                 <a href="/user/item/add/{{ type }}" class="btn btn-outline-primary w-100 mb-1">Добавить анкету: {{ added_item_name[type] }}</a>
             {% endfor %}
