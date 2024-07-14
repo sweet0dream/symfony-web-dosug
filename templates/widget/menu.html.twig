@@ -15,22 +15,23 @@
                 {% endfor %}
             </ul>
             <div class="navbar-text">
-                {% if app.request.cookies.get('auth_hash') is defined %}
-                <div class="row g-1">
-                    <div class="col">
-                        <a class="btn btn-outline-secondary btn-sm" href="/user/lk">Кабинет</a>
+                {% if user_hash is not defined or user_hash is null %}
+                    <div class="btn-group btn-group-sm" role="group">
+                        <a class="btn btn-outline-secondary" href="/user/login">Вход</a>
+                        <a class="btn btn-secondary" href="/user/regin">Регистрация</a>
+                        <a class="btn btn-secondary" href="/import">Импорт</a>
                     </div>
-                    <div class="col">
-                        <form method="POST" action="/user/logout">
-                            <button class="btn btn-danger btn-sm" type="submit">Выход</button>
-                        </form>
-                    </div>
-                </div>
                 {% else %}
-                <div class="btn-group btn-group-sm" role="group">
-                    <a class="btn btn-outline-secondary" href="/user/login">Вход</a>
-                    <a class="btn btn-secondary" href="/user/regin">Регистрация</a>
-                </div>
+                    <div class="row g-1">
+                        <div class="col">
+                            <a class="btn btn-outline-secondary btn-sm" href="/user/lk">Кабинет</a>
+                        </div>
+                        <div class="col">
+                            <form method="POST" action="/user/logout">
+                                <button class="btn btn-danger btn-sm" type="submit">Выход</button>
+                            </form>
+                        </div>
+                    </div>
                 {% endif %}
             </div>
         </div>

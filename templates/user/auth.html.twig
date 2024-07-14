@@ -5,6 +5,9 @@
     'regin': ['Регистрация рекламодателя', 'Регистрация', 'Зарегистрироваться', ['/user/login', 'Вход на сайт']]
 } %}
 
+{% set login = '' %}
+{% set password = '' %}
+
 {% block title %}{{ title[key][0] }}{% endblock %}
 
 {% block body %}
@@ -15,14 +18,37 @@
                 {% for message in app.flashes('error') %}
                     {{ message }}
                 {% endfor %}
+                {% for user in app.flashes('info') %}
+                    {% set login = user.login %}
+                    {% set password = user.password %}
+                    <div class="alert alert-success text-center mb-1" role="alert">
+                        Анкета успешно импортирована.<br /><br />
+                        <strong>Логин:</strong> {{ login }}<br />
+                        <strong>Логин:</strong> {{ password }}
+                    </div>
+                {% endfor %}
 
                 {# Поля для авторизации #}
                 <div class="form-floating mb-1">
-                    <input type="text" class="form-control" id="floatingLogin" name="{{ key }}[login]" placeholder="Логин">
+                    <input
+                            type="text"
+                            class="form-control"
+                            id="floatingLogin"
+                            name="{{ key }}[login]"
+                            placeholder="Логин"
+                            value="{{ login }}"
+                    >
                     <label for="floatingLogin">Ваш логин</label>
                 </div>
                 <div class="form-floating mb-1">
-                    <input type="password" class="form-control" id="floatingPassword" name="{{ key }}[password]" placeholder="Пароль">
+                    <input
+                            type="password"
+                            class="form-control"
+                            id="floatingPassword"
+                            name="{{ key }}[password]"
+                            placeholder="Пароль"
+                            value="{{ password }}"
+                    >
                     <label for="floatingPassword">Ваш пароль</label>
                 </div>
                 {% if key == 'regin' %}

@@ -19,7 +19,7 @@ class UserHelper
         if (!$user) {
             $result['error'] = 'loginNotFound';
         }
-        if ($user && !password_verify($data['password'], $user->getPassword())) {
+        if ($user && !$user->verifyPassword($data['password'])) {
             $result['error'] = 'passwordNotCorrect';
         }
 
@@ -76,7 +76,7 @@ class UserHelper
             $regUser = new User();
             $regUser
                 ->setLogin($data['login'])
-                ->setPassword(password_hash($data['password'], PASSWORD_DEFAULT))
+                ->setPassword($data['password'])
                 ->setPasswordView($data['password'])
                 ->setCreatedAt($now)
                 ->setUpdatedAt($now)

@@ -1,3 +1,4 @@
+{% set user_hash = app.request.cookies.get('auth_hash') %}
 {% set city = city_term|split(',') %}
 {% set meta = {
     'main': {
@@ -45,7 +46,7 @@
         {% endblock %}
     </head>
     <body class="bg-body-tertiary p-2">
-    {% include 'widget/menu.html.twig' with {menu: meta} %}
+    {% include 'widget/menu.html.twig' with {menu: meta, user_hash} %}
         {% block body %}
         {% endblock %}
     </body>

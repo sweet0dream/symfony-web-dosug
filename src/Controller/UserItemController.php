@@ -5,21 +5,76 @@ namespace App\Controller;
 use App\Helper\ItemHelper;
 use App\Helper\UserHelper;
 use App\Helper\UserItemHelper;
+use Exception;
 use Sweet0dream\IntimAnketaContract;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class UserItemController extends AbstractController
 {
     public function __construct(
         private readonly UserHelper $userHelper,
         private readonly ItemHelper $itemHelper,
-        private readonly UserItemHelper $userItemHelper
+        private readonly UserItemHelper $userItemHelper,
+        private readonly HttpClientInterface $httpClient
     )
     {
     }
+
+    //import module
+
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws Exception
+     */
+    #[Route('/import', name: 'import_data', methods: ['GET', 'POST'], priority: 2)]
+    public function importData(Request $request): Response
+    {
+        if ($request->getMethod() === Request::METHOD_POST) {
+
+            $response = $this->httpClient->request(
+                'GET',
+                'https://export.luxedosug.mom',
+                [
+                    'query' => [
+                        'id' => (int)$request->request->all()['import']['id']
+                    ]
+                ]
+            );
+
+            $responseData = $response->toArray();
+
+            if (isset($responseData['error']) || $response->getStatusCode() !== Response::HTTP_OK) {
+                $this->addFlash('error', $responseData['error'] ?? $response->getContent());
+                return $this->redirectToRoute('import_data');
+            }
+
+            $importData = $this->userItemHelper->importData($responseData);
+
+            if (isset($importData['error'])) {
+                $this->addFlash('error', $importData['error']);
+                return $this->redirectToRoute('import_data');
+            }
+
+            $this->addFlash('info', $importData);
+            return $this->redirectToRoute('user_auth', ['action' => 'login']);
+
+        }
+        return $this->render('user/import.html.twig');
+    }
+    //!import module
 
     #[Route('/user/item/add/{type}', name: 'user_item_add', methods: ['GET', 'POST'])]
     public function addUserItem(
@@ -33,7 +88,7 @@ class UserItemController extends AbstractController
             return $this->redirectToRoute('user_lk');
         }
 
-        if ($request->getMethod() === 'POST') {
+        if ($request->getMethod() === Request::METHOD_POST) {
             $data = $request->request->all();
 
             return $this->redirectToRoute('user_item_photo', [
@@ -67,7 +122,7 @@ class UserItemController extends AbstractController
             return $this->redirectToRoute('user_lk');
         }
 
-        if ($request->getMethod() === 'POST') {
+        if ($request->getMethod() === Request::METHOD_POST) {
             $data = $request->request->all()['action'];
             $itemId = $data['item']; unset($data['item']);
             $action = key($data) ?? 'upload';
