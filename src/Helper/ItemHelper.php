@@ -24,16 +24,17 @@ class ItemHelper {
         'transseksualki' => 'tsl'
     ];
 
-    private const RENDER_TYPE_INTRO = 'intro';
-    private const FILTER_FIELDS_INTRO = [
+    private const string RENDER_TYPE_INTRO = 'intro';
+    private const array FILTER_FIELDS_INTRO = [
         'name',
         'photo_main',
         'info',
         'price',
         'text'
     ];
-    private const RENDER_TYPE_PREMIUM = 'premium';
-    private const FILTER_FIELDS_PREMIUM = [
+    private const string RENDER_TYPE_PREMIUM = 'premium';
+    private const array FILTER_FIELDS_PREMIUM = [
+        'priority',
         'name',
         'photo_main',
         'phone',
@@ -41,7 +42,7 @@ class ItemHelper {
         'service',
         'price'
     ];
-    private const RENDER_TYPE_FULL = 'full';
+    private const string RENDER_TYPE_FULL = 'full';
 
     private const array RENDER_LIST = [
         self::RENDER_TYPE_INTRO => self::FILTER_FIELDS_INTRO,
@@ -58,7 +59,7 @@ class ItemHelper {
     {
     }
 
-    public function getActiveItems($type = null, $premium = false): array
+    public function getActiveItems($type = null): array
     {
         $items = $type && isset(self::TYPE[$type]) ?
             $this->em->getRepository(Item::class)->findBy(['type' => self::TYPE[$type]]) :
@@ -73,7 +74,29 @@ class ItemHelper {
             }
         }
 
+        if (!empty($result[self::RENDER_TYPE_PREMIUM])) {
+            $result[self::RENDER_TYPE_PREMIUM] = $this->sortablePremiumPriority($result[self::RENDER_TYPE_PREMIUM]);
+        }
+
         return $result ?? [];
+    }
+
+    private function sortablePremiumPriority(array $premiumItems): array
+    {
+        foreach ($premiumItems as $premiumItem) {
+            if (is_null($premiumItem['priority'])) {
+                $result['unsort'][] = $premiumItem;
+            } else {
+                $result['sort'][$premiumItem['priority']] = $premiumItem;
+            }
+        }
+        shuffle($result['unsort']);
+
+        foreach (range(1, (count($result['sort'])+count($result['unsort']))) as $key) {
+            $combine[$key] = $result['sort'][$key] ?? array_shift($result['unsort']);
+        }
+
+        return $combine;
     }
 
     public function getOneItem(
@@ -96,7 +119,8 @@ class ItemHelper {
             'photo_main' => $this->getMainPhoto(),
             'photo' => $this->getPhotoValue(),
             'price' => $this->getPriceValue(),
-            'text' => $this->item->getInfo()['text']
+            'text' => $this->item->getInfo()['text'],
+            'priority' => $this->item->getItemStatus()->getPremiumPriority()
         ];
 
         return is_null($prepare) ? $data : array_combine(

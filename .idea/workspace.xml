@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d6c25f4-66f8-49dd-9c7a-cf597d999944" name="Changes" comment="medium refactor code">
-      <change afterPath="$PROJECT_DIR$/templates/user/import.html.twig" afterDir="false" />
+    <list default="true" id="8d6c25f4-66f8-49dd-9c7a-cf597d999944" name="Changes" comment="title main page">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20240705113517.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20240705113517.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/UserItemController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserItemController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Helper/UserHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Helper/UserHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Helper/UserItemHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Helper/UserItemHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/auth.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/auth.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/widget/menu.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/widget/menu.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Helper/ItemHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Helper/ItemHelper.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -240,6 +232,7 @@
       <workItem from="1720898461692" duration="14293000" />
       <workItem from="1720952693689" duration="603000" />
       <workItem from="1720963629168" duration="9394000" />
+      <workItem from="1721207147703" duration="2237000" />
     </task>
     <task id="LOCAL-00001" summary="remove media test files">
       <option name="closed" value="true" />
@@ -276,6 +269,7 @@
     <MESSAGE value="edit template: user lk photo" />
     <MESSAGE value="correct templates" />
     <MESSAGE value="gitignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="gitignore" />
+    <MESSAGE value="title main page" />
+    <option name="LAST_COMMIT_MESSAGE" value="title main page" />
   </component>
 </project>
