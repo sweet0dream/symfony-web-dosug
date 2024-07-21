@@ -14,16 +14,43 @@ class AdminHelper {
 
     public function getAdmin(): array
     {
-        return $this->em->getRepository(User::class)->findBy([], ['createdAt' => 'DESC']);
+        return $this->em->getRepository(User::class)->findBy(
+            [],
+            ['createdAt' => 'DESC']
+        );
     }
 
-    public function getPremiumPriorityItems(): array
+    public function getPremiumPriorityItems(): ?array
     {
-        foreach ($this->em->getRepository(ItemStatus::class)->findBy(['premium' => true], ['premium_priority' => 'ASC']) as $item) {
-            $result[is_null($item->getPremiumPriority()) ? 'unsort' : 'sort'][] = $item;
+        $premiumItems = $this->em->getRepository(ItemStatus::class)->findBy(
+            ['premium' => true],
+            ['premium_priority' => 'ASC']
+        );
+
+        foreach ($premiumItems as $item) {
+            $result[is_null($item->getPremiumPriority()) ? 'unsort' : 'sort']['items'][] = $item;
         }
 
-        return $result ?? [];
+        if (!empty($result)) {
+            $result['range'] = array_values(
+                array_diff(
+                    range(1, count($premiumItems)),
+                    array_filter(
+                        array_map(
+                            fn($item) => $item->getPremiumPriority(),
+                            $premiumItems
+                        )
+                    )
+                )
+            );
+        }
+
+        return $result ?? null;
+    }
+
+    public function getPriorityRange()
+    {
+
     }
 
 }

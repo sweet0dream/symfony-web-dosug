@@ -3,13 +3,13 @@
         <div class="card mb-2">
             <div class="card-header text-start p-2">
                 <div class="row g-1">
-                    <div class="col-2">
-                        <span class="pt-1"><span class="text-secondary">ID:</span> {{ user.id }}</span>
+                    <div class="col-7">
+                        <span class="text-secondary">Логин:</span> {{ user.login }},
+                        <span class="text-secondary">пароль:</span> {{ user.passwordview }}
                         {% if user.userhash is not null %}
                             <span class="badge text-bg-success p-1">Онлайн</span>
                         {% endif %}
                     </div>
-                    <div class="col-5"><span class="text-secondary">Логин:</span> {{ user.login }}, <span class="text-secondary">пароль:</span> {{ user.passwordview }}</div>
                     <div class="col-3">
                         <span class="text-secondary">Регистрация:</span> {{ user.createdat|format_date }}
                     </div>
@@ -22,7 +22,7 @@
                 {% for item in user.items %}
                     <div class="row g-1 px-1 pt-1">
                         <div class="col-1">
-                            <button class="btn btn-secondary btn-sm w-100" disabled>{{ item.id }}</button>
+                            <button class="btn btn-secondary btn-sm w-100" disabled>ID: {{ item.id }}</button>
                         </div>
                         {% if item.itemstatus.active == false %}
                             <div class="col-6">

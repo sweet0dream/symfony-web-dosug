@@ -1,12 +1,55 @@
-
-<div class="card text-bg-danger mb-3">
+<div class="card mb-3">
     <div class="card-header">Сортировка приоритетов премиум анкет</div>
-    <div class="card-body">
-        {% for item in priority.sort %}
-            <p>{{ item.item.id }} / {{ item.premiumpriority }}</p>
+    <div class="card-body p-2">
+        {% if priority.sort is defined %}
+            <p class="text-end mb-1">Сортированные</p>
+            {% for item in priority.sort.items %}
+                <div class="row g-1 mb-1">
+                    <div class="col-2">
+                        <button
+                                class="btn btn-secondary btn-sm w-100"
+                                disabled
+                        >ID: {{ item.item.id }}</button>
+                    </div>
+                    <div class="col-8">
+                        <button
+                                class="btn btn-light btn-sm w-100 text-uppercase text-secondary"
+                                disabled
+                        >{{ item.premiumpriority }} место</button>
+                    </div>
+                    <div class="col-2">
+                        <button
+                                class="btn btn-danger btn-sm w-100"
+                        ><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="text-end mt-2">
+                <button class="btn btn-outline-danger btn-sm">Сбросить все</button>
+            </div>
+            <hr class="border border-secondary border-2 opacity-75 my-2" />
+        {% endif %}
+        <p class="text-end mb-1">Несортированные</p>
+        {% for item in priority.unsort.items %}
+            <div class="row g-1 mb-1">
+                <div class="col-3">
+                    <button
+                            class="btn btn-secondary btn-sm w-100"
+                            disabled
+                    >ID: {{ item.item.id }}</button>
+                </div>
+                <div class="col-9">
+                    <select class="form-select form-select-sm">
+                        <option>Приоритет</option>
+                        {% for i in priority.range %}
+                            <option value="{{ i }}">на {{ i }} место</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
         {% endfor %}
-        {% for item in priority.unsort %}
-            <p>{{ item.item.id }}</p>
-        {% endfor %}
+        <div class="text-end mt-2">
+            <button class="btn btn-primary btn-sm">Назначить приоритеты</button>
+        </div>
     </div>
 </div>

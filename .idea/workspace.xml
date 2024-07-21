@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="8d6c25f4-66f8-49dd-9c7a-cf597d999944" name="Changes" comment="title main page">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Helper/ItemHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Helper/ItemHelper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Helper/AdminHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Helper/AdminHelper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/admin/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/admin/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/admin/section-priority.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/admin/section-priority.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/admin/section-users.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/admin/section-users.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
