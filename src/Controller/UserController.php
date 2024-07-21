@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Helper\AdminHelper;
 use App\Helper\UserHelper;
 use Sweet0dream\IntimAnketaContract;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +25,8 @@ class UserController extends AbstractController
     ];
 
     public function __construct(
-        private readonly UserHelper $userHelper
+        private readonly UserHelper $userHelper,
+        private readonly AdminHelper $adminHelper
     )
     {
     }
@@ -37,6 +39,13 @@ class UserController extends AbstractController
         if (is_null($user)) {
             $this->authLogout($request);
             return $this->redirectToRoute('user_auth', ['action' => 'login']);
+        }
+
+        if ($user->getId() == 1) {
+            return $this->render('user/admin/index.html.twig', [
+                'users' => $this->adminHelper->getAdmin(),
+                'priority' => $this->adminHelper->getPremiumPriorityItems()
+            ]);
         }
 
         return $this->render('user/lk.html.twig', [

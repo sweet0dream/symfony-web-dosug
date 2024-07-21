@@ -1,0 +1,67 @@
+{% for user in users %}
+    {% if user.id != 1 %}
+        <div class="card mb-2">
+            <div class="card-header text-start p-2">
+                <div class="row g-1">
+                    <div class="col-2">
+                        <span class="pt-1"><span class="text-secondary">ID:</span> {{ user.id }}</span>
+                        {% if user.userhash is not null %}
+                            <span class="badge text-bg-success p-1">Онлайн</span>
+                        {% endif %}
+                    </div>
+                    <div class="col-5"><span class="text-secondary">Логин:</span> {{ user.login }}, <span class="text-secondary">пароль:</span> {{ user.passwordview }}</div>
+                    <div class="col-3">
+                        <span class="text-secondary">Регистрация:</span> {{ user.createdat|format_date }}
+                    </div>
+                    <div class="col-2 text-end">
+                        <a href="#" class="text-danger">удалить</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-0 pb-1">
+                {% for item in user.items %}
+                    <div class="row g-1 px-1 pt-1">
+                        <div class="col-1">
+                            <button class="btn btn-secondary btn-sm w-100" disabled>{{ item.id }}</button>
+                        </div>
+                        {% if item.itemstatus.active == false %}
+                            <div class="col-6">
+                                <button
+                                        class="btn btn-outline-primary btn-sm w-100"
+                                ><i class="fa-solid fa-toggle-off"></i> Опубликовать</button>
+                            </div>
+                        {% else %}
+                            <div class="col-2">
+                                <button
+                                        class="btn btn-primary btn-sm w-100"
+                                ><i class="fa-solid fa-toggle-on"></i> Скрыть</button>
+                            </div>
+                            <div class="col-2">
+                                <button
+                                        class="btn btn-{% if item.itemstatus.premium == false %}outline-{% endif %}success btn-sm w-100"
+                                ><i class="fa-solid fa-toggle-{% if item.itemstatus.premium == false %}off{% else %}on{% endif %}"></i> Премка</button>
+                            </div>
+                            <div class="col-2">
+                                <button
+                                        class="btn btn-{% if item.itemstatus.realy == false %}outline-{% endif %}success btn-sm w-100"
+                                ><i class="fa-solid fa-toggle-{% if item.itemstatus.realy == false %}off{% else %}on{% endif %}"></i> Реал</button>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <p>Нет анкет</p>
+                {% endfor %}
+            </div>
+            <div class="card-footer p-1">
+                <div class="row g-1">
+                    <div class="col-9">
+
+                    </div>
+                    <div class="col-1">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}

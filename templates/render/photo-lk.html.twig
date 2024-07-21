@@ -1,27 +1,10 @@
-{% set diff = date(photo.createdAt|date('Y/m/d')).diff(date('now'|date('Y/m/d'))).days %}
-{% set month = {
-    '01': 'января',
-    '02': 'февраля',
-    '03': 'марта',
-    '04': 'апреля',
-    '05': 'мая',
-    '06': 'июня',
-    '07': 'июля',
-    '08': 'августа',
-    '09': 'сентября',
-    '10': 'октября',
-    '11': 'ноября',
-    '12': 'ддекабря',
-}[photo.createdAt|date('m')] %}
-{% set year = photo.createdAt|date('Y') != date('now')|date('Y') ? ' ' ~ photo.createdAt|date('Y') ~ ' года' : '' %}
-{% set date_photo = ['сегодня','вчера','позавчера'][diff] ?? (photo.createdAt|date('d')|round ~ ' ' ~ month ~ year ) %}
 <div class="card">
     <div class="position-relative">
         <div class="position-absolute end-0 top-0 p-1">
             <button type="submit" class="btn btn-sm btn-danger" name="action[delete][file]" value="{{ photo.filename }}"><i class="fa-solid fa-trash-can"></i></button>
         </div>
         <div class="position-absolute start-0 bottom-0 p-1">
-            <div class="badge rounded-pill text-bg-secondary">Добавлено {{ date_photo }}</div>
+            <div class="badge rounded-pill text-bg-secondary">Добавлено {{ photo.createdat|format_date }}</div>
         </div>
         <img src="{{ asset('/media/' ~ id ~ '/src/' ~ photo.filename) | imagine_filter('editPhotoItem') }}" class="card-img-top" alt="{{ photo.filename }}">
     </div>

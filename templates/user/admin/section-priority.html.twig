@@ -1,0 +1,12 @@
+
+<div class="card text-bg-danger mb-3">
+    <div class="card-header">Сортировка приоритетов премиум анкет</div>
+    <div class="card-body">
+        {% for item in priority.sort %}
+            <p>{{ item.item.id }} / {{ item.premiumpriority }}</p>
+        {% endfor %}
+        {% for item in priority.unsort %}
+            <p>{{ item.item.id }}</p>
+        {% endfor %}
+    </div>
+</div>
