@@ -24,7 +24,7 @@ class AdminHelper {
     {
         $premiumItems = $this->em->getRepository(ItemStatus::class)->findBy(
             ['premium' => true],
-            ['premium_priority' => 'ASC']
+            ['premium_priority' => 'RAND()']
         );
 
         foreach ($premiumItems as $item) {
