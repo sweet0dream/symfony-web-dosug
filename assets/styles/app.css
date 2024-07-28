@@ -1,11 +1,15 @@
 /* font */
-@import url('https://fonts.googleapis.com/css2?family=Cuprum:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cuprum:wght@400..700&family=Great+Vibes&display=swap');
 /*
     font-family: "Cuprum", sans-serif;
+    font-family: "Great Vibes", cursive;
 */
 
-body {
+body, .ff1 {
     font: 16px/18px "Cuprum", sans-serif;
+}
+h1, h2, h3, h4, h5, h6, .title, .ff2 {
+    font-family: "Great Vibes", cursive;
 }
 
 form.upload .input-file {
@@ -40,4 +44,42 @@ form.upload .input-file:active span {
 
 /* Disabled */
 form.upload .input-file input[type=file]:disabled + span {
+}
+
+/* sectionPremium */
+.premium .item {
+    width: 100%;
+    aspect-ratio: 1/1.15;
+    background-size: 100% auto;
+    border-radius: 8px;
+}
+.premium .item .title {
+    font-size: 2rem;
+    background: linear-gradient(to bottom,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);
+    border-radius: 8px;
+}
+.premium .item .title span>span {
+    text-shadow: 1px 1px 1px #000;
+}
+.premium .item .title span.year {
+    color: #ffda6a;
+}
+.premium .item .title span.online {
+    font-size: .35rem;
+}
+.premium .item .title span.online i {
+    color: #0f0;
+}
+.premium .item .title .priority {
+    opacity: .25;
+}
+.premium .item .title .priority i {
+    font-size: 3rem;
+    background: linear-gradient(135deg, #ff3019 0%,#cf0404 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #f00;
+}
+.premium .item .title .priority span.val {
+    margin-top: 18px;
 }

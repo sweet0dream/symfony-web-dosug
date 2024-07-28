@@ -1,0 +1,29 @@
+<div class="position-relative item" style="background-image:url('{{ asset(item.photo_main) | imagine_filter('renderIntroItem') }}')">
+    <div class="position-absolute top-0 srart-0 w-100 pt-2 pb-5 text-end title">
+        {% if item.priority != null %}
+            <div class="position-absolute start-0 top-0 p-1 priority">
+                <i class="fa-solid fa-heart"></i>
+                <span class="position-absolute start-0 top-0 ff1 text-center w-100 val">{{ item.priority }}</span>
+            </div>
+        {% endif %}
+        <span class="me-3 ps-2 position-relative">
+            {% if item.online == true %}
+                <span class="position-absolute start-0 top-50 translate-middle online">
+                    <i class="fa-solid fa-circle"></i>
+                </span>
+            {% endif %}
+            <span class="name">{{ item.name }}</span>
+            {% if item.info.year.value is defined %}
+                <span class="year ms-2">{{ item.info.year.value }}</span>
+            {% endif %}
+        </span>
+    </div>
+    <div class="position-absolute bottom-0 start-0 w-100 pb-2 pt-5 px-2 text-center phone">
+        {% if is_mobile() %}
+            <a href="tel:{{ item.phone }}" class="btn btn-danger w-100">Звонить</a>
+        {% else %}
+            {{ item.phone }}
+        {% endif %}
+    </div>
+</div>
+{{ dump(item) }}

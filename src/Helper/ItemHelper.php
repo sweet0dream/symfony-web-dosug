@@ -34,7 +34,9 @@ class ItemHelper {
     ];
     private const string RENDER_TYPE_PREMIUM = 'premium';
     private const array FILTER_FIELDS_PREMIUM = [
+        'user',
         'priority',
+        'online',
         'name',
         'photo_main',
         'phone',
@@ -112,6 +114,7 @@ class ItemHelper {
     private function prepareItem(?string $prepare = null): array
     {
         $data = [
+            'user'=> $this->item->getUser()->getId(),
             'name' => $this->item->getName(),
             'phone' => $this->item->getPhone(),
             'info' => $this->getInfoValue(),
@@ -120,7 +123,8 @@ class ItemHelper {
             'photo' => $this->getPhotoValue(),
             'price' => $this->getPriceValue(),
             'text' => $this->item->getInfo()['text'],
-            'priority' => $this->item->getItemStatus()->getPremiumPriority()
+            'priority' => $this->item->getItemStatus()->getPremiumPriority(),
+            'online' => (bool)$this->item->getUser()->getUserHash()?->getId()
         ];
 
         return is_null($prepare) ? $data : array_combine(

@@ -16,7 +16,7 @@ class ItemController extends AbstractController
     #[Route('/', name: 'page_main')]
     public function mainPage(): Response
     {
-        return $this->render('section.html.twig', [
+        return $this->render('section/index.html.twig', [
             'key' => 'main',
             'items' => $this->itemHelper->getActiveItems()
         ]);
@@ -29,7 +29,7 @@ class ItemController extends AbstractController
             return $this->pageNotFound();
         }
 
-        return $this->render('section.html.twig', [
+        return $this->render('section/index.html.twig', [
             'key' => ItemHelper::TYPE[$type],
             'items' => $this->itemHelper->getActiveItems($type)
         ]);

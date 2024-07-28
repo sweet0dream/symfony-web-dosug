@@ -289,6 +289,9 @@
             "config/routes/web_profiler.yaml"
         ]
     },
+    "tattali/mobile-detect-bundle": {
+        "version": "v2.3.0"
+    },
     "twig/extra-bundle": {
         "version": "v3.10.0"
     }

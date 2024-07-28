@@ -6,6 +6,8 @@ import './bootstrap.js';
  * which should already be in your base.html.twig.
  */
 
+import 'jquery';
+import '@popperjs/core';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'https://kit.fontawesome.com/21a3382279.js';
 import './styles/app.css';
