@@ -12,7 +12,7 @@ class AdminHelper {
     {
     }
 
-    public function getAdmin(): array
+    public function getAllUsers(): array
     {
         return $this->em->getRepository(User::class)->findBy(
             [],
@@ -32,7 +32,7 @@ class AdminHelper {
         }
 
         if (!empty($result)) {
-            $result['range'] = array_values(
+            $result['place'] = array_values(
                 array_diff(
                     range(1, count($premiumItems)),
                     array_filter(
@@ -47,10 +47,4 @@ class AdminHelper {
 
         return $result ?? null;
     }
-
-    public function getPriorityRange()
-    {
-
-    }
-
 }

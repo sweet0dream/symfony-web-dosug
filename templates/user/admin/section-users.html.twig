@@ -6,15 +6,14 @@
                     <div class="col-7">
                         <span class="text-secondary">Логин:</span> {{ user.login }},
                         <span class="text-secondary">пароль:</span> {{ user.passwordview }}
-                        {% if user.userhash is not null %}
-                            <span class="badge text-bg-success p-1">Онлайн</span>
-                        {% endif %}
                     </div>
                     <div class="col-3">
                         <span class="text-secondary">Регистрация:</span> {{ user.createdat|format_date }}
                     </div>
                     <div class="col-2 text-end">
-                        <a href="#" class="text-danger">удалить</a>
+                        {% if user.userhash is not null %}
+                            <span class="badge text-bg-success p-1">Онлайн</span>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -22,7 +21,16 @@
                 {% for item in user.items %}
                     <div class="row g-1 px-1 pt-1">
                         <div class="col-1">
-                            <button class="btn btn-secondary btn-sm w-100" disabled>ID: {{ item.id }}</button>
+                            <button class="btn btn-secondary btn-sm w-100 text-start" disabled>
+                                <div class="row g-0">
+                                    <div class="col-4">
+                                        <i class="fa-solid fa-user opacity-25"></i>
+                                    </div>
+                                    <div class="col-8 text-center">
+                                        {{ item.id }}
+                                    </div>
+                                </div>
+                            </button>
                         </div>
                         {% if item.itemstatus.active == false %}
                             <div class="col-6">
@@ -47,6 +55,25 @@
                                 ><i class="fa-solid fa-toggle-{% if item.itemstatus.realy == false %}off{% else %}on{% endif %}"></i> Реал</button>
                             </div>
                         {% endif %}
+                        <div class="col-5">
+                            <div class="row g-1">
+                                <div class="col-4">
+                                    <a href="#" class="btn btn-dark btn-sm w-100">
+                                        Данные
+                                    </a>
+                                </div>
+                                <div class="col-4">
+                                    <a href="#" class="btn btn-dark btn-sm w-100">
+                                        Фото <span class="text-secondary">({{ item.itemphotos|length }})</span>
+                                    </a>
+                                </div>
+                                <div class="col-4">
+                                    <a href="#" class="btn btn-danger btn-sm w-100">
+                                        Удалить
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 {% else %}
                     <p>Нет анкет</p>
@@ -54,10 +81,12 @@
             </div>
             <div class="card-footer p-1">
                 <div class="row g-1">
-                    <div class="col-9">
-
+                    <div class="col-3">
+                        <a href="#" class="text-secondary">
+                            <small>удалить пользователя и все анкеты</small>
+                        </a>
                     </div>
-                    <div class="col-1">
+                    <div class="col-9">
 
                     </div>
                 </div>

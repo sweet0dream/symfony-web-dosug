@@ -43,7 +43,7 @@ class UserController extends AbstractController
 
         if ($user->getId() == 1) {
             return $this->render('user/admin/index.html.twig', [
-                'users' => $this->adminHelper->getAdmin(),
+                'users' => $this->adminHelper->getAllUsers(),
                 'priority' => $this->adminHelper->getPremiumPriorityItems()
             ]);
         }
