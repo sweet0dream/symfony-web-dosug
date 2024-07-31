@@ -48,7 +48,7 @@ class UserController extends AbstractController
             ]);
         }
 
-        return $this->render('user/lk.html.twig', [
+        return $this->render('user/reg/lk.html.twig', [
             'user' => $user,
             'available_types' => IntimAnketaContract::TYPE
         ]);

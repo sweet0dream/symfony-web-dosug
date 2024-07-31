@@ -7,12 +7,10 @@ use App\Entity\ItemPhoto;
 use App\Entity\ItemStatus;
 use App\Entity\User;
 use DateTimeImmutable;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use FilesystemIterator;
 use Sweet0dream\IntimAnketaContract;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ItemHelper {
@@ -22,6 +20,13 @@ class ItemHelper {
         'salony' => 'sal',
         'muzhskoi-eskort' => 'man',
         'transseksualki' => 'tsl'
+    ];
+
+    public const array TERM_TYPE = [
+        'ind' => 'Индивидуалка',
+        'sal' => 'Салон',
+        'man' => 'Мужчина по вызову',
+        'tsl' => 'Транссексуалка'
     ];
 
     private const string RENDER_TYPE_INTRO = 'intro';
@@ -34,14 +39,13 @@ class ItemHelper {
     ];
     private const string RENDER_TYPE_PREMIUM = 'premium';
     private const array FILTER_FIELDS_PREMIUM = [
-        'user',
         'priority',
         'online',
+        'type',
         'name',
         'photo_main',
         'phone',
         'info',
-        'service',
         'price'
     ];
     private const string RENDER_TYPE_FULL = 'full';
@@ -52,7 +56,7 @@ class ItemHelper {
     ];
 
     public function __construct(
-        private EntityManagerInterface $em,
+        private readonly EntityManagerInterface $em,
         #[Autowire('%kernel.project_dir%/public/media')]
         private readonly string $mediaDir,
         private ?string $type = null,
@@ -92,29 +96,38 @@ class ItemHelper {
                 $result['sort'][$premiumItem['priority']] = $premiumItem;
             }
         }
-        shuffle($result['unsort']);
 
-        foreach (range(1, (count($result['sort'])+count($result['unsort']))) as $key) {
+        $count = 0;
+        if (isset($result['sort'])) {
+            $count += count($result['sort']);
+        }
+        if (isset($result['unsort'])) {
+            $count += count($result['unsort']);
+            shuffle($result['unsort']);
+        }
+
+        foreach (range(1, $count) as $key) {
             $combine[$key] = $result['sort'][$key] ?? array_shift($result['unsort']);
         }
 
-        return $combine;
+        return array_filter($combine);
     }
 
     public function getOneItem(
         string $type,
         int $id
-    ): array|false
+    ): ?array
     {
-        $item = $this->em->getRepository(Item::class)->find($id);
-
-        return !is_null($item) || $type === $item->getType() ? $item : false;
+        return $this->em->getRepository(Item::class)->findOneBy([
+            'id' => $id,
+            'type' => $type
+        ]);
     }
 
     private function prepareItem(?string $prepare = null): array
     {
         $data = [
-            'user'=> $this->item->getUser()->getId(),
+            'type' => $this->getTypeValue(),
             'name' => $this->item->getName(),
             'phone' => $this->item->getPhone(),
             'info' => $this->getInfoValue(),
@@ -136,7 +149,14 @@ class ItemHelper {
                 self::RENDER_LIST[$prepare]
             )
         );
+    }
 
+    private function getTypeValue(): array
+    {
+        return [
+            'key' => $this->item->getType(),
+            'value' => self::TERM_TYPE[$this->item->getType()]
+        ];
     }
 
     private function getMainPhoto(): ?string
@@ -327,13 +347,13 @@ class ItemHelper {
     public function mainPhoto(
         int $id,
         string $file,
-    )
+    ): true
     {
         $item = $this->em->getRepository(Item::class)->find($id);
 
         foreach ($item->getItemPhotos() as $photo) {
             $photo->setHasMain(
-                $photo->getFileName() == $file ? !$photo->hasMain() : false
+                $photo->getFileName() == $file && !$photo->hasMain()
             );
         }
 

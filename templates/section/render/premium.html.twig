@@ -1,4 +1,9 @@
-<div class="position-relative item" style="background-image:url('{{ asset(item.photo_main) | imagine_filter('renderIntroItem') }}')">
+{% set filter_info = {
+    'ind': ['chest'],
+    'man': ['dick'],
+    'tsl': ['chest', 'dick']
+} %}
+<div class="position-relative item" style="background-image:url({{ asset(item.photo_main) | imagine_filter('renderIntroItem') }})">
     <div class="position-absolute top-0 srart-0 w-100 pt-2 pb-5 text-end title">
         {% if item.priority != null %}
             <div class="position-absolute start-0 top-0 p-1 priority">
@@ -18,12 +23,26 @@
             {% endif %}
         </span>
     </div>
-    <div class="position-absolute bottom-0 start-0 w-100 pb-2 pt-5 px-2 text-center phone">
-        {% if is_mobile() %}
-            <a href="tel:{{ item.phone }}" class="btn btn-danger w-100">Звонить</a>
-        {% else %}
-            {{ item.phone }}
-        {% endif %}
+    <div class="position-absolute bottom-0 start-0 w-100 pb-2 pt-3 px-2 text-center bottom">
+        <div class="info">
+            {% for key, info in item.info %}
+                {% if key in filter_info[item.type.key] %}
+                    <div class="i d-inline-block {{ key }}">{{ info.value }}</div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="price mt-1">
+            <span class="ff2">от <strong>{{ item.price.onehour.value }}</strong> рублей</span>
+        </div>
+        <div class="phone mt-1">
+            {% if is_mobile() %}
+                <a href="tel:{{ item.phone }}" class="btn btn-danger btn-sm">Звонить</a>
+            {% else %}
+                <span class="ff3 number">
+                    <i class="fa-solid fa-phone"></i>
+                    {{ item.phone|replace({'+7': '8', '(': ' ', ')': ' ', '-': ' '}) }}
+                </span>
+            {% endif %}
+        </div>
     </div>
 </div>
-{{ dump(item) }}

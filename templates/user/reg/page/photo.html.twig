@@ -13,7 +13,7 @@
         <div class="row justify-content-center g-1">
         {% for key, photo in photos %}
             <div class="col-2">
-                {% include 'render/photo-lk.html.twig' with {id, key, photo} %}
+                {% include 'user/reg/render/photo.html.twig' with {id, key, photo} %}
             </div>
         {% else %}
             <div class="text-center mb-1">

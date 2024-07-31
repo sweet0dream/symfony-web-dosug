@@ -103,7 +103,7 @@ class UserItemController extends AbstractController
         $formFields = $this->getField($type);
         unset($formFields['info']['name']);
 
-        return $this->render('user/lk-item-add.html.twig', [
+        return $this->render('user/reg/page/add.html.twig', [
             'type' => $type,
             'form' => $formFields
         ]);
@@ -132,7 +132,7 @@ class UserItemController extends AbstractController
             }
         }
 
-        return $this->render('user/lk-item-photo.html.twig', [
+        return $this->render('user/reg/page/photo.html.twig', [
             'id' => $id,
             'has_main_photo' => $this->itemHelper->hasMainPhoto($id),
             'photos' => $this->itemHelper->getPhoto($id)

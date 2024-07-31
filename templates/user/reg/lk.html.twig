@@ -6,7 +6,7 @@
     'ind': 'Индивидуалка',
     'sal': 'Салон',
     'man': 'Мужчина по выхову',
-    'tsl': 'Транссуксуалка'
+    'tsl': 'Транссексуалка'
 } %}
 
 {% block body %}
@@ -19,7 +19,7 @@
         </div>
         <div class="col-9">
             {% for item in user.items %}
-                {% include 'user/lk-item.html.twig' with {item: item} %}
+                {% include 'user/reg/render/item.html.twig' with {item: item} %}
             {% else %}
                 <p>Нет анкет</p>
             {% endfor %}

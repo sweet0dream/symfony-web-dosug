@@ -1,8 +1,9 @@
 /* font */
-@import url('https://fonts.googleapis.com/css2?family=Cuprum:wght@400..700&family=Great+Vibes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cuprum:ital,wght@0,400..700;1,400..700&family=Great+Vibes&family=Roboto+Slab:wght@100..900&display=swap');
 /*
     font-family: "Cuprum", sans-serif;
     font-family: "Great Vibes", cursive;
+    font-family: "Ruwudu", serif;
 */
 
 body, .ff1 {
@@ -10,6 +11,9 @@ body, .ff1 {
 }
 h1, h2, h3, h4, h5, h6, .title, .ff2 {
     font-family: "Great Vibes", cursive;
+}
+.ff3 {
+    font-family: "Roboto Slab", serif;
 }
 
 form.upload .input-file {
@@ -54,7 +58,7 @@ form.upload .input-file input[type=file]:disabled + span {
     border-radius: 8px;
 }
 .premium .item .title {
-    font-size: 2rem;
+    font-size: 1.5rem;
     background: linear-gradient(to bottom,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);
     border-radius: 8px;
 }
@@ -82,4 +86,53 @@ form.upload .input-file input[type=file]:disabled + span {
 }
 .premium .item .title .priority span.val {
     margin-top: 18px;
+}
+.premium .item .bottom {
+    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.4) 20%,rgba(255,255,255,1) 100%);
+    border-radius: 8px;
+}
+.premium .item .info .i {
+    position: relative;
+    background-color: rgba(0,0,0,0.4);
+    font-size: .75rem;
+    border-radius: 5px;
+    box-shadow:
+            1px 1px 1px rgba(255,255,255,0.15),
+            -1px -1px 1px rgba(255,255,255,0.15),
+            -1px 1px 1px rgba(255,255,255,0.15),
+            1px -1px 1px rgba(255,255,255,0.15);
+    color: #fff;
+    padding: 2px 5px 2px 24px !important;
+}
+.premium .item .info .i:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 22px;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.premium .item .info .chest:after {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAMxQTFRFAAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////OpLhCAAAAER0Uk5TAAYyA1ClBQynI0ah3TMBL8v0/D8HIcj/jRlI8LUmUvfDN+HEVQRa835bKCRAXpisxrmSQTWpR9LbmwlfsSng9u+vNhPplEATAAAAqElEQVR4nE2PTQsBURiFz6lBpAylpEwUY2VhJdn535qibPwDWYgapam5I1/NmHLvzHXHuzi956nzfhCqSKbIi5laZPwHKqnFFwpQkwHeCtBQnoEBbVINvRjQ5Qco8WyAwzdQvT4NGPAB1HnQdki4FIj6jOwwiXv7sZw4Ce8OKZrZtl1+6eyoNHFPvj596iu1W9xqsAiE1BE3v+fgdmTeK74FluvyfKWaLwAXJWNCcsw7AAAAAElFTkSuQmCC');
+}
+.premium .item .info .dick:after {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAASNQTFRFAAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Rb17eAAAAGF0Uk5TAARB4cwVUvH/3B0NwMIILOuaWW58YYptWHBNKgMJZT6dxbVoYG89ASehgObsRnKOUP3wx+M/CrYmJMHqujAOojTo+67IHivW/JJ9BRKfbBm+9+lCKdE6EVu/5Nl63xNKBj7cNf0AAADQSURBVHicY2QAA0YQ+A1mQQTYQALfEALcjH8YWBk/IQT4GX8wcL5nQAgIAVVzv0USEPnCwMD7GklA7BNIGwg8YWSQ/cvCyPiCgUGSEQI0GN9/UmC8y8Cg8vgjA4MuI6P+/wdKDxQZGW+pM55mYDB7y2jOyPjrKoMR41kGE8bDDAx2jPbHrBmPWzEeZWDQFGbcDbTF9qcA40GHfc77gZZpSTBuZVS/6QOUcAMav52BwYtxLcgdIc/P+oIs3BDIyLgE7DBlqyvcRxjifnA+VFgAAETBM8dkQJMYAAAAAElFTkSuQmCC');
+}
+.premium .item .price span {
+    color: #0f5132;
+}
+.premium .item .price span strong {
+    font-size: 1.2rem;
+}
+.premium .item .bottom .phone span.number {
+    color: #d04739;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+.premium .item .bottom .phone i {
+    color: #850c0c;
+    font-size: .85rem;
+    opacity: .45;
 }
