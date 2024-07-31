@@ -16,10 +16,15 @@
             </ul>
             <div class="navbar-text">
                 {% if user_hash is not defined or user_hash is null %}
-                    <div class="btn-group btn-group-sm" role="group">
-                        <a class="btn btn-outline-secondary" href="/user/login">Вход</a>
-                        <a class="btn btn-secondary" href="/user/regin">Регистрация</a>
-                        <a class="btn btn-secondary" href="/import">Импорт</a>
+                    <div class="dropdown-center">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                            Реклама
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a href="/user/login" class="dropdown-item">Вход</a></li>
+                            <li><a href="/user/regin" class="dropdown-item">Регистрация</a></li>
+                            <li><a href="/import" class="dropdown-item">Импорт</a></li>
+                        </ul>
                     </div>
                 {% else %}
                     <div class="row g-1">

@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8d6c25f4-66f8-49dd-9c7a-cf597d999944" name="Changes" comment="title main page">
+      <change afterPath="$PROJECT_DIR$/templates/user/reg/block/main.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/user/reg/block/sidebar.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Helper/AdminHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Helper/AdminHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/admin/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/admin/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/admin/section-priority.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/admin/section-priority.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/admin/section-users.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/admin/section-users.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/reg/lk.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/reg/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/widget/menu.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/widget/menu.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,35 +179,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;credentialsType com.jetbrains.php.remote.interpreter.ui.PhpCreateRemoteSdkForm&quot;: &quot;Docker Compose&quot;,
-    &quot;credentialsType com.jetbrains.php.remote.interpreter.ui.PhpInplaceEditRemoteSdkForm&quot;: &quot;Docker Compose&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/sweet0dream/project/docker-compose.yml&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.webide.settings.project.settings.php&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "credentialsType com.jetbrains.php.remote.interpreter.ui.PhpCreateRemoteSdkForm": "Docker Compose",
+    "credentialsType com.jetbrains.php.remote.interpreter.ui.PhpInplaceEditRemoteSdkForm": "Docker Compose",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/sweet0dream/project/www/dosug.local/templates/user/reg",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.webide.settings.project.settings.php",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mariadb&quot;,
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mariadb",
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/templates/user/reg" />
       <recent name="$PROJECT_DIR$/public/media/2/src" />
       <recent name="$PROJECT_DIR$/public/media/1/src" />
       <recent name="$PROJECT_DIR$/templates/widget" />
       <recent name="$PROJECT_DIR$/public/media" />
-      <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -261,7 +262,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720178668764</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="structure template">
+      <option name="closed" value="true" />
+      <created>1722456449777</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1722456449777</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -273,6 +282,7 @@
     <MESSAGE value="correct templates" />
     <MESSAGE value="gitignore" />
     <MESSAGE value="title main page" />
-    <option name="LAST_COMMIT_MESSAGE" value="title main page" />
+    <MESSAGE value="structure template" />
+    <option name="LAST_COMMIT_MESSAGE" value="structure template" />
   </component>
 </project>

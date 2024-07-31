@@ -1,0 +1,5 @@
+{% for item in items %}
+    {% include 'user/reg/render/item.html.twig' with {item: item} %}
+{% else %}
+    <p>Нет анкет</p>
+{% endfor %}

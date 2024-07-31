@@ -1,0 +1,16 @@
+{% set added_item_name = {
+    'ind': 'Индивидуалка',
+    'sal': 'Салон',
+    'man': 'Мужчина по выхову',
+    'tsl': 'Транссексуалка'
+} %}
+<div class="dropdown dropdown-center">
+    <button class="btn btn-secondary w-100 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Добавить анкету
+    </button>
+    <ul class="dropdown-menu w-100">
+        {% for type in types %}
+            <li><a href="/user/item/add/{{ type }}" class="dropdown-item">{{ added_item_name[type] }}</a></li>
+        {% endfor %}
+    </ul>
+</div>

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block body %}
+    <div class="row g-1">
+        <div class="col-3">
+            {% include 'user/reg/block/sidebar.html.twig' with {types: available_types} %}
+        </div>
+        <div class="col-9">
+            {% include 'user/reg/block/main.html.twig' with {items: user.items} %}
+        </div>
+    </div>
+{% endblock %}
