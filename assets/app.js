@@ -1,5 +1,6 @@
 import './bootstrap.js';
 
+import '@popperjs/core';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'https://kit.fontawesome.com/21a3382279.js';

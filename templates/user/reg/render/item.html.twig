@@ -1,10 +1,78 @@
-<div class="card mb-1">
-    <div class="card-body">
-        {{ item.id }} /
-        {{ item.name }} /
-        {{ item.phone }} /
-        active: {{ item.itemstatus.active }} /
-        premium: {{ item.itemstatus.premium }} /
-        <a href="/user/item/photo/{{ item.id }}">Photo {{ item.itemphotos|length }}</a>
+{% set type = {
+    'ind': 'Индивидуалка',
+    'sal': 'Салон',
+    'man': 'Мужчина по вызову',
+    'tsl': 'Транс',
+} %}
+<div class="card mb-3 position-relative">
+    <div class="position-absolute top-0 start-0 translate-middle badge bg-primary">
+        {{ item.id }}
     </div>
+    <div class="card-body p-1">
+        <div class="row g-1">
+            <div class="col-3 text-center">
+                {{ type[item.type] }}: {{ item.name }}
+            </div>
+            <div class="col-4">
+                <div class="btn-group btn-group-sm w-100" role="group">
+                {% if item.itemstatus.active == true %}
+                    <button type="button" class="btn btn-primary" disabled>
+                        <i class="fa-solid fa-toggle-on"></i> Активна
+                    </button>
+                    <button type="button" class="btn btn-{% if item.itemstatus.premium == false %}outline-{% endif %}primary" disabled>
+                        <i class="fa-solid fa-toggle-{% if item.itemstatus.premium == true %}on{% else %}off{% endif %}"></i> Премиум
+                    </button>
+                    <button type="button" class="btn btn-{% if item.itemstatus.realy == false %}outline-{% endif %}primary" disabled>
+                        <i class="fa-solid fa-toggle-{% if item.itemstatus.realy == true %}on{% else %}off{% endif %}"></i> Реальна
+                    </button>
+                {% else %}
+                    <button type="button" class="btn btn-outline-primary" disabled>
+                        <i class="fa-solid fa-toggle-off"></i> Скрыта
+                    </button>
+                {% endif %}
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="row g-1">
+                    <div class="col-5">
+                        <button class="btn btn-secondary btn-sm w-100"><i class="fa-solid fa-pen-to-square"></i></button>
+                    </div>
+                    <div class="col-5">
+                        <a href="/user/item/photo/{{ item.id }}" class="btn btn-secondary btn-sm w-100"><i class="fa-solid fa-image"></i> {{ item.itemphotos|length }}</a>
+                    </div>
+                    <div class="col-2">
+                        <button
+                                type="button"
+                                class="btn btn-danger btn-sm w-100"
+                                data-bs-toggle="modal"
+                                data-bs-target="#remove{{ item.id }}"
+                        >
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# modal remove #}
+    <div class="modal fade" id="remove{{ item.id }}" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content text-bg-danger">
+                <div class="modal-body p-2">
+                    <div class="row g-1">
+                        <div class="col-6">
+                            <p class="mt-2 mb-0 text-center">Точно удалить?</p>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-end">
+                                <button type="button" class="btn btn-link btn-sm text-white text-decoration-none">Да</button>
+                                <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Отмена</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# !modal remove #}
 </div>

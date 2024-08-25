@@ -1,3 +1,7 @@
-{% for item in items %}
-    {% include 'section/render/intro.html.twig' with {item} %}
-{% endfor %}
+<div class="row justify-content-center position-relative g-2 m-0 px-1 pt-2 intro">
+    {% for item in items %}
+        <div class="col-{% if is_mobile() %}6{% else %}4{% endif %}">
+            {% include 'section/render/intro.html.twig' with {item} %}
+        </div>
+    {% endfor %}
+</div>

@@ -1,27 +1,23 @@
 {% for user in users %}
     {% if user.id != 1 %}
         <div class="card mb-2">
-            <div class="card-header text-start p-2">
-                <div class="row g-1">
-                    <div class="col-7">
-                        <span class="text-secondary">Логин:</span> {{ user.login }},
-                        <span class="text-secondary">пароль:</span> {{ user.passwordview }}
+            <div class="card-header p-1 position-relative">
+                {% if user.userhash is not null %}
+                    <div class="position-absolute top-50 end-0 translate-middle-y">
+                        <span class="badge text-bg-success p-1 me-1">Онлайн</span>
                     </div>
-                    <div class="col-3">
-                        <span class="text-secondary">Регистрация:</span> {{ user.createdat|format_date }}
-                    </div>
-                    <div class="col-2 text-end">
-                        {% if user.userhash is not null %}
-                            <span class="badge text-bg-success p-1">Онлайн</span>
-                        {% endif %}
-                    </div>
-                </div>
+                {% endif %}
+                <small><span class="text-secondary">Логин:</span> {{ user.login }}</small>
+                <small class="text-secondary opacity-25"> | </small>
+                <small><span class="text-secondary">Пароль:</span> {{ user.passwordview }}</small>
+                <small class="text-secondary opacity-25"> | </small>
+                <small><span class="text-secondary">Регистрация:</span> {{ user.createdat|format_date }}</small>
             </div>
             <div class="card-body p-0 pb-1">
                 {% for item in user.items %}
                     <div class="row g-1 px-1 pt-1">
                         <div class="col-1">
-                            <button class="btn btn-secondary btn-sm w-100 text-start" disabled>
+                            <a href="#" class="btn btn-dark btn-sm w-100 text-start">
                                 <div class="row g-0">
                                     <div class="col-4">
                                         <i class="fa-solid fa-user opacity-25"></i>
@@ -30,46 +26,115 @@
                                         {{ item.id }}
                                     </div>
                                 </div>
-                            </button>
+                            </a>
                         </div>
                         {% if item.itemstatus.active == false %}
-                            <div class="col-6">
+                            <div class="col-4">
                                 <button
                                         class="btn btn-outline-primary btn-sm w-100"
-                                ><i class="fa-solid fa-toggle-off"></i> Опубликовать</button>
+                                >
+                                    <i class="fa-solid fa-toggle-off"></i> Опубликовать
+                                </button>
                             </div>
                         {% else %}
-                            <div class="col-2">
+                            <div class="col-1">
                                 <button
-                                        class="btn btn-primary btn-sm w-100"
-                                ><i class="fa-solid fa-toggle-on"></i> Скрыть</button>
+                                        class="btn btn-primary btn-sm w-100 pb-0 text-center position-relative"
+                                        style="padding-top:8px"
+                                >
+                                    <div
+                                            class="position-absolute top-0 start-50 translate-middle-x text-uppercase"
+                                            style="font-size:.7rem">Активна</div>
+                                    <i class="fa-solid fa-circle" style="font-size:.65rem"></i>
+                                </button>
                             </div>
-                            <div class="col-2">
+                            <div class="col-1">
                                 <button
-                                        class="btn btn-{% if item.itemstatus.premium == false %}outline-{% endif %}success btn-sm w-100"
-                                ><i class="fa-solid fa-toggle-{% if item.itemstatus.premium == false %}off{% else %}on{% endif %}"></i> Премка</button>
+                                        class="btn btn-{% if item.itemstatus.premium == true %}primary{% else %}secondary{% endif %} btn-sm w-100 pb-0 text-center position-relative"
+                                        style="padding-top:8px"
+                                >
+                                    <div
+                                            class="position-absolute top-0 start-50 translate-middle-x text-uppercase"
+                                            style="font-size:.7rem">Премиум</div>
+                                    <i class="fa-solid fa-crown" style="font-size:.65rem"></i>
+                                </button>
                             </div>
-                            <div class="col-2">
+                            <div class="col-1">
                                 <button
-                                        class="btn btn-{% if item.itemstatus.realy == false %}outline-{% endif %}success btn-sm w-100"
-                                ><i class="fa-solid fa-toggle-{% if item.itemstatus.realy == false %}off{% else %}on{% endif %}"></i> Реал</button>
+                                        class="btn btn-{% if item.itemstatus.realy == true %}primary{% else %}secondary{% endif %} btn-sm w-100 pb-0 text-center position-relative"
+                                        style="padding-top:8px"
+                                >
+                                    <div
+                                            class="position-absolute top-0 start-50 translate-middle-x text-uppercase"
+                                            style="font-size:.7rem">Реальна</div>
+                                    <i class="fa-solid fa-camera" style="font-size:.65rem"></i>
+                                </button>
+                            </div>
+                            <div class="col-1">
+                                <button
+                                        class="btn btn-success btn-sm w-100 pb-0 text-center position-relative"
+                                        style="padding-top:8px"
+                                >
+                                    <div
+                                            class="position-absolute top-0 start-50 translate-middle-x text-uppercase"
+                                            style="font-size:.7rem">Поднять</div>
+                                    <i class="fa-solid fa-chevron-up" style="font-size:.65rem"></i>
+                                </button>
                             </div>
                         {% endif %}
-                        <div class="col-5">
+                        <div class="col-4">
+                            <div class="row g-1">
+                                <div class="col-6">
+                                    <div class="text-center position-relative" style="padding-top:13px">
+                                        <div
+                                                class="position-absolute top-0 start-50 translate-middle-x text-uppercase text-secondary"
+                                                style="font-size:.65rem"
+                                        >Регистрация</div>
+                                        {{ item.createdAt|format_date }}
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="text-center position-relative" style="padding-top:13px">
+                                        <div
+                                                class="position-absolute top-0 start-50 translate-middle-x text-uppercase text-secondary"
+                                                style="font-size:.65rem"
+                                        >Поднятие</div>
+                                        {{ item.topedAt|format_date }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
                             <div class="row g-1">
                                 <div class="col-4">
-                                    <a href="#" class="btn btn-dark btn-sm w-100">
-                                        Данные
+                                    <a
+                                            href="#"
+                                            class="btn btn-light btn-sm text-secondary w-100 pb-0 text-center position-relative"
+                                            style="padding-top:8px"
+                                    >
+                                        <div
+                                                class="position-absolute top-0 start-50 translate-middle-x text-uppercase"
+                                                style="font-size:.7rem">Данные</div>
+                                        <i class="fa-solid fa-file-pen" style="font-size:.65rem"></i>
                                     </a>
                                 </div>
                                 <div class="col-4">
-                                    <a href="#" class="btn btn-dark btn-sm w-100">
-                                        Фото <span class="text-secondary">({{ item.itemphotos|length }})</span>
+                                    <a
+                                            href="#"
+                                            class="btn btn-light btn-sm text-secondary w-100 pb-0 text-center position-relative"
+                                            style="padding-top:8px"
+                                    >
+                                        <div
+                                                class="position-absolute top-0 start-50 translate-middle-x text-uppercase"
+                                                style="font-size:.7rem">Фото</div>
+                                        <span style="font-size:.65rem">
+                                            <i class="fa-solid fa-images"></i> <span class="text-secondary">{{ item.itemphotos|length }}</span>
+                                        </span>
                                     </a>
                                 </div>
                                 <div class="col-4">
                                     <a href="#" class="btn btn-danger btn-sm w-100">
-                                        Удалить
+                                        <i class="fa-solid fa-trash"></i>
                                     </a>
                                 </div>
                             </div>

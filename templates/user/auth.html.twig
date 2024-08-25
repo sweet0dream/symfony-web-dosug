@@ -58,8 +58,11 @@
                         <label for="floatingPasswordVerify">Повторите пароль</label>
                     </div>
                 {% endif %}
-                <button class="btn btn-primary w-100 py-2" type="submit">{{ title[key][2] }}</button>
-                <a href="{{ title[key][3][0] }}" class="btn btn-link w-100 py-2">{{ title[key][3][1] }}</a>
+                <button class="btn btn-light w-100 py-2" type="submit">{{ title[key][2] }}</button>
+                <a href="{{ title[key][3][0] }}" class="btn btn-link text-white w-100 py-2">{{ title[key][3][1] }}</a>
+                {% if key == 'regin' %}
+                    <a href="/import" class="btn btn-link text-white w-100 py-2">Импорт со старого сайта</a>
+                {% endif %}
             </form>
         </main>
 {% endblock %}

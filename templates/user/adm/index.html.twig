@@ -5,11 +5,11 @@
 {% block body %}
     <div class="row g-1">
         {% if priority is not null %}
-            <div class="col-4">
+            <div class="col-3">
                 {% include 'user/adm/section-priority.html.twig' with {priority} %}
             </div>
         {% endif %}
-        <div class="col-{% if priority is not null %}8{% else %}12{% endif %}">
+        <div class="col-{% if priority is not null %}9{% else %}12{% endif %}">
             {% include 'user/adm/section-users.html.twig' with {users} %}
         </div>
     </div>

@@ -43,8 +43,11 @@
         {% block stylesheets %}{% endblock %}
         {% block javascripts %}{% block importmap %}{{ importmap('app') }}{% endblock %}{% endblock %}
     </head>
-    <body class="bg-body-tertiary p-2">
+    <body class="bg-body-tertiary">
         {% include 'widget/menu.html.twig' with {menu: meta, user_hash} %}
         {% block body %}{% endblock %}
+        <footer>
+            123
+        </footer>
     </body>
 </html>
