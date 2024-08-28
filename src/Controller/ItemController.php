@@ -35,7 +35,7 @@ class ItemController extends AbstractController
         ]);
     }
 
-    #[Route('/{type}/{id}', name: 'page_item')]
+    #[Route('/{type}/id{id}', name: 'page_item')]
     public function viewFull(
         string $type,
         string $id

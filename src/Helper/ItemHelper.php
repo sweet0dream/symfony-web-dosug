@@ -162,7 +162,7 @@ class ItemHelper {
 
     private function generateUrl(): string
     {
-        return '/' . array_flip(self::TYPE)[$this->type] . '/' . $this->item->getId();
+        return '/' . array_flip(self::TYPE)[$this->type] . '/id' . $this->item->getId();
     }
 
     private function getTypeValue(): array

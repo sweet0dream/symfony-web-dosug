@@ -3,6 +3,7 @@
 {% block title %}Редактирование фото анкеты ID: {{ id }}{% endblock %}
 
 {% block body %}
+    <div class="container py-2 mt-3">
     {% if photos is not empty and has_main_photo != true %}
         <div class="text-center mb-2">
             <div class="alert alert-light d-inline-block m-0">Последнее загруженное фото будет показываться в списке анкет как <strong>Главное</strong></div>
@@ -74,5 +75,6 @@
                 </label>
             </form>
         </div>
+    </div>
     </div>
 {% endblock %}
