@@ -1,0 +1,17 @@
+<footer class="mt-0 py-3">
+    <div class="row g-1">
+        <div class="col-4">
+            <nav class="nav flex-column">
+                {% for key,value in meta %}
+                    <a href="/{{ value.slug }}" class="nav-link text-white">{{ value.title }}</a>
+                {% endfor %}
+            </nav>
+        </div>
+        <div class="col-4">
+
+        </div>
+        <div class="col-4">
+
+        </div>
+    </div>
+</footer>

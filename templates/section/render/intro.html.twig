@@ -7,7 +7,7 @@
 <div class="position-relative item">
     <div class="row g-0">
         <div class="col-5">
-            <a href="#" class="thumb" style="background-image: url('{{ asset(item.photo_main) | imagine_filter("renderIntroItem") }}')">
+            <a href="{{ item.url }}" class="thumb" style="background-image: url('{{ asset(item.photo_main) | imagine_filter("renderIntroItem") }}')">
                 <div class="name">
                     <h3>
                         <span>{{ item.name }}</span>

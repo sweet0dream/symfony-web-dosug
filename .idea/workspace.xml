@@ -5,20 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8d6c25f4-66f8-49dd-9c7a-cf597d999944" name="Changes" comment="title main page">
-      <change afterPath="$PROJECT_DIR$/assets/styles/images/icon/chest.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/styles/images/icon/dick.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/styles/images/icon/express.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/styles/images/icon/hair.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/styles/images/icon/height.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/styles/images/icon/night.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/styles/images/icon/onehour.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/styles/images/icon/role.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/styles/images/icon/twohour.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/styles/images/icon/weight.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/styles/images/icon/year.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/section/page/full.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/widget/footer.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/styles/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ItemController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ItemController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Helper/ItemHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Helper/ItemHelper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/section/block/intro.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/section/block/intro.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/section/block/premium.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/section/block/premium.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/section/render/intro.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/section/render/intro.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/adm/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/adm/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/reg/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/reg/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/widget/menu.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/widget/menu.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -189,28 +188,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "credentialsType com.jetbrains.php.remote.interpreter.ui.PhpCreateRemoteSdkForm": "Docker Compose",
-    "credentialsType com.jetbrains.php.remote.interpreter.ui.PhpInplaceEditRemoteSdkForm": "Docker Compose",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/sweet0dream/project/www/dosug.local/assets/styles/images/icon",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.webide.settings.project.settings.php",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;credentialsType com.jetbrains.php.remote.interpreter.ui.PhpCreateRemoteSdkForm&quot;: &quot;Docker Compose&quot;,
+    &quot;credentialsType com.jetbrains.php.remote.interpreter.ui.PhpInplaceEditRemoteSdkForm&quot;: &quot;Docker Compose&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/sweet0dream/project/www/dosug.local/assets/styles/images/icon&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.webide.settings.project.settings.php&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mariadb",
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mariadb&quot;,
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/assets/styles/images/icon" />

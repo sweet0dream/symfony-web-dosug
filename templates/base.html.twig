@@ -44,10 +44,10 @@
         {% block javascripts %}{% block importmap %}{{ importmap('app') }}{% endblock %}{% endblock %}
     </head>
     <body class="bg-body-tertiary">
-        {% include 'widget/menu.html.twig' with {menu: meta, user_hash} %}
-        {% block body %}{% endblock %}
-        <footer>
-            123
-        </footer>
+        <section class="content">
+            {% include 'widget/menu.html.twig' with {menu: meta, user_hash} %}
+            {% block body %}{% endblock %}
+        </section>
+        {% include 'widget/footer.html.twig' %}
     </body>
 </html>

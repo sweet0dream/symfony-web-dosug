@@ -35,7 +35,8 @@ class ItemHelper {
         'photo_main',
         'info',
         'price',
-        'text'
+        'text',
+        'url'
     ];
     private const string RENDER_TYPE_PREMIUM = 'premium';
     private const array FILTER_FIELDS_PREMIUM = [
@@ -46,9 +47,9 @@ class ItemHelper {
         'photo_main',
         'phone',
         'info',
-        'price'
+        'price',
+        'url'
     ];
-    private const string RENDER_TYPE_FULL = 'full';
 
     private const array RENDER_LIST = [
         self::RENDER_TYPE_INTRO => self::FILTER_FIELDS_INTRO,
@@ -118,10 +119,17 @@ class ItemHelper {
         int $id
     ): ?array
     {
-        return $this->em->getRepository(Item::class)->findOneBy([
-            'id' => $id,
-            'type' => $type
-        ]);
+        $item = $this->em->getRepository(Item::class)->findOneBy([
+            'type' => ItemHelper::TYPE[$type],
+            'id' => $id]
+        );
+
+        if ($item) {
+            $this->item = $item;
+            $this->type = $item->getType() ?? $type;
+        }
+
+        return $item ? $this->prepareItem() : null;
     }
 
     private function prepareItem(?string $prepare = null): array
@@ -137,7 +145,8 @@ class ItemHelper {
             'price' => $this->getPriceValue(),
             'text' => $this->item->getInfo()['text'],
             'priority' => $this->item->getItemStatus()->getPremiumPriority(),
-            'online' => (bool)$this->item->getUser()->getUserHash()?->getId()
+            'online' => (bool)$this->item->getUser()->getUserHash()?->getId(),
+            'url' => $this->generateUrl()
         ];
 
         return is_null($prepare) ? $data : array_combine(
@@ -149,6 +158,11 @@ class ItemHelper {
                 self::RENDER_LIST[$prepare]
             )
         );
+    }
+
+    private function generateUrl(): string
+    {
+        return '/' . array_flip(self::TYPE)[$this->type] . '/' . $this->item->getId();
     }
 
     private function getTypeValue(): array
