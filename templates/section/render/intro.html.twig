@@ -1,4 +1,56 @@
+{% set suffixPrice = {
+    'express': 'эскпресс',
+    'onehour': 'час',
+    'twohour': 'два часа',
+    'night': 'ночь'
+} %}
 <div class="position-relative item">
-    {{ dump(item) }}
-    {{ item.name }}, {{ item.info.year.value }}
+    <div class="row g-0">
+        <div class="col-5">
+            <a href="#" class="thumb" style="background-image: url('{{ asset(item.photo_main) | imagine_filter("renderIntroItem") }}')">
+                <div class="name">
+                    <h3>
+                        <span>{{ item.name }}</span>
+                    </h3>
+                </div>
+            </a>
+        </div>
+        <div class="col-7">
+            <div class="d-flex align-items-center info">
+                <div class="row g-1">
+                    <div class="d-flex align-items-center col-5">
+                        <div class="w-100 row g-0 spec">
+                            {% for key,info in item.info %}
+                                <div class="col-2 text-end">
+                                    <i class="icon {{ key }}"></i>
+                                </div>
+                                <div class="col-10">
+                                    <span class="suffix">{{ info.name }}</span>
+                                    <span class="val">{{ info.value|replace({'.': ''}) }}</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center col-7">
+                        <div class="w-100 row g-0 price">
+                            {% for key,price in item.price %}
+                                <div class="col-2 text-end">
+                                    <i class="icon {{ key }}"></i>
+                                </div>
+                                <div class="col-10">
+                                    <span class="suffix">{{ price.name }}</span>
+                                    <span class="val">{{ price.value }} рублей</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="my-1 text">
+                            {{ item.text|striptags|slice(0, 120) }}... подробнее
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

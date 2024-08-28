@@ -73,7 +73,7 @@ form.upload .input-file input[type=file]:disabled + span {
     bottom: 0;
     width: 100%;
     height: 10%;
-    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
+    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,.5) 100%);
 }
 .premium .item {
     z-index: 1;
@@ -226,5 +226,137 @@ form.upload .input-file input[type=file]:disabled + span {
     top: 0;
     width: 100%;
     height: 1%;
-    background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
+    background: linear-gradient(to bottom,  rgba(255,255,255,.5) 0%,rgba(255,255,255,0) 100%);
+}
+.intro .item {
+    border-radius: 12px;
+    overflow: hidden;
+}
+.intro .item a.thumb {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 1/1;
+    background-size: 100% auto;
+    background-position: center 10%;
+}
+.intro .item a.thumb:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 15%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(230,132,174,0) 0%,rgba(230,132,174,1) 100%);
+}
+.intro .item a.thumb .name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+    transition: all 0.5s ease-in-out;
+}
+.intro .item a.thumb:hover .name,
+.intro .item a.thumb:focus .name {
+    padding-top: 50px;
+}
+.intro .item a.thumb .name h3 {
+    text-align: center;
+    text-decoration: none;
+    color: #ffd200;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.75);
+    transition: all 0.5s linear;
+}
+.intro .item a.thumb:hover .name h3,
+.intro .item a.thumb:focus .name h3 {
+    color: #ff6200;
+}
+.intro .item a.thumb .name h3 span {
+    margin-right: 5%;
+}
+.intro .item .info {
+    background: #77A1D3;
+    background: -webkit-linear-gradient(to right, #E684AE, #79CBCA, #77A1D3);
+    background: linear-gradient(to right, #E684AE, #79CBCA, #77A1D3);
+    height: 100%;
+    font-size: .75em;
+    line-height: .8em;
+    color: rgba(0,0,0,0.8);
+}
+.intro .item .info .spec,
+.intro .item .info .price {
+    line-height: 20px;
+}
+.intro .item .info i.icon {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg,  rgba(255,255,255,0.2) 0%,rgba(255,255,255,0.65) 100%);
+    border-radius: 5px;
+    box-shadow: 0 0 1px rgba(0,0,0,.4), 0 0 3px rgba(0,0,0,.2);
+}
+.intro .item .info i.icon:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.intro .item .info i.year:after {
+    background-image: url('images/icon/year.webp');
+}
+.intro .item .info i.height:after {
+    background-image: url('images/icon/height.webp');
+}
+.intro .item .info i.weight:after {
+    background-image: url('images/icon/weight.webp');
+}
+.intro .item .info i.chest:after {
+    background-image: url('images/icon/chest.webp');
+}
+.intro .item .info i.hair:after {
+    background-image: url('images/icon/hair.webp');
+}
+.intro .item .info i.dick:after {
+    background-image: url('images/icon/dick.webp');
+}
+.intro .item .info i.role:after {
+    background-image: url('images/icon/role.webp');
+}
+.intro .item .info i.express:after {
+    background-image: url('images/icon/express.webp');
+}
+.intro .item .info i.onehour:after {
+    background-image: url('images/icon/onehour.webp');
+}
+.intro .item .info i.twohour:after {
+    background-image: url('images/icon/twohour.webp');
+}
+.intro .item .info i.night:after {
+    background-image: url('images/icon/night.webp');
+}
+.intro .item .info span {
+    display: block;
+    margin-left: 5px;
+}
+.intro .item .info span.suffix {
+    font-size: 8px;
+    line-height: 8px;
+    text-transform: uppercase;
+    color: rgba(0,0,0,.3);
+    margin-left: 5px;
+}
+.intro .item .info span.val {
+    font-size: 12px;
+    line-height: 12px;
+    text-shadow: 1px 1px 1px rgba(255,255,255,.5);
+}
+.intro .item .info .text {
+    font-size: 12px;
+    line-height: 14px;
 }
