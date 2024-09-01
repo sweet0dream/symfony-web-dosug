@@ -21,6 +21,6 @@
 ###< symfony/asset-mapper ###
 
 ###> liip/imagine-bundle ###
-/public/media/cache/
+/public/cache/
 /public/media/*
 ###< liip/imagine-bundle ###
