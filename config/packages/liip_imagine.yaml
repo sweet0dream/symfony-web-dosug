@@ -1,7 +1,9 @@
 liip_imagine:
     resolvers:
         default:
-            web_path: ~
+            web_path:
+                web_root: '%kernel.project_dir%'
+                cache_prefix: 'media/cache'
     webp:
         generate: true
     default_filter_set_settings:
