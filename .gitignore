@@ -24,3 +24,8 @@
 /public/cache/
 /public/media/*
 ###< liip/imagine-bundle ###
+
+###> custom ###
+/~error.log
+/~web.conf
+###< custom ###
