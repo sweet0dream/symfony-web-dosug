@@ -14,8 +14,6 @@ liip_imagine:
         format: webp
 
     filter_sets:
-        cache: ~
-
         editPhotoItem:
             filters:
                 thumbnail: { size: [ 250, 250 ], mode: outbound }
