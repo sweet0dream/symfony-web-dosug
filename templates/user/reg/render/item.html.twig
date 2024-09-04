@@ -1,67 +1,139 @@
-{% set type = {
-    'ind': 'Индивидуалка',
-    'sal': 'Салон',
-    'man': 'Мужчина по вызову',
-    'tsl': 'Транс',
-} %}
-<div class="card mb-3 position-relative">
-    <div class="position-absolute top-0 start-0 translate-middle badge bg-primary">
-        {{ item.id }}
+<div class="card mb-1 position-relative">
+    <div class="card-header text-secondary p-1">
+        <div class="row g-0">
+            <div class="col-10 d-flex align-items-center">
+                <span class="ms-1 text-white">
+                    ID {{ item.id }}: {{ item.type.value }} <strong>{{ item.name }}</strong>, телефон: <strong>{{ item.phone }}</strong> <a href="#" class="text-secondary"><small>изменить</small></a>
+                </span>
+            </div>
+            <div class="col-2 text-end">
+                <a href="#remove{{ item.id }}" data-bs-toggle="modal" class="text-danger text-decoration-none me-1">
+                    <i class="fa-solid fa-trash"></i>
+                </a>
+            </div>
+        </div>
     </div>
     <div class="card-body p-1">
         <div class="row g-1">
-            <div class="col-3 text-center">
-                {{ type[item.type] }}: {{ item.name }}
-            </div>
-            <div class="col-4">
-                <div class="btn-group btn-group-sm w-100" role="group">
-                {% if item.itemstatus.active == true %}
-                    <button type="button" class="btn btn-primary" disabled>
-                        <i class="fa-solid fa-toggle-on"></i> Активна
-                    </button>
-                    <button type="button" class="btn btn-{% if item.itemstatus.premium == false %}outline-{% endif %}primary" disabled>
-                        <i class="fa-solid fa-toggle-{% if item.itemstatus.premium == true %}on{% else %}off{% endif %}"></i> Премиум
-                    </button>
-                    <button type="button" class="btn btn-{% if item.itemstatus.realy == false %}outline-{% endif %}primary" disabled>
-                        <i class="fa-solid fa-toggle-{% if item.itemstatus.realy == true %}on{% else %}off{% endif %}"></i> Реальна
-                    </button>
-                {% else %}
-                    <button type="button" class="btn btn-outline-primary" disabled>
-                        <i class="fa-solid fa-toggle-off"></i> Скрыта
-                    </button>
-                {% endif %}
+            <div class="col-12 col-lg-3 text-center d-flex align-items-center justify-content-center">
+                <div>
+                    <div class="position-relative">
+                        <div class="position-absolute left-0 bottom-0 w-100">
+                            <div class="m-1">
+                                <a href="/user/item/photo/{{ item.id }}" class="btn btn-light text-secondary btn-sm w-100">
+                                    <i class="fa-solid fa-image"></i> {{ item.photo_count }} фото
+                                </a>
+                            </div>
+                        </div>
+                        <img src="{{ asset(item.photo_main) | imagine_filter("editPhotoItem") }}" class="rounded-1 img-fluid" alt="">
+                    </div>
+                    <button class="btn btn-primary btn-sm w-100 mt-1"><i class="fa-solid fa-chevron-up"></i> Поднять</button>
                 </div>
             </div>
-            <div class="col-5">
-                <div class="row g-1">
-                    <div class="col-5">
-                        <button class="btn btn-secondary btn-sm w-100"><i class="fa-solid fa-pen-to-square"></i></button>
+            <div class="col-12 col-lg-9">
+                <div class="alert alert-{% if item.status.active == false %}warning{% else %}success{% endif %} p-2 mb-1 text-center">
+                    Анкета {% if item.status.active == false %}НЕ АКТИВНА! Обратитесь к администратору.{% else %}АКТИВНА.{% if item.status.premium == true %} Установлен статус ПРЕМИУМ{% if item.status.premium_priority != null %} с приоритетом на {{ item.status.premium_priority }} место{% endif %}.{% endif %}{% endif %}
+                </div>
+                <div class="row g-1 mb-1">
+                    <div class="col-12 col-md-6">
+                        <div class="card text-bg-dark h-100">
+                            <div class="card-header py-1 px-2">
+                                <div class="row g-0">
+                                    <div class="col-8">
+                                        Инфо
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        <a href="#" class="text-secondary"><small>изменить</small></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body py-2">
+                                <div class="row g-0">
+                                    {% for info in item.info %}
+                                        <div class="col-6 text-end">
+                                            <span class="text-secondary me-1">{{ info.name }}:</span>
+                                        </div>
+                                        <div class="col-6">
+                                            <span class="ms-1">{{ info.value }}</span>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-5">
-                        <a href="/user/item/photo/{{ item.id }}" class="btn btn-secondary btn-sm w-100"><i class="fa-solid fa-image"></i> {{ item.itemphotos|length }}</a>
-                    </div>
-                    <div class="col-2">
-                        <button
-                                type="button"
-                                class="btn btn-danger btn-sm w-100"
-                                data-bs-toggle="modal"
-                                data-bs-target="#remove{{ item.id }}"
-                        >
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
+                    <div class="col-12 col-md-6">
+                        <div class="card text-bg-dark h-100">
+                            <div class="card-header py-1 px-2">
+                                <div class="row g-0">
+                                    <div class="col-8">
+                                        Цены
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        <a href="#" class="text-secondary"><small>изменить</small></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body p-2">
+                                <div class="row g-0">
+                                    {% for price in item.price %}
+                                        <div class="col-6 text-end">
+                                            <span class="text-secondary me-1">{{ price.name }}:</span>
+                                        </div>
+                                        <div class="col-6">
+                                            <span class="ms-1">{{ price.value }}</span>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                {% set services = [] %}
+                {% for service in item.service %}
+                    {% for value in service.value %}
+                        {% set services = services|merge([service.name ~ ' ' ~ value]) %}
+                    {% endfor %}
+                {% endfor %}
+                <div class="card text-bg-dark">
+                    <div class="card-header py-1 px-2">
+                        <div class="row g-0">
+                            <div class="col-8">
+                                Услуги
+                            </div>
+                            <div class="col-4 text-end">
+                                <a href="#" class="text-secondary"><small>изменить</small></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body py-2">
+                        {{ services|join(' / ') }}
+                    </div>
+                </div>
+                <p class="mt-2 mb-1">{{ item.text }} <a href="#" class="text-secondary"><small>изменить</small></a></p>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer p-1 text-secondary">
+        <div class="row g-1">
+            <div class="col-12 col-lg-4 text-center">
+                <small>Регистрация: {{ item.date.created|format_date }}</small>
+            </div>
+            <div class="col-12 col-lg-4 text-center">
+                <small>Обновление: {{ item.date.updated|format_date }}</small>
+            </div>
+            <div class="col-12 col-lg-4 text-center">
+                <small>Поднятие: {{ item.date.toped|format_date }}</small>
             </div>
         </div>
     </div>
     {# modal remove #}
     <div class="modal fade" id="remove{{ item.id }}" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content text-bg-danger">
                 <div class="modal-body p-2">
                     <div class="row g-1">
                         <div class="col-6">
-                            <p class="mt-2 mb-0 text-center">Точно удалить?</p>
+                            <p class="mt-2 mb-0 text-center">Точно удалить анкету ID {{ item.id }}?</p>
                         </div>
                         <div class="col-6">
                             <div class="text-end">

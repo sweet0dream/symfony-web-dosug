@@ -34,11 +34,21 @@ h1, h2, h3, h4, h5, h6, .title, .ff2 {
 section.content {
     flex: 1 0 auto;
 }
-.container {
+.container, .wrap {
     background: rgba(0,0,0,.65);
     height: 100%;
     box-shadow: 0 0 25px rgba(0,0,0,.65);
     border-radius: 6px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+@media (max-width: 768px) {
+    .container, .wrap {
+        background: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+    }
 }
 footer {
     background: rgb(131,58,180);

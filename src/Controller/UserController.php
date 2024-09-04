@@ -48,9 +48,14 @@ class UserController extends AbstractController
             ]);
         }
 
+        $items = $this->userHelper->getAllItems($user);
+
+        usort($items, fn($a, $b) => $b['id'] - $a['id']);
+
         return $this->render('user/reg/index.html.twig', [
             'user' => $user,
-            'available_types' => IntimAnketaContract::TYPE
+            'items' => $items,
+            'types' => IntimAnketaContract::TYPE
         ]);
     }
 

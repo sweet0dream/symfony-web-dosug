@@ -50,10 +50,26 @@ class ItemHelper {
         'price',
         'url'
     ];
+    private const string RENDER_TYPE_USER_LK = 'lk';
+    private const array FILTER_FIELDS_USER_LK = [
+        'id',
+        'type',
+        'name',
+        'photo_main',
+        'photo_count',
+        'phone',
+        'info',
+        'service',
+        'price',
+        'text',
+        'date',
+        'status'
+    ];
 
     private const array RENDER_LIST = [
         self::RENDER_TYPE_INTRO => self::FILTER_FIELDS_INTRO,
-        self::RENDER_TYPE_PREMIUM => self::FILTER_FIELDS_PREMIUM
+        self::RENDER_TYPE_PREMIUM => self::FILTER_FIELDS_PREMIUM,
+        self::RENDER_TYPE_USER_LK => self::FILTER_FIELDS_USER_LK
     ];
 
     public function __construct(
@@ -121,8 +137,8 @@ class ItemHelper {
     {
         $item = $this->em->getRepository(Item::class)->findOneBy([
             'type' => ItemHelper::TYPE[$type],
-            'id' => $id]
-        );
+            'id' => $id
+        ]);
 
         if ($item) {
             $this->item = $item;
@@ -132,21 +148,40 @@ class ItemHelper {
         return $item ? $this->prepareItem() : null;
     }
 
+    public function getAllItemsForUser(User $user): array
+    {
+        foreach ($user->getItems() as $item) {
+            $this->item = $item;
+            $this->type = $item->getType();
+            $allItems[] = $this->prepareItem(self::RENDER_TYPE_USER_LK);
+        }
+
+        return $allItems ?? [];
+    }
+
     private function prepareItem(?string $prepare = null): array
     {
         $data = [
+            'id' => $this->item->getId(),
             'type' => $this->getTypeValue(),
             'name' => $this->item->getName(),
             'phone' => $this->item->getPhone(),
             'info' => $this->getInfoValue(),
             'service' => $this->getServiceValue(),
             'photo_main' => $this->getMainPhoto(),
+            'photo_count' => count($this->item->getItemPhotos()),
             'photo' => $this->getPhotoValue(),
             'price' => $this->getPriceValue(),
             'text' => $this->item->getInfo()['text'],
             'priority' => $this->item->getItemStatus()->getPremiumPriority(),
             'online' => (bool)$this->item->getUser()->getUserHash()?->getId(),
-            'url' => $this->generateUrl()
+            'url' => $this->generateUrl(),
+            'date' => [
+                'created' => $this->item->getCreatedAt(),
+                'updated' => $this->item->getUpdatedAt(),
+                'toped' => $this->item->getTopedAt()
+            ],
+            'status' => $this->getStatuses()
         ];
 
         return is_null($prepare) ? $data : array_combine(
@@ -158,6 +193,19 @@ class ItemHelper {
                 self::RENDER_LIST[$prepare]
             )
         );
+    }
+
+    private function getStatuses(): array
+    {
+        $result['active'] = $this->item->getItemStatus()->isActive();
+        if ($result['active']) {
+            $result['premium'] = $this->item->getItemStatus()->isPremium();
+            if ($result['premium']) {
+                $result['premium_priority'] = $this->item->getItemStatus()->getPremiumPriority();
+            }
+        }
+
+        return $result;
     }
 
     private function generateUrl(): string

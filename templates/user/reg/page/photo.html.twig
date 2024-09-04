@@ -3,22 +3,22 @@
 {% block title %}Редактирование фото анкеты ID: {{ id }}{% endblock %}
 
 {% block body %}
-    <div class="container py-2 mt-3">
+    <div class="wrap container-md">
     {% if photos is not empty and has_main_photo != true %}
         <div class="text-center mb-2">
-            <div class="alert alert-light d-inline-block m-0">Последнее загруженное фото будет показываться в списке анкет как <strong>Главное</strong></div>
+            <div class="alert alert-warning d-inline-block m-0">Последнее загруженное фото будет показываться в списке анкет как <strong>Главное</strong></div>
         </div>
     {% endif %}
     <form method="POST" id="operand">
         <input type="hidden" name="action[item]" value="{{ id }}">
         <div class="row justify-content-center g-1">
         {% for key, photo in photos %}
-            <div class="col-2">
+            <div class="col-4 col-md-3 col-xl-2">
                 {% include 'user/reg/render/photo.html.twig' with {id, key, photo} %}
             </div>
         {% else %}
             <div class="text-center mb-1">
-                <div class="alert alert-warning d-inline-block m-0" role="alert">
+                <div class="alert alert-danger d-inline-block m-0" role="alert">
                     <div class="ms-3">Не загружено ни одной фотографии. Необходимо загрузить минимум одно фото иначе будет невозможен показ анкеты.</div>
                 </div>
             </div>

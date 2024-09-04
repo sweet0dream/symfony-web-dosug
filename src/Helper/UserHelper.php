@@ -9,7 +9,10 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UserHelper
 {
-    public function __construct(private readonly EntityManagerInterface $em)
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly ItemHelper $itemHelper
+    )
     {
     }
 
@@ -96,5 +99,10 @@ class UserHelper
     public function validateAuth(?string $hash): ?User
     {
         return $this->em->getRepository(UserHash::class)->findOneBy(['value' => $hash])?->getUser();
+    }
+
+    public function getAllItems(User $user): array
+    {
+        return $this->itemHelper->getAllItemsForUser($user);
     }
 }
