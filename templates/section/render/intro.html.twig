@@ -6,7 +6,7 @@
 } %}
 <div class="position-relative item">
     <div class="row g-0">
-        <div class="col-5">
+        <div class="d-flex align-items-center col-12 col-md-5">
             <a href="{{ item.url }}" class="thumb" style="background-image: url('{{ asset(item.photo_main) | imagine_filter("renderIntroItem") }}')">
                 <div class="name">
                     <h3>
@@ -15,37 +15,41 @@
                 </div>
             </a>
         </div>
-        <div class="col-7">
+        <div class="col-12 col-md-7">
             <div class="d-flex align-items-center info">
-                <div class="row g-1">
-                    <div class="d-flex align-items-center col-5">
+                <div class="row g-1 my-1">
+                    <div class="d-flex align-items-center col-6">
                         <div class="w-100 row g-0 spec">
                             {% for key,info in item.info %}
                                 <div class="col-2 text-end">
                                     <i class="icon {{ key }}"></i>
                                 </div>
                                 <div class="col-10">
-                                    <span class="suffix">{{ info.name }}</span>
-                                    <span class="val">{{ info.value|replace({'.': ''}) }}</span>
+                                    <div class="ms-1">
+                                        <span class="suffix">{{ info.name }}</span>
+                                        <span class="val">{{ info.value|replace({'.': ''}) }}</span>
+                                    </div>
                                 </div>
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="d-flex align-items-center col-7">
+                    <div class="d-flex align-items-center col-6">
                         <div class="w-100 row g-0 price">
                             {% for key,price in item.price %}
                                 <div class="col-2 text-end">
                                     <i class="icon {{ key }}"></i>
                                 </div>
                                 <div class="col-10">
-                                    <span class="suffix">{{ price.name }}</span>
-                                    <span class="val">{{ price.value }} рублей</span>
+                                    <div class="ms-1">
+                                        <span class="suffix">{{ price.name }}</span>
+                                        <span class="val">{{ price.value }} р.</span>
+                                    </div>
                                 </div>
                             {% endfor %}
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="my-1 text">
+                        <div class="m-1 text">
                             {{ item.text|striptags|slice(0, 120) }}... подробнее
                         </div>
                     </div>
