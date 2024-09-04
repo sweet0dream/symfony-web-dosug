@@ -85,8 +85,8 @@ class ItemHelper {
     public function getActiveItems($type = null): array
     {
         $items = $type && isset(self::TYPE[$type]) ?
-            $this->em->getRepository(Item::class)->findBy(['type' => self::TYPE[$type]]) :
-            $this->em->getRepository(Item::class)->findAll();
+            $this->em->getRepository(Item::class)->findBy(['type' => self::TYPE[$type]], ['topedAt' => 'DESC']) :
+            $this->em->getRepository(Item::class)->findBy([], ['topedAt' => 'DESC']);
 
         foreach ($items as $item) {
             if ($item->getItemStatus()->isActive()) {
