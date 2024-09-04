@@ -1,6 +1,6 @@
 {% for user in users %}
     {% if user.id != 1 %}
-        <div class="card mb-2">
+        <div class="card mb-2" id="user{{ user.id }}">
             <div class="card-header p-1 position-relative">
                 {% if user.userhash is not null %}
                     <div class="position-absolute top-50 end-0 translate-middle-y">
@@ -15,6 +15,8 @@
             </div>
             <div class="card-body p-0 pb-1">
                 {% for item in user.items %}
+                <form method="POST">
+                    <input type="hidden" name="item[id]" value="{{ item.id }}">
                     <div class="row g-1 px-1 pt-1">
                         <div class="col-1">
                             <a href="#" class="btn btn-dark btn-sm w-100 text-start">
@@ -32,6 +34,9 @@
                             <div class="col-4">
                                 <button
                                         class="btn btn-outline-primary btn-sm w-100"
+                                        name="item[active]"
+                                        type="submit"
+                                        value="1"
                                 >
                                     <i class="fa-solid fa-toggle-off"></i> Опубликовать
                                 </button>
@@ -41,6 +46,9 @@
                                 <button
                                         class="btn btn-primary btn-sm w-100 pb-0 text-center position-relative"
                                         style="padding-top:8px"
+                                        type="submit"
+                                        name="item[active]"
+                                        value="0"
                                 >
                                     <div
                                             class="position-absolute top-0 start-50 translate-middle-x text-uppercase"
@@ -52,6 +60,9 @@
                                 <button
                                         class="btn btn-{% if item.itemstatus.premium == true %}primary{% else %}secondary{% endif %} btn-sm w-100 pb-0 text-center position-relative"
                                         style="padding-top:8px"
+                                        type="submit"
+                                        name="item[premium]"
+                                        value="{{ [1,0][item.itemstatus.premium] }}"
                                 >
                                     <div
                                             class="position-absolute top-0 start-50 translate-middle-x text-uppercase"
@@ -63,6 +74,9 @@
                                 <button
                                         class="btn btn-{% if item.itemstatus.realy == true %}primary{% else %}secondary{% endif %} btn-sm w-100 pb-0 text-center position-relative"
                                         style="padding-top:8px"
+                                        type="submit"
+                                        name="item[realy]"
+                                        value="{{ [1,0][item.itemstatus.realy] }}"
                                 >
                                     <div
                                             class="position-absolute top-0 start-50 translate-middle-x text-uppercase"
@@ -74,6 +88,9 @@
                                 <button
                                         class="btn btn-success btn-sm w-100 pb-0 text-center position-relative"
                                         style="padding-top:8px"
+                                        type="submit"
+                                        name="item[top]"
+                                        value="1"
                                 >
                                     <div
                                             class="position-absolute top-0 start-50 translate-middle-x text-uppercase"
@@ -140,6 +157,7 @@
                             </div>
                         </div>
                     </div>
+                </form>
                 {% else %}
                     <p>Нет анкет</p>
                 {% endfor %}

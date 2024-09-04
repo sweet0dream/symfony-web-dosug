@@ -2,13 +2,25 @@
 
 namespace App\Helper;
 
+use App\Entity\Item;
 use App\Entity\ItemStatus;
 use App\Entity\User;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
-class AdminHelper {
+readonly class AdminHelper {
 
-    public function __construct(private readonly EntityManagerInterface $em)
+    private const array ITEM_ACTION = [
+        'active',
+        'premium',
+        'realy',
+        'top'
+    ];
+
+    public function __construct(
+        private EntityManagerInterface $em
+    )
     {
     }
 
@@ -46,5 +58,90 @@ class AdminHelper {
         }
 
         return $result ?? null;
+    }
+
+    private function mapAction(string $itemAction): ?string
+    {
+        return array_combine(
+            self::ITEM_ACTION,
+            array_map(
+                fn($value) => 'action' . ucfirst($value),
+                self::ITEM_ACTION
+            )
+        )[$itemAction] ?? null;
+    }
+
+    public function makeAction(Request $request): ?array
+    {
+        $data = $request->request->all()['item'];
+        $itemId = array_shift($data);
+        $itemAction = array_key_first($data);
+        $actionValue = $data[$itemAction];
+
+        $item = $this->em->getRepository(Item::class)->find($itemId);
+
+        if ($item && in_array($itemAction, self::ITEM_ACTION)) {
+            $action = $this->mapAction($itemAction);
+            $result = $this->$action($item, $actionValue);
+        }
+
+        return $result ?? null;
+    }
+
+    private function actionActive(Item $item, bool $value): array
+    {
+        $itemStatus = $item->getItemStatus();
+        $itemStatus->setActive($value);
+        $this->saveChanges($item);
+
+        return [
+            'id' => $item->getId(),
+            'action' => 'active',
+            'value' => $item->getItemStatus()->isActive(),
+        ];
+    }
+
+    private function actionPremium(Item $item, bool $value): array
+    {
+        $itemStatus = $item->getItemStatus();
+        $itemStatus->setPremium($value);
+        $this->saveChanges($item);
+
+        return [
+            'id' => $item->getId(),
+            'action' => 'premium',
+            'value' => $item->getItemStatus()->isPremium(),
+        ];
+    }
+
+    private function actionRealy(Item $item, bool $value): array
+    {
+        $itemStatus = $item->getItemStatus();
+        $itemStatus->setRealy($value);
+        $this->saveChanges($item);
+
+        return [
+            'id' => $item->getId(),
+            'action' => 'realy',
+            'value' => $item->getItemStatus()->isRealy(),
+        ];
+    }
+
+    private function actionTop(Item $item, bool $value): array
+    {
+        $item->setTopedAt((new DateTimeImmutable('now')));
+        $this->saveChanges($item);
+
+        return [
+            'id' => $item->getId(),
+            'action' => 'top',
+            'value' => true,
+        ];
+    }
+
+    private function saveChanges(Item $item): void
+    {
+        $this->em->persist($item);
+        $this->em->flush();
     }
 }

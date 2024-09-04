@@ -31,7 +31,7 @@ class UserController extends AbstractController
     {
     }
 
-    #[Route('/user/lk', name: 'user_lk')]
+    #[Route('/user/lk', name: 'user_lk', methods: ['GET', 'POST'])]
     public function viewAuthArea(Request $request): Response
     {
         $user = $this->userHelper->validateAuth($request->cookies->get('auth_hash'));
@@ -42,6 +42,12 @@ class UserController extends AbstractController
         }
 
         if ($user->getId() == 1) {
+            if ($request->getMethod() === 'POST') {
+                $this->addFlash('response', $this->adminHelper->makeAction($request));
+
+                return $this->redirectToRoute('user_lk');
+            }
+
             return $this->render('user/adm/index.html.twig', [
                 'users' => $this->adminHelper->getAllUsers(),
                 'priority' => $this->adminHelper->getPremiumPriorityItems()
