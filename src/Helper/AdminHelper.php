@@ -73,31 +73,64 @@ readonly class AdminHelper {
 
     public function makeAction(Request $request): ?array
     {
-        $data = $request->request->all()['item'];
+        $keyForm = array_key_first($request->request->all());
+        $data = $request->request->all()[$keyForm];
         $itemId = array_shift($data);
-        $itemAction = array_key_first($data);
-        $actionValue = $data[$itemAction];
 
         $item = $this->em->getRepository(Item::class)->find($itemId);
 
-        if ($item && in_array($itemAction, self::ITEM_ACTION)) {
-            $action = $this->mapAction($itemAction);
-            $result = $this->$action($item, $actionValue);
+        switch (array_key_first($request->request->all())) {
+            case 'item':
+                $itemAction = array_key_first($data);
+                $actionValue = $data[$itemAction];
+                if ($item && in_array($itemAction, self::ITEM_ACTION)) {
+                    $action = $this->mapAction($itemAction);
+                    return $this->$action($item, $actionValue);
+                }
+                break;
+            case 'priority':
+                return $this->actionPriority($item, $data['value']);
+            default:
+                return null;
         }
 
-        return $result ?? null;
+        return null;
+    }
+
+    private function actionPriority(Item $item, int $value): array
+    {
+        $itemStatus = $item->getItemStatus();
+        $itemStatus->setPremiumPriority($value != 0 ? $value : null);
+        $this->saveChanges($item);
+
+        return [
+            'change_priority' => [
+                'id' => $item->getId(),
+                'action' => $value != 0 ? 'on' : 'off',
+                'value' => $item->getItemStatus()->getPremiumPriority()
+            ]
+        ];
     }
 
     private function actionActive(Item $item, bool $value): array
     {
         $itemStatus = $item->getItemStatus();
         $itemStatus->setActive($value);
+        if (!$value) {
+            $itemStatus
+                ->setPremiumPriority(null)
+                ->setPremium(false)
+                ->setRealy(false)
+            ;
+        }
         $this->saveChanges($item);
 
         return [
-            'id' => $item->getId(),
-            'action' => 'active',
-            'value' => $item->getItemStatus()->isActive(),
+            'change_status' => [
+                'id' => $item->getId(),
+                'action' => 'active',
+                'value' => $item->getItemStatus()->isActive()
+            ]
         ];
     }
 
@@ -105,12 +138,17 @@ readonly class AdminHelper {
     {
         $itemStatus = $item->getItemStatus();
         $itemStatus->setPremium($value);
+        if (!$value) {
+            $itemStatus->setPremiumPriority(null);
+        }
         $this->saveChanges($item);
 
         return [
-            'id' => $item->getId(),
-            'action' => 'premium',
-            'value' => $item->getItemStatus()->isPremium(),
+            'change_status' => [
+                'id' => $item->getId(),
+                'action' => 'premium',
+                'value' => $item->getItemStatus()->isPremium()
+            ]
         ];
     }
 
@@ -121,9 +159,11 @@ readonly class AdminHelper {
         $this->saveChanges($item);
 
         return [
-            'id' => $item->getId(),
-            'action' => 'realy',
-            'value' => $item->getItemStatus()->isRealy(),
+            'change_status' => [
+                'id' => $item->getId(),
+                'action' => 'realy',
+                'value' => $item->getItemStatus()->isRealy()
+            ]
         ];
     }
 
@@ -133,9 +173,11 @@ readonly class AdminHelper {
         $this->saveChanges($item);
 
         return [
-            'id' => $item->getId(),
-            'action' => 'top',
-            'value' => true,
+            'change_status' => [
+                'id' => $item->getId(),
+                'action' => 'top',
+                'value' => true
+            ]
         ];
     }
 

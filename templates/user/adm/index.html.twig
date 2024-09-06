@@ -3,17 +3,37 @@
 {% block title %}Админ панель{% endblock %}
 
 {% block body %}
-    <div class="container py-2">
-        {% for response in app.flashes('response') %}
-            {{ dump(response) }}
+    <div class="wrap container-md py-2">
+        {% for value in app.flashes('notify') %}
+            {% for key, message in value %}
+                {% if key == 'change_status' %}
+                    {% set action = {
+                        'active': ['скрыта и сброшены все статусы', 'опубликована'],
+                        'premium': ['снят статус «Премиум»', 'назначен статус «Премиум»'],
+                        'realy': ['убран статус «Реальное фото»', 'установлен статус «Реальное фото»'],
+                        'top': ['', 'была поднята']
+                    } %}
+                    {% set notify = 'Анкета ID ' ~ message.id ~ ' ' ~ action[message.action][message.value] %}
+                {% elseif key == 'change_priority' %}
+                    {% set action = {
+                        'on': 'установлен приоритет на ' ~ message.value ~ ' место',
+                        'off': 'обнулен приоритет'
+                    } %}
+                    {% set notify = 'Анкета ID ' ~ message.id ~ ' ' ~ action[message.action] %}
+                {% endif %}
+                <div class="alert alert-success alert-dismissible text-center mb-1" role="alert">
+                    {{ notify }}
+                    <button type="button" class="btn-close" style="padding:1rem" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+                </div>
+            {% endfor %}
         {% endfor %}
         <div class="row g-1">
             {% if priority is not null %}
-                <div class="col-3">
+                <div class="col-12 col-lg-3">
                     {% include 'user/adm/section-priority.html.twig' with {priority} %}
                 </div>
             {% endif %}
-            <div class="col-{% if priority is not null %}9{% else %}12{% endif %}">
+            <div class="col-12 col-lg-{% if priority is not null %}9{% else %}12{% endif %}">
                 {% include 'user/adm/section-users.html.twig' with {users} %}
             </div>
         </div>

@@ -63,7 +63,8 @@ class ItemHelper {
         'price',
         'text',
         'date',
-        'status'
+        'status',
+        'url'
     ];
 
     private const array RENDER_LIST = [

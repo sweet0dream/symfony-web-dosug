@@ -43,7 +43,7 @@ class UserController extends AbstractController
 
         if ($user->getId() == 1) {
             if ($request->getMethod() === 'POST') {
-                $this->addFlash('response', $this->adminHelper->makeAction($request));
+                $this->addFlash('notify', $this->adminHelper->makeAction($request));
 
                 return $this->redirectToRoute('user_lk');
             }
