@@ -86,20 +86,6 @@ form.upload .input-file input[type=file] {
     height: 0;
 }
 
-/* Focus */
-form.upload .input-file input[type=file]:focus + span {
-}
-
-/* Hover/active */
-form.upload .input-file:hover span {
-}
-form.upload .input-file:active span {
-}
-
-/* Disabled */
-form.upload .input-file input[type=file]:disabled + span {
-}
-
 /* sectionPremium */
 .premium {
     position: relative;
