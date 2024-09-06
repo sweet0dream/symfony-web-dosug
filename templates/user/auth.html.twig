@@ -11,12 +11,21 @@
 {% block title %}{{ title[key][0] }}{% endblock %}
 
 {% block body %}
+        <div class="wrap container-md">
         <main class="form-signin w-100 m-auto pt-2" style="max-width: 330px">
             <form class="{{ key }}" method="POST">
                 <h3 class="h3 mb-3 fw-normal">{{ title[key][1] }}</h3>
 
                 {% for message in app.flashes('error') %}
-                    {{ message }}
+                    {% set error = {
+                        'loginNotFound': 'Указанный логин не зарегистрирован',
+                        'passwordNotCorrect': 'Неверный пароль',
+                        'loginAlreadyExists': 'Указанный логин уже зарегистрирован',
+                        'passwordNotEquals': 'Введенные пароли не совпадают',
+                    } %}
+                    <div class="alert alert-danger text-center mb-1" role="alert">
+                        {{ error[message] }}
+                    </div>
                 {% endfor %}
                 {% for user in app.flashes('info') %}
                     {% set login = user.login %}
@@ -24,7 +33,8 @@
                     <div class="alert alert-success text-center mb-1" role="alert">
                         Анкета успешно импортирована.<br /><br />
                         <strong>Логин:</strong> {{ login }}<br />
-                        <strong>Логин:</strong> {{ password }}
+                        <strong>Пароль:</strong> {{ password }}<br /><br />
+                        Нажмите на кнопку «Войти» чтоб перейти к редактированию анкеты и заполните недостающие данные.
                     </div>
                 {% endfor %}
 
@@ -65,4 +75,5 @@
                 {% endif %}
             </form>
         </main>
+        </div>
 {% endblock %}

@@ -51,13 +51,26 @@ section.content {
     }
 }
 footer {
-    background: rgb(131,58,180);
-    background: linear-gradient(52deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+    background: #ad5389;
+    background: -webkit-linear-gradient(to bottom, #ad5389, #3c1053);
+    background: linear-gradient(to bottom, #ad5389, #3c1053);
     flex: 0 0 auto;
 }
 .menu {
-    background: rgb(252,176,69);
-    background: linear-gradient(52deg, rgba(252,176,69,1) 0%, rgba(253,29,29,1) 50%, rgba(131,58,180,1) 100%);
+    position: relative;
+    background: #ad5389;
+    background: -webkit-linear-gradient(to bottom, #ad5389, #3c1053);
+    background: linear-gradient(to bottom, #ad5389, #3c1053);
+}
+.menu:after {
+    content: '';
+    position: absolute;
+    z-index: 99;
+    left: 0;
+    bottom: -19px;
+    width: 100%;
+    height: 19px;
+    background: top center repeat-x url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAATCAMAAABIkLa5AAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAVZQTFRFPRBTQBJVRhVXShhZUBxcVx9eWCBgVR5cVB9ZXiRjXSNiSRxNFgkWXiVgZihnUyFUDwYQAAAAOhc6YihgbCxqbCxqayxpWyRZKRApAAAAAAAAAAAAMxUxZClgci9tcC9rXidaFgkVAAAAAAAAAAAAAAAAAQABSyBGbi5ndTJudzNvdDFtay1kNRYyAQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAwaOxo3WSZSay5idTJseTRvcTBoaS1hTyJJNBYwEwgSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjT2zEwAAAHJ0Uk5T///////2/+zJ//qiUd3/sko6eNb+//2+YDcuP27N//u9UywiLzxJkN76//TWdEY4KyAXIy1EWnynz+z44MuXclRANioWDx4mMEVKTUxJPiUbFA4JFSQxPTUpIRoTDQQICxAfJygdGQoHAgYMGBIFAwEAa71AaQAAAMZJREFUeJxtzkELAUEUB/D3t3ZnyxRrt7Q48Q3EF1DyAdzd3fiSLkTKQQ6uqE2y7cZS41kXdudfM9P83uv1QLoAWi1o1dBqUaumZjBg5xWAzG/B6vBBxoB6Rvl3ddDGNz+NnA7wtPCXi4uBKgDHqs3dwMlfoPcpjG7ll3lxg7XXWQXDZWoxxnyHQmyaHlSw7SM+t1gnkYzkvnY/dMmat/xdQ5WRYPogdrt4i6hERijZBGFGirhQSRe7OgkJXpKVo4grHMHwed9WvTKu650xKQAAAABJRU5ErkJggg==");
 }
 form.upload .input-file {
     position: relative;
@@ -109,7 +122,8 @@ form.upload .input-file input[type=file]:disabled + span {
     radial-gradient(74% 86% at 67% 38%, #6DFFAEF5 24%, #073AFF00 100%),
     linear-gradient(125deg, #4EB5FFFF 1%, #4C00FCFF 100%);
 }
-.premium .item {
+.premium a.item {
+    display: block;
     z-index: 1;
     width: 100%;
     aspect-ratio: 1/1.15;
@@ -119,41 +133,42 @@ form.upload .input-file input[type=file]:disabled + span {
             0 0 6px 2px rgba(0,0,0,0.5),
             0 0 3px 1px rgba(0,0,0,0.35) inset;
 }
-.premium .item .title {
+.premium a.item .title {
     font-size: 1.5rem;
     background: linear-gradient(to bottom,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);
     border-radius: 8px;
+    color: #fff;
 }
-.premium .item .title span>span {
+.premium a.item .title span>span {
     text-shadow: 1px 1px 1px #000;
 }
-.premium .item .title span.year {
+.premium a.item .title span.year {
     color: #ffda6a;
 }
-.premium .item .title span.online {
+.premium a.item .title span.online {
     font-size: .35rem;
 }
-.premium .item .title span.online i {
+.premium a.item .title span.online i {
     color: #0f0;
 }
-.premium .item .title .priority {
+.premium a.item .title .priority {
     opacity: .25;
 }
-.premium .item .title .priority i {
+.premium a.item .title .priority i {
     font-size: 3rem;
     background: linear-gradient(135deg, #ff3019 0%,#cf0404 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     color: #f00;
 }
-.premium .item .title .priority span.val {
+.premium a.item .title .priority span.val {
     margin-top: 18px;
 }
-.premium .item .bottom {
+.premium a.item .bottom {
     background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.4) 20%,rgba(255,255,255,1) 100%);
     border-radius: 8px;
 }
-.premium .item .info .i {
+.premium a.item .info .i {
     position: relative;
     background-color: rgba(0,0,0,0.4);
     font-size: .75rem;
@@ -166,7 +181,7 @@ form.upload .input-file input[type=file]:disabled + span {
     color: #fff;
     padding: 2px 5px 2px 24px !important;
 }
-.premium .item .info .i:after {
+.premium a.item .info .i:after {
     content: '';
     position: absolute;
     top: 0;
@@ -176,30 +191,30 @@ form.upload .input-file input[type=file]:disabled + span {
     background-repeat: no-repeat;
     background-position: center center;
 }
-.premium .item .info .chest:after {
+.premium a.item .info .chest:after {
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAMxQTFRFAAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////OpLhCAAAAER0Uk5TAAYyA1ClBQynI0ah3TMBL8v0/D8HIcj/jRlI8LUmUvfDN+HEVQRa835bKCRAXpisxrmSQTWpR9LbmwlfsSng9u+vNhPplEATAAAAqElEQVR4nE2PTQsBURiFz6lBpAylpEwUY2VhJdn535qibPwDWYgapam5I1/NmHLvzHXHuzi956nzfhCqSKbIi5laZPwHKqnFFwpQkwHeCtBQnoEBbVINvRjQ5Qco8WyAwzdQvT4NGPAB1HnQdki4FIj6jOwwiXv7sZw4Ce8OKZrZtl1+6eyoNHFPvj596iu1W9xqsAiE1BE3v+fgdmTeK74FluvyfKWaLwAXJWNCcsw7AAAAAElFTkSuQmCC');
 }
-.premium .item .info .dick:after {
+.premium a.item .info .dick:after {
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAASNQTFRFAAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Rb17eAAAAGF0Uk5TAARB4cwVUvH/3B0NwMIILOuaWW58YYptWHBNKgMJZT6dxbVoYG89ASehgObsRnKOUP3wx+M/CrYmJMHqujAOojTo+67IHivW/JJ9BRKfbBm+9+lCKdE6EVu/5Nl63xNKBj7cNf0AAADQSURBVHicY2QAA0YQ+A1mQQTYQALfEALcjH8YWBk/IQT4GX8wcL5nQAgIAVVzv0USEPnCwMD7GklA7BNIGwg8YWSQ/cvCyPiCgUGSEQI0GN9/UmC8y8Cg8vgjA4MuI6P+/wdKDxQZGW+pM55mYDB7y2jOyPjrKoMR41kGE8bDDAx2jPbHrBmPWzEeZWDQFGbcDbTF9qcA40GHfc77gZZpSTBuZVS/6QOUcAMav52BwYtxLcgdIc/P+oIs3BDIyLgE7DBlqyvcRxjifnA+VFgAAETBM8dkQJMYAAAAAElFTkSuQmCC');
 }
-.premium .item .price span {
+.premium a.item .price span {
     color: #0f5132;
 }
-.premium .item .price span strong {
+.premium a.item .price span strong {
     font-size: 1.2rem;
 }
-.premium .item .bottom .phone span.number {
+.premium a.item .bottom .phone span.number {
     color: #d04739;
     font-size: 1.2rem;
     font-weight: 700;
 }
-.premium .item .bottom .phone i {
+.premium a.item .bottom .phone i {
     color: #850c0c;
     font-size: .85rem;
     opacity: .45;
 }
 
-.premium .item.a1 {
+.premium a.item.a1 {
     animation: animPrem1 3s cubic-bezier(0.65, 0, 0.35, 1) 0s infinite alternate backwards;
 }
 @keyframes animPrem1 {
@@ -212,7 +227,7 @@ form.upload .input-file input[type=file]:disabled + span {
         background-size: 110%;
     }
 }
-.premium .item.a2 {
+.premium a.item.a2 {
     animation: animPrem2 3.5s cubic-bezier(0.65, 0, 0.35, 1) 0s infinite alternate backwards;
 }
 @keyframes animPrem2 {
@@ -225,7 +240,7 @@ form.upload .input-file input[type=file]:disabled + span {
         background-size: 110%;
     }
 }
-.premium .item.a3 {
+.premium a.item.a3 {
     animation: animPrem3 4s cubic-bezier(0.65, 0, 0.35, 1) 0s infinite alternate backwards;
 }
 @keyframes animPrem3 {
@@ -238,7 +253,7 @@ form.upload .input-file input[type=file]:disabled + span {
         background-size: 110%;
     }
 }
-.premium .item.a4 {
+.premium a.item.a4 {
     animation: animPrem4 4.5s cubic-bezier(0.65, 0, 0.35, 1) 0s infinite alternate backwards;
 }
 @keyframes animPrem4 {
