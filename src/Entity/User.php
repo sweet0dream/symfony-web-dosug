@@ -44,6 +44,7 @@ class User
      * @var Collection<int, Event>
      */
     #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'user')]
+    #[ORM\OrderBy(['createdAt' => 'DESC'])]
     private Collection $events;
 
     public function __construct()

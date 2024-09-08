@@ -60,6 +60,7 @@ class Item
      * @var Collection<int, Event>
      */
     #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'item')]
+    #[ORM\OrderBy(['createdAt' => 'DESC'])]
     private Collection $events;
 
     public function __construct()
