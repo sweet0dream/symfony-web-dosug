@@ -6,7 +6,7 @@
                 {% if events.today is defined %}
                     <li class="nav-item" role="presentation">
                         <button
-                                class="nav-link py-1 px-2 active"
+                                class="nav-link py-1 px-2 position-relative active"
                                 id="today{{ user.id }}-tab"
                                 data-bs-toggle="tab"
                                 data-bs-target="#today{{ user.id }}"
@@ -14,13 +14,16 @@
                                 role="tab"
                                 aria-controls="today{{ user.id }}"
                                 aria-selected="true"
-                        ><small>Сегодня</small></button>
+                        >
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger z-1">{{ events.today|length }}</span>
+                            <small>Сегодня</small>
+                        </button>
                     </li>
                 {% endif %}
                 {% if events.yesterday is defined %}
                     <li class="nav-item" role="presentation">
                         <button
-                                class="nav-link py-1 px-2 {% if events.today is not defined %}active{% endif %}"
+                                class="nav-link py-1 px-2 position-relative {% if events.today is not defined %}active{% endif %}"
                                 id="yesterday{{ user.id }}-tab"
                                 data-bs-toggle="tab"
                                 data-bs-target="#yesterday{{ user.id }}"
@@ -28,9 +31,13 @@
                                 role="tab"
                                 aria-controls="yesterday{{ user.id }}"
                                 aria-selected="false"
-                        ><small>Вчера</small></button>
+                        >
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary z-1">{{ events.yesterday|length }}</span>
+                            <small>Вчера</small>
+                        </button>
                     </li>
                 {% endif %}
+                {% if events.otherdays is defined %}
                 <li class="nav-item" role="presentation">
                     <button
                             class="nav-link py-1 px-2"
@@ -43,6 +50,7 @@
                             aria-selected="false"
                     ><small>Другие дни</small></button>
                 </li>
+                {% endif %}
             </ul>
         {% endif %}
         <div class="tab-content" id="eventsContent">
@@ -50,7 +58,7 @@
                 <div
                         class="tab-pane fade show
                                     {% if
-                            (events_key == 'today' and events.yesterday is defined)
+                            (events_key == 'today')
                             or (events_key == 'yesterday' and events.today is not defined)
                             or (events_key == 'otherdays' and events.today is not defined and events.yesterday is not defined)
                         %}active{% endif %}"

@@ -51,6 +51,7 @@ class AppExtension extends AbstractExtension
     public function sortableEvents(Collection $allEvents): array
     {
         $now = new DateTimeImmutable('now');
+        $result = [];
         foreach ($allEvents as $oneEvent) {
             if ($oneEvent instanceof Event) {
                 $diffDay = $oneEvent->getCreatedAt()->diff($now)->format('%a');
@@ -73,29 +74,23 @@ class AppExtension extends AbstractExtension
         $keyAction = key($event);
         $valueAction = $event[$keyAction];
 
-        $changeStatus = [
-            'active' => ['скрыта', 'опубликована'],
-            'premium' => ['снят статус премиум', 'назначен статус премиум'],
-            'realy' => ['удален статус реальной', 'установлен статус реальной'],
-            'top' => ['', 'была поднята']
-        ];
-
-        $changePriority = [
-            'on' => 'установлен приоритет на ' . $valueAction['value'] . ' место',
-            'off' => 'снят приоритет'
-        ];
-
-        $changePhotos = [
-            'added' => 'добавлено ' . $this->getModalPhoto($valueAction['id'], 'фото', $valueAction['value']),
-            'removed' => 'удалено ' . $valueAction['value'] . ' фото',
-            'has_main' => 'установлено ' . $this->getModalPhoto($valueAction['id'], 'главное фото', $valueAction['value'])
-        ];
-
         return new Markup(
             match($keyAction) {
-                'change_status' => $changeStatus[$valueAction['action']][$valueAction['value']],
-                'change_priority' => $changePriority[$valueAction['action']],
-                'change_photos' => $changePhotos[$valueAction['action']]
+                'change_status' => [
+                    'active' => ['скрыта', 'опубликована'],
+                    'premium' => ['снят статус премиум', 'назначен статус премиум'],
+                    'realy' => ['удален статус реальной', 'установлен статус реальной'],
+                    'top' => ['', 'была поднята']
+                ][$valueAction['action']][$valueAction['value']],
+                'change_priority' => [
+                    'on' => 'установлен приоритет на ' . $valueAction['value'] . ' место',
+                    'off' => 'снят приоритет'
+                ][$valueAction['action']],
+                'change_photos' => [
+                    'added' => 'добавлено ' . $this->getModalPhoto($valueAction['id'], 'новое фото', $valueAction['value']),
+                    'removed' => 'удалено ' . $valueAction['value'] . ' фото',
+                    'has_main' => 'установлено ' . $this->getModalPhoto($valueAction['id'], 'главное фото', $valueAction['value'])
+                ][$valueAction['action']]
             },
             'UTF-8');
     }
@@ -110,8 +105,8 @@ class AppExtension extends AbstractExtension
             <a href="#' . $file . '" data-bs-toggle="modal" class="text-success">' . $anchor . '</a>
             <div class="modal fade" id="' . $file . '" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
-                    <div class="modal-content">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-content position-relative">
+                        <button type="button" class="btn-close position-absolute top-0 start-100 translate-middle" data-bs-dismiss="modal" aria-label="Close"></button>
                         <img src="/media/' . $id . '/src/' . $file . '" alt="' . $file . '">
                     </div>
                 </div>
