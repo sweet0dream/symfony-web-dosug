@@ -329,7 +329,7 @@ class ItemHelper {
         $newItem = new Item();
         $newItem
             ->setUser($user)
-            ->setPhone($item['phone'])
+            ->setPhone(CommonHelper::getPhoneFormat('+7' . $item['phone']))
             ->setName($item['name'])
             ->setType($item['type'])
             ->setInfo($item['info'])
@@ -340,6 +340,7 @@ class ItemHelper {
             ->setUpdatedAt($now)
             ->setTopedAt($now)
         ;
+
         $this->em->persist($newItem);
         $this->em->flush();
 

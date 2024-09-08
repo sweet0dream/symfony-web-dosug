@@ -133,7 +133,7 @@
                                 <span class="text-secondary">{{ event.createdAt|format_date }}</span>
                             </div>
                             <div class="col-9">
-                                Анкета #{{ event.item.id }} {{ event.event|format_event }}
+                                {{ event.event|format_event }}
                             </div>
                         </div>
                     {% endfor %}

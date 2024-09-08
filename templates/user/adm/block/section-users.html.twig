@@ -1,0 +1,5 @@
+{% for user in users %}
+    {% if user.id != 1 %}
+        {% include 'user/adm/render/user.html.twig' with {user} %}
+    {% endif %}
+{% endfor %}

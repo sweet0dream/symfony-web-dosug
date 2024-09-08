@@ -1,15 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{%
-    set title = {
-        'ind': ['Индивидуалка'],
-        'sal': ['Интим салон'],
-        'man': ['Мужской эскорт'],
-        'tsl': ['Транссексуалка']
-    }
-%}
-
-{% block title %}{{ title[type][0] }}{% endblock %}
+{% block title %}{{ meta[type]['one_name'] }}{% endblock %}
 
 {% block body %}
     {%
@@ -23,27 +14,55 @@
     <div class="container py-2 mt-3">
     <form method="POST">
     <div class="row g-1">
-        <div class="col">
+        <div class="col-12 col-md-6">
             <div class="form-floating">
-                <input type="text" name="add[name]" class="form-control" id="name" placeholder="">
+                <input
+                        type="text"
+                        name="add[name]"
+                        class="form-control"
+                        id="name"
+                        placeholder=""
+                        oninvalid="this.setCustomValidity(
+                                'Обязательно нужно заполнить: Имя/Псевдоним'
+                        )"
+                        oninput="this.setCustomValidity('')"
+                        required
+                >
                 <label for="name">Имя/Псевдоним</label>
             </div>
         </div>
-        <div class="col">
+        <div class="col-12 col-md-6">
             <div class="form-floating">
-                <input type="text" name="add[phone]" class="form-control" id="phone" placeholder="">
+                <input
+                        type="text"
+                        name="add[phone]"
+                        class="form-control"
+                        id="phone"
+                        placeholder=""
+                        oninvalid="this.setCustomValidity(
+                                'Обязательно нужно заполнить: Номер телефона'
+                        )"
+                        oninput="this.setCustomValidity('')"
+                        required
+                >
                 <label for="phone">Номер телефона</label>
+                <script type="text/javascript">
+                    document.getElementById('phone').addEventListener('input', function (e) {
+                        const x = e.target.value.replace(/\D/g, '').match(/(\d{3})(\d{3})(\d{2})(\d{2})/);
+                        e.target.value = '(' + x[1] + ')' + x[2] + '-' + x[3] + '-' + x[4];
+                    });
+                </script>
             </div>
         </div>
     </div>
     {% for keyFieldset, valueFieldset in form %}
         <fieldset>
-            <legend>{{ nameFieldset[keyFieldset] }}</legend>
+            <legend class="my-2 text-center">{{ nameFieldset[keyFieldset] }}</legend>
             <div class="row g-1">
                 {% for keyField, valueField in valueFieldset %}
                     {% set required = valueField.require is defined %}
                     {% if valueField.type is defined and valueField.type == 'select' %}
-                        <div class="col">
+                        <div class="col-12 col-md-6 col-lg">
                             <div class="form-floating">
                                 <select
                                         class="form-select"
@@ -74,7 +93,7 @@
                             </div>
                         </div>
                     {% elseif valueField.type is defined and valueField.type == 'text' %}
-                        <div class="col">
+                        <div class="col-12 col-md-6 col-lg">
                             <div class="form-floating">
                                 <input
                                         type="text"
@@ -96,7 +115,7 @@
                             </div>
                         </div>
                     {% elseif valueField.type is defined and valueField.type == 'textarea' %}
-                        <div class="col">
+                        <div class="col-12">
                             <div class="form-floating">
                                 <textarea
                                         class="form-control"
@@ -112,7 +131,7 @@
                             </div>
                         </div>
                     {% else %}
-                        <div class="col-4">
+                        <div class="col-12 col-md-4">
                             <div class="card">
                                 <div class="card-header">{{ valueField.name }}</div>
                                 <div class="card-body">

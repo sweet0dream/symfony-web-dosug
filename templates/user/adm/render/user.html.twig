@@ -1,0 +1,46 @@
+<div class="card mb-2" id="user{{ user.id }}">
+    <div class="card-header p-1 position-relative">
+        {% if user.userhash is not null %}
+            <div class="position-absolute top-50 end-0 translate-middle-y">
+                <span class="badge text-bg-success p-1 me-1">Онлайн</span>
+            </div>
+        {% endif %}
+        <small><span class="text-secondary">Логин:</span> {{ user.login }}</small>
+        <small class="text-secondary opacity-25"> | </small>
+        <small><span class="text-secondary">Пароль:</span> {{ user.passwordview }}</small>
+        <small class="text-secondary opacity-25"> | </small>
+        <small><span class="text-secondary">Регистрация:</span> {{ user.createdat|format_date }}</small>
+    </div>
+    <div class="card-body p-0 pb-1">
+        {% for item in user.items %}
+            {% include 'user/adm/render/user/item.html.twig' with {item} %}
+        {% else %}
+            <p>Нет анкет</p>
+        {% endfor %}
+    </div>
+    <div class="card-footer p-1">
+        <div class="row g-1">
+            {% if user.events|length > 0 %}
+                <div class="col-6">
+                    <a
+                            href="#events{{ user.id }}"
+                            data-bs-toggle="collapse"
+                            aria-expanded="false"
+                            aria-controls="events{{ user.id }}"
+                            class="text-secondary"
+                    >
+                        <small>Лента действий пользователя ({{ user.events|length }})</small>
+                    </a>
+                </div>
+            {% endif %}
+            <div class="col-{% if user.events|length == 0 %}12{% else %}6{% endif %} text-end">
+                <a href="#" class="text-secondary">
+                    <small>Удалить пользователя{% if user.items|length != 0 %}{% if user.items|length <=1 %} и анкету{% else %} и все анкеты{% endif %}{% endif %}</small>
+                </a>
+            </div>
+        </div>
+        {% if user.events|length > 0 %}
+            {% include 'user/adm/render/user/events.html.twig' with {user_events: user.events} %}
+        {% endif %}
+    </div>
+</div>

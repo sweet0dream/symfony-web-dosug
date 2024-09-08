@@ -1,0 +1,75 @@
+{% set events = user_events|sort_events %}
+<div class="collapse" id="events{{ user.id }}">
+    <div class="card card-body mt-1 py-1 px-2">
+        {% if events.today is defined or events.yesterday is defined %}
+            <ul class="nav nav-tabs justify-content-center" id="eventsTab" role="tablist">
+                {% if events.today is defined %}
+                    <li class="nav-item" role="presentation">
+                        <button
+                                class="nav-link py-1 px-2 active"
+                                id="today{{ user.id }}-tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#today{{ user.id }}"
+                                type="button"
+                                role="tab"
+                                aria-controls="today{{ user.id }}"
+                                aria-selected="true"
+                        ><small>Сегодня</small></button>
+                    </li>
+                {% endif %}
+                {% if events.yesterday is defined %}
+                    <li class="nav-item" role="presentation">
+                        <button
+                                class="nav-link py-1 px-2 {% if events.today is not defined %}active{% endif %}"
+                                id="yesterday{{ user.id }}-tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#yesterday{{ user.id }}"
+                                type="button"
+                                role="tab"
+                                aria-controls="yesterday{{ user.id }}"
+                                aria-selected="false"
+                        ><small>Вчера</small></button>
+                    </li>
+                {% endif %}
+                <li class="nav-item" role="presentation">
+                    <button
+                            class="nav-link py-1 px-2"
+                            id="otherday{{ user.id }}-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#otherdays{{ user.id }}"
+                            type="button"
+                            role="tab"
+                            aria-controls="otherdays{{ user.id }}"
+                            aria-selected="false"
+                    ><small>Другие дни</small></button>
+                </li>
+            </ul>
+        {% endif %}
+        <div class="tab-content" id="eventsContent">
+            {% for events_key, events_value in events %}
+                <div
+                        class="tab-pane fade show
+                                    {% if
+                            (events_key == 'today' and events.yesterday is defined)
+                            or (events_key == 'yesterday' and events.today is not defined)
+                            or (events_key == 'otherdays' and events.today is not defined and events.yesterday is not defined)
+                        %}active{% endif %}"
+                        id="{{ events_key }}{{ user.id }}"
+                        role="tabpanel"
+                        aria-labelledby="{{ events_key }}{{ user.id }}-tab"
+                >
+                    {% for event in events_value %}
+                        <div class="row g-2">
+                            <div class="col-3 text-end">
+                                <span class="text-secondary">{{ event.createdAt|format_date }}</span>
+                            </div>
+                            <div class="col-9">
+                                Анкета #{{ event.item.id }} {{ event.event|format_event }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

@@ -2,7 +2,9 @@
 
 namespace App\AppBundle\Twig;
 
+use App\Entity\Event;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\Collection;
 use Twig\Extension\AbstractExtension;
 use Twig\Markup;
 use Twig\TwigFilter;
@@ -27,6 +29,7 @@ class AppExtension extends AbstractExtension
     {
         return array(
             new TwigFilter('format_date', array($this, 'formatDate')),
+            new TwigFilter('sort_events', array($this, 'sortableEvents')),
             new TwigFilter('format_event', array($this, 'formatEvent')),
         );
     }
@@ -43,6 +46,25 @@ class AppExtension extends AbstractExtension
             '2' => 'позавчера',
             default => $datetime->format('d') . ' ' . self::MONTH[$datetime->format('m')] . $year,
         } . ' в ' . $datetime->format('H:i');
+    }
+
+    public function sortableEvents(Collection $allEvents): array
+    {
+        $now = new DateTimeImmutable('now');
+        foreach ($allEvents as $oneEvent) {
+            if ($oneEvent instanceof Event) {
+                $diffDay = $oneEvent->getCreatedAt()->diff($now)->format('%a');
+                if ($diffDay == 0) {
+                    $result['today'][] = $oneEvent;
+                } elseif ($diffDay > 0 && $diffDay < 2) {
+                    $result['yesterday'][] = $oneEvent;
+                } else {
+                    $result['otherdays'][] = $oneEvent;
+                }
+            }
+        }
+
+        return $result;
     }
 
     public function formatEvent(string $event): Markup
@@ -64,15 +86,36 @@ class AppExtension extends AbstractExtension
         ];
 
         $changePhotos = [
-            'added' => 'добавлено фото ' . $valueAction['value'],
+            'added' => 'добавлено ' . $this->getModalPhoto($valueAction['id'], 'фото', $valueAction['value']),
             'removed' => 'удалено ' . $valueAction['value'] . ' фото',
-            'has_main' => $valueAction['value'] . ' установлено главным фото<a href="#">!!!</a>'
+            'has_main' => 'установлено ' . $this->getModalPhoto($valueAction['id'], 'главное фото', $valueAction['value'])
         ];
 
-        return new Markup(match($keyAction) {
-            'change_status' => $changeStatus[$valueAction['action']][$valueAction['value']],
-            'change_priority' => $changePriority[$valueAction['action']],
-            'change_photos' => $changePhotos[$valueAction['action']]
-        }, 'UTF-8');
+        return new Markup(
+            match($keyAction) {
+                'change_status' => $changeStatus[$valueAction['action']][$valueAction['value']],
+                'change_priority' => $changePriority[$valueAction['action']],
+                'change_photos' => $changePhotos[$valueAction['action']]
+            },
+            'UTF-8');
+    }
+
+    private function getModalPhoto(
+        int $id,
+        string $anchor,
+        ?string $file
+    ): string
+    {
+        return '
+            <a href="#' . $file . '" data-bs-toggle="modal" class="text-success">' . $anchor . '</a>
+            <div class="modal fade" id="' . $file . '" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <img src="/media/' . $id . '/src/' . $file . '" alt="' . $file . '">
+                    </div>
+                </div>
+            </div>
+        ';
     }
 }
