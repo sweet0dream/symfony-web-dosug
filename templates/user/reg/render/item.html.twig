@@ -27,7 +27,19 @@
                         </div>
                         <img src="{{ asset(item.photo_main) | imagine_filter("editPhotoItem") }}" class="rounded-1 img-fluid" alt="">
                     </div>
-                    <button class="btn btn-primary btn-sm w-100 mt-1"><i class="fa-solid fa-chevron-up"></i> Поднять</button>
+                    {% if item.events|length > 0 %}
+                    <div class="w-100 text-center py-2">
+                        <a
+                                href="#events{{ item.id }}"
+                                data-bs-toggle="collapse"
+                                aria-expanded="false"
+                                aria-controls="events{{ item.id }}"
+                                class="text-secondary"
+                        >
+                            <i class="fa-solid fa-clipboard-list"></i> Лента действий ({{ item.events|length }})
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="col-12 col-lg-9">
@@ -112,6 +124,22 @@
                 <p class="mt-2 mb-1">{{ item.text }} <a href="#" class="text-secondary"><small>изменить</small></a></p>
             </div>
         </div>
+        {% if item.events|length > 0 %}
+            <div class="collapse" id="events{{ item.id }}">
+                <div class="card card-body mt-1 py-1 px-2">
+                    {% for event in item.events %}
+                        <div class="row g-2">
+                            <div class="col-3 text-end">
+                                <span class="text-secondary">{{ event.createdAt|format_date }}</span>
+                            </div>
+                            <div class="col-9">
+                                Анкета #{{ event.item.id }} {{ event.event|format_event }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
     </div>
     <div class="card-footer p-1 text-secondary">
         <div class="row g-1">

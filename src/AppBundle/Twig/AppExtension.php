@@ -4,6 +4,7 @@ namespace App\AppBundle\Twig;
 
 use DateTimeImmutable;
 use Twig\Extension\AbstractExtension;
+use Twig\Markup;
 use Twig\TwigFilter;
 
 class AppExtension extends AbstractExtension
@@ -44,7 +45,7 @@ class AppExtension extends AbstractExtension
         } . ' в ' . $datetime->format('H:i');
     }
 
-    public function formatEvent(string $event): string
+    public function formatEvent(string $event): Markup
     {
         $event = unserialize($event);
         $keyAction = key($event);
@@ -65,13 +66,13 @@ class AppExtension extends AbstractExtension
         $changePhotos = [
             'added' => 'добавлено фото ' . $valueAction['value'],
             'removed' => 'удалено ' . $valueAction['value'] . ' фото',
-            'has_main' => $valueAction['value'] . ' установлено главным фото'
+            'has_main' => $valueAction['value'] . ' установлено главным фото<a href="#">!!!</a>'
         ];
 
-        return match($keyAction) {
+        return new Markup(match($keyAction) {
             'change_status' => $changeStatus[$valueAction['action']][$valueAction['value']],
             'change_priority' => $changePriority[$valueAction['action']],
             'change_photos' => $changePhotos[$valueAction['action']]
-        };
+        }, 'UTF-8');
     }
 }

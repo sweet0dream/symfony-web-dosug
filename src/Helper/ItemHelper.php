@@ -64,7 +64,8 @@ class ItemHelper {
         'text',
         'date',
         'status',
-        'url'
+        'url',
+        'events'
     ];
 
     private const array RENDER_LIST = [
@@ -183,7 +184,8 @@ class ItemHelper {
                 'updated' => $this->item->getUpdatedAt(),
                 'toped' => $this->item->getTopedAt()
             ],
-            'status' => $this->getStatuses()
+            'status' => $this->getStatuses(),
+            'events' => $this->item->getEvents(),
         ];
 
         return is_null($prepare) ? $data : array_combine(
