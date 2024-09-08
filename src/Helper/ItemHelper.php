@@ -75,6 +75,7 @@ class ItemHelper {
 
     public function __construct(
         private readonly EntityManagerInterface $em,
+        private readonly EventHelper $eventHelper,
         #[Autowire('%kernel.project_dir%/public/media')]
         private readonly string $mediaDir,
         private ?string $type = null,
@@ -369,6 +370,14 @@ class ItemHelper {
                         ->setHasMain(false)
                         ->setCreatedAt(new DateTimeImmutable('now'))
                 );
+
+                $this->eventHelper->addEvent($item, [
+                    'change_photos' => [
+                        'id' => $item->getId(),
+                        'action' => 'added',
+                        'value' => $uploadedPhoto,
+                    ]
+                ]);
             }
 
             $this->em->persist($item);
@@ -394,14 +403,22 @@ class ItemHelper {
         }
 
         if (!empty($removePhotos)) {
-            $item = $this->em->getRepository(Item::class)->find($id);
             foreach ($removePhotos as $removePhoto) {
                 $itemPhoto = $this->em->getRepository(ItemPhoto::class)->findOneBy(['fileName' => $removePhoto]);
                 if (!is_null($itemPhoto)) {
                     $this->em->remove($itemPhoto);
                 }
             }
+
             $this->em->flush();
+
+            $this->eventHelper->addEvent($item = $this->em->getRepository(Item::class)->find($id), [
+                'change_photos' => [
+                    'id' => $item->getId(),
+                    'action' => 'removed',
+                    'value' => count($removePhotos),
+                ]
+            ]);
         }
 
         return true;
@@ -422,6 +439,14 @@ class ItemHelper {
 
         $this->em->persist($item);
         $this->em->flush();
+
+        $this->eventHelper->addEvent($item, [
+            'change_photos' => [
+                'id' => $item->getId(),
+                'action' => 'has_main',
+                'value' => $file,
+            ]
+        ]);
 
         return true;
     }

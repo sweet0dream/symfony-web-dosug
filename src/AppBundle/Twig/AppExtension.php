@@ -26,6 +26,7 @@ class AppExtension extends AbstractExtension
     {
         return array(
             new TwigFilter('format_date', array($this, 'formatDate')),
+            new TwigFilter('format_event', array($this, 'formatEvent')),
         );
     }
 
@@ -41,5 +42,36 @@ class AppExtension extends AbstractExtension
             '2' => 'позавчера',
             default => $datetime->format('d') . ' ' . self::MONTH[$datetime->format('m')] . $year,
         } . ' в ' . $datetime->format('H:i');
+    }
+
+    public function formatEvent(string $event): string
+    {
+        $event = unserialize($event);
+        $keyAction = key($event);
+        $valueAction = $event[$keyAction];
+
+        $changeStatus = [
+            'active' => ['скрыта', 'опубликована'],
+            'premium' => ['снят статус премиум', 'назначен статус премиум'],
+            'realy' => ['удален статус реальной', 'установлен статус реальной'],
+            'top' => ['', 'была поднята']
+        ];
+
+        $changePriority = [
+            'on' => 'установлен приоритет на ' . $valueAction['value'] . ' место',
+            'off' => 'снят приоритет'
+        ];
+
+        $changePhotos = [
+            'added' => 'добавлено фото ' . $valueAction['value'],
+            'removed' => 'удалено ' . $valueAction['value'] . ' фото',
+            'has_main' => $valueAction['value'] . ' установлено главным фото'
+        ];
+
+        return match($keyAction) {
+            'change_status' => $changeStatus[$valueAction['action']][$valueAction['value']],
+            'change_priority' => $changePriority[$valueAction['action']],
+            'change_photos' => $changePhotos[$valueAction['action']]
+        };
     }
 }

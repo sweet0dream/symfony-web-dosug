@@ -169,11 +169,42 @@
                 {% endfor %}
             </div>
             <div class="card-footer p-1">
-                <div class="w-100 text-end">
-                    <a href="#" class="text-secondary">
-                        <small>Удалить пользователя{% if user.items|length != 0 %}{% if user.items|length <=1 %} и анкету{% else %} и все анкеты{% endif %}{% endif %}</small>
-                    </a>
+                <div class="row g-1">
+                    {% if user.events|length > 0 %}
+                    <div class="col-6">
+                        <a
+                                href="#events{{ user.id }}"
+                                data-bs-toggle="collapse"
+                                aria-expanded="false"
+                                aria-controls="events{{ user.id }}"
+                                class="text-secondary"
+                        >
+                            <small>Лента действий пользователя ({{ user.events|length }})</small>
+                        </a>
+                    </div>
+                    {% endif %}
+                    <div class="col-{% if user.events|length == 0 %}12{% else %}6{% endif %} text-end">
+                        <a href="#" class="text-secondary">
+                            <small>Удалить пользователя{% if user.items|length != 0 %}{% if user.items|length <=1 %} и анкету{% else %} и все анкеты{% endif %}{% endif %}</small>
+                        </a>
+                    </div>
                 </div>
+                {% if user.events|length > 0 %}
+                <div class="collapse" id="events{{ user.id }}">
+                    <div class="card card-body mt-1 py-1 px-2">
+                        {% for event in user.events %}
+                        <div class="row g-2">
+                            <div class="col-3 text-end">
+                                <span class="text-secondary">{{ event.createdAt|format_date }}</span>
+                            </div>
+                            <div class="col-9">
+                                Анкета #{{ event.item.id }} {{ event.event|format_event }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
             </div>
         </div>
     {% endif %}

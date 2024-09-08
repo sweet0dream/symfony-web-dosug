@@ -5,19 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8d6c25f4-66f8-49dd-9c7a-cf597d999944" name="Changes" comment="title main page">
-      <change afterPath="$PROJECT_DIR$/templates/section/page/full.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/widget/footer.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Helper/EventHelper.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ItemController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ItemController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppBundle/Twig/AppExtension.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Twig/AppExtension.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Item.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Item.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Helper/AdminHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Helper/AdminHelper.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Helper/ItemHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Helper/ItemHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/section/block/intro.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/section/block/intro.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/section/block/premium.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/section/block/premium.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/section/render/intro.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/section/render/intro.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/adm/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/adm/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/reg/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/reg/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/widget/menu.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/widget/menu.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/adm/section-users.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/adm/section-users.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

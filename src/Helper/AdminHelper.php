@@ -19,7 +19,8 @@ readonly class AdminHelper {
     ];
 
     public function __construct(
-        private EntityManagerInterface $em
+        private EntityManagerInterface $em,
+        private EventHelper $eventHelper
     )
     {
     }
@@ -85,16 +86,21 @@ readonly class AdminHelper {
                 $actionValue = $data[$itemAction];
                 if ($item && in_array($itemAction, self::ITEM_ACTION)) {
                     $action = $this->mapAction($itemAction);
-                    return $this->$action($item, $actionValue);
+                    $result = $this->$action($item, $actionValue);
                 }
                 break;
             case 'priority':
-                return $this->actionPriority($item, $data['value']);
+                $result = $this->actionPriority($item, $data['value']);
+                break;
             default:
                 return null;
         }
 
-        return null;
+        if(isset($result)) {
+            $this->eventHelper->addEvent($item, $result);
+        }
+
+        return $result ?? null;
     }
 
     private function actionPriority(Item $item, int $value): array
