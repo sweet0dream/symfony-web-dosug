@@ -3,8 +3,10 @@
 namespace App\AppBundle\Twig;
 
 use App\Entity\Event;
+use App\Entity\Item;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
+use Sweet0dream\IntimAnketaContract;
 use Twig\Extension\AbstractExtension;
 use Twig\Markup;
 use Twig\TwigFilter;
@@ -29,8 +31,9 @@ class AppExtension extends AbstractExtension
     {
         return array(
             new TwigFilter('format_date', array($this, 'formatDate')),
+            new TwigFilter('suffix_number', array($this, 'suffixNumber')),
             new TwigFilter('sort_events', array($this, 'sortableEvents')),
-            new TwigFilter('format_event', array($this, 'formatEvent')),
+            new TwigFilter('format_event', array($this, 'formatEvent'))
         );
     }
 
@@ -46,6 +49,14 @@ class AppExtension extends AbstractExtension
             '2' => 'позавчера',
             default => $datetime->format('d') . ' ' . self::MONTH[$datetime->format('m')] . $year,
         } . ' в ' . $datetime->format('H:i');
+    }
+
+    public function suffixNumber(
+        int $number,
+        array $suffix
+    ): string
+    {
+        return $number . ' ' . $suffix[($number % 100 > 4 && $number % 100 < 20) ? 2 : [2, 0, 1, 1, 1, 2][min($number % 10, 5)]];
     }
 
     public function sortableEvents(Collection $allEvents): array

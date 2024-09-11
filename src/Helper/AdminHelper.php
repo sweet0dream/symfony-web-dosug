@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 readonly class AdminHelper {
 
+    public const int ADMIN_USER_ID = 1;
+
     private const array ITEM_ACTION = [
         'active',
         'premium',

@@ -92,7 +92,7 @@ class UserItemController extends AbstractController
             $data = $request->request->all();
 
             return $this->redirectToRoute('user_item_photo', [
-                'id' => $this->itemHelper->addItem(
+                'id' => $this->itemHelper->createItem(
                     array_merge($data[key($data)], ['type' => $type]),
                     $this->userHelper->validateAuth($auth)
                 )
@@ -109,16 +109,65 @@ class UserItemController extends AbstractController
         ]);
     }
 
+    #[Route('/user/item/edit/{id}', name: 'user_item_edit', methods: ['GET', 'POST'])]
+    public function editUserItem(
+        int $id,
+        Request $request
+    ): Response
+    {
+        $authHash = $request->cookies->get('auth_hash');
+
+        if (
+            !$this->userItemHelper->isItemHasUser($id, $authHash)
+            && !$this->userItemHelper->isAdmin($authHash)
+        ) {
+            return $this->redirectToRoute('user_lk');
+        }
+
+        $item = $this->userItemHelper->getItem($id);
+
+        if ($request->getMethod() === Request::METHOD_POST) {
+            $data = $request->request->all();
+
+            return $this->redirectToRoute('user_item_edit', [
+                'id' => $this->itemHelper->updateItem(
+                    $item,
+                    $data[key($data)]
+                )
+            ]);
+
+        }
+
+        $formFields = $this->getField($item->getType());
+        unset($formFields['info']['name']);
+
+        return $this->render('user/reg/page/edit.html.twig', [
+            'form' => $formFields,
+            'item' => [
+                'id' => $item->getId(),
+                'updated' => $item->getUpdatedAt(),
+                'name' => $item->getName(),
+                'phone' => str_replace('+7', '', $item->getPhone()),
+                'info' => $item->getInfo(),
+                'service' => $item->getService(),
+                'price' => $item->getPrice(),
+                'text' => $item->getInfo()['text']
+            ]
+        ]);
+    }
+
     #[Route('/user/item/photo/{id}', name: 'user_item_photo', methods: ['GET', 'POST', 'DELETE'])]
     public function photoUserItem(
         int $id,
         Request $request
     ): Response
     {
-        if (!$this->userItemHelper->isItemHasUser(
-            $id,
-            $request->cookies->get('auth_hash')
-        )) {
+        $authHash = $request->cookies->get('auth_hash');
+
+        if (
+            !$this->userItemHelper->isItemHasUser($id, $authHash)
+            && !$this->userItemHelper->isAdmin($authHash)
+        ) {
             return $this->redirectToRoute('user_lk');
         }
 

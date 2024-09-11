@@ -320,8 +320,8 @@ class ItemHelper {
         return false;
     }
 
-    public function addItem(
-        array $item,
+    public function createItem(
+        array $data,
         User $user
     ): int
     {
@@ -329,12 +329,12 @@ class ItemHelper {
         $newItem = new Item();
         $newItem
             ->setUser($user)
-            ->setPhone(CommonHelper::getPhoneFormat('+7' . $item['phone']))
-            ->setName($item['name'])
-            ->setType($item['type'])
-            ->setInfo($item['info'])
-            ->setService($item['service'])
-            ->setPrice($item['price'])
+            ->setPhone(CommonHelper::getPhoneFormat('+7' . $data['phone']))
+            ->setName($data['name'])
+            ->setType($data['type'])
+            ->setInfo($data['info'])
+            ->setService($data['service'])
+            ->setPrice($data['price'])
             ->setItemStatus((new ItemStatus())->setDefaultValue())
             ->setCreatedAt($now)
             ->setUpdatedAt($now)
@@ -345,6 +345,26 @@ class ItemHelper {
         $this->em->flush();
 
         return $newItem->getId();
+    }
+
+    public function updateItem(
+        Item $item,
+        array $data
+    ): int
+    {
+        $item
+            ->setPhone(CommonHelper::getPhoneFormat('+7' . $data['phone']))
+            ->setName($data['name'])
+            ->setInfo($data['info'])
+            ->setService($data['service'])
+            ->setPrice($data['price'])
+            ->setUpdatedAt(new DateTimeImmutable('now'))
+        ;
+
+        $this->em->persist($item);
+        $this->em->flush();
+
+        return $item->getId();
     }
 
     public function uploadPhoto(

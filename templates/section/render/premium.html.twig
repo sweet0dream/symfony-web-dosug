@@ -3,8 +3,12 @@
     'man': ['dick'],
     'tsl': ['chest', 'dick']
 } %}
-<a href="{{ item.url }}" class="position-relative item a{{ random(1, 4) }}" style="background-image:url({{ asset(item.photo_main) | imagine_filter('renderIntroItem') }})">
-    <div class="position-absolute top-0 srart-0 w-100 pt-2 pb-5 text-end title">
+<div
+        class="position-relative item a{{ random(1, 4) }}"
+        style="background-image:url({{ asset(item.photo_main) | imagine_filter('renderIntroItem') }})"
+        onclick="document.location='{{ item.url }}'"
+>
+    <div class="position-absolute top-0 start-0 w-100 pt-2 pb-5 text-end title">
         {% if item.priority != null %}
             <div class="position-absolute start-0 top-0 p-1 priority">
                 <i class="fa-solid fa-heart"></i>
@@ -45,4 +49,4 @@
             {% endif %}
         </div>
     </div>
-</a>
+</div>

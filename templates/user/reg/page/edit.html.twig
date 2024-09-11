@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Редактирование анкеты #{{ item.id }}{% endblock %}
+
+{% block body %}
+    {% include 'user/block/item.html.twig' with item %}
+{% endblock %}

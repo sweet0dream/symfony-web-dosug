@@ -112,8 +112,7 @@ form.upload .input-file input[type=file] {
     height: 46px;
     background: center center repeat-x url("data:image/png;base64,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");
 }
-.premium a.item {
-    display: block;
+.premium .item {
     z-index: 1;
     width: 100%;
     aspect-ratio: 1/1.15;
@@ -123,42 +122,42 @@ form.upload .input-file input[type=file] {
             0 0 6px 2px rgba(0,0,0,0.5),
             0 0 3px 1px rgba(0,0,0,0.35) inset;
 }
-.premium a.item .title {
+.premium .item .title {
     font-size: 1.5rem;
     background: linear-gradient(to bottom,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);
     border-radius: 8px;
     color: #fff;
 }
-.premium a.item .title span>span {
+.premium .item .title span>span {
     text-shadow: 1px 1px 1px #000;
 }
-.premium a.item .title span.year {
+.premium .item .title span.year {
     color: #ffda6a;
 }
-.premium a.item .title span.online {
+.premium .item .title span.online {
     font-size: .35rem;
 }
-.premium a.item .title span.online i {
+.premium .item .title span.online i {
     color: #0f0;
 }
-.premium a.item .title .priority {
+.premium .item .title .priority {
     opacity: .25;
 }
-.premium a.item .title .priority i {
+.premium .item .title .priority i {
     font-size: 3rem;
     background: linear-gradient(135deg, #ff3019 0%,#cf0404 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     color: #f00;
 }
-.premium a.item .title .priority span.val {
+.premium .item .title .priority span.val {
     margin-top: 18px;
 }
-.premium a.item .bottom {
+.premium .item .bottom {
     background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.4) 20%,rgba(255,255,255,1) 100%);
     border-radius: 8px;
 }
-.premium a.item .info .i {
+.premium .item .info .i {
     position: relative;
     background-color: rgba(0,0,0,0.4);
     font-size: .75rem;
@@ -171,7 +170,7 @@ form.upload .input-file input[type=file] {
     color: #fff;
     padding: 2px 5px 2px 24px !important;
 }
-.premium a.item .info .i:after {
+.premium .item .info .i:after {
     content: '';
     position: absolute;
     top: 0;
@@ -181,30 +180,30 @@ form.upload .input-file input[type=file] {
     background-repeat: no-repeat;
     background-position: center center;
 }
-.premium a.item .info .chest:after {
+.premium .item .info .chest:after {
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAMxQTFRFAAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////OpLhCAAAAER0Uk5TAAYyA1ClBQynI0ah3TMBL8v0/D8HIcj/jRlI8LUmUvfDN+HEVQRa835bKCRAXpisxrmSQTWpR9LbmwlfsSng9u+vNhPplEATAAAAqElEQVR4nE2PTQsBURiFz6lBpAylpEwUY2VhJdn535qibPwDWYgapam5I1/NmHLvzHXHuzi956nzfhCqSKbIi5laZPwHKqnFFwpQkwHeCtBQnoEBbVINvRjQ5Qco8WyAwzdQvT4NGPAB1HnQdki4FIj6jOwwiXv7sZw4Ce8OKZrZtl1+6eyoNHFPvj596iu1W9xqsAiE1BE3v+fgdmTeK74FluvyfKWaLwAXJWNCcsw7AAAAAElFTkSuQmCC');
 }
-.premium a.item .info .dick:after {
+.premium .item .info .dick:after {
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAASNQTFRFAAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Rb17eAAAAGF0Uk5TAARB4cwVUvH/3B0NwMIILOuaWW58YYptWHBNKgMJZT6dxbVoYG89ASehgObsRnKOUP3wx+M/CrYmJMHqujAOojTo+67IHivW/JJ9BRKfbBm+9+lCKdE6EVu/5Nl63xNKBj7cNf0AAADQSURBVHicY2QAA0YQ+A1mQQTYQALfEALcjH8YWBk/IQT4GX8wcL5nQAgIAVVzv0USEPnCwMD7GklA7BNIGwg8YWSQ/cvCyPiCgUGSEQI0GN9/UmC8y8Cg8vgjA4MuI6P+/wdKDxQZGW+pM55mYDB7y2jOyPjrKoMR41kGE8bDDAx2jPbHrBmPWzEeZWDQFGbcDbTF9qcA40GHfc77gZZpSTBuZVS/6QOUcAMav52BwYtxLcgdIc/P+oIs3BDIyLgE7DBlqyvcRxjifnA+VFgAAETBM8dkQJMYAAAAAElFTkSuQmCC');
 }
-.premium a.item .price span {
+.premium .item .price span {
     color: #0f5132;
 }
-.premium a.item .price span strong {
+.premium .item .price span strong {
     font-size: 1.2rem;
 }
-.premium a.item .bottom .phone span.number {
+.premium .item .bottom .phone span.number {
     color: #d04739;
     font-size: 1.2rem;
     font-weight: 700;
 }
-.premium a.item .bottom .phone i {
+.premium .item .bottom .phone i {
     color: #850c0c;
     font-size: .85rem;
     opacity: .45;
 }
 
-.premium a.item.a1 {
+.premium .item.a1 {
     animation: animPrem1 3s cubic-bezier(0.65, 0, 0.35, 1) 0s infinite alternate backwards;
 }
 @keyframes animPrem1 {
@@ -217,7 +216,7 @@ form.upload .input-file input[type=file] {
         background-size: 110%;
     }
 }
-.premium a.item.a2 {
+.premium .item.a2 {
     animation: animPrem2 3.5s cubic-bezier(0.65, 0, 0.35, 1) 0s infinite alternate backwards;
 }
 @keyframes animPrem2 {
@@ -230,7 +229,7 @@ form.upload .input-file input[type=file] {
         background-size: 110%;
     }
 }
-.premium a.item.a3 {
+.premium .item.a3 {
     animation: animPrem3 4s cubic-bezier(0.65, 0, 0.35, 1) 0s infinite alternate backwards;
 }
 @keyframes animPrem3 {
@@ -243,7 +242,7 @@ form.upload .input-file input[type=file] {
         background-size: 110%;
     }
 }
-.premium a.item.a4 {
+.premium .item.a4 {
     animation: animPrem4 4.5s cubic-bezier(0.65, 0, 0.35, 1) 0s infinite alternate backwards;
 }
 @keyframes animPrem4 {

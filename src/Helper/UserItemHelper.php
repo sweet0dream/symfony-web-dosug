@@ -13,12 +13,12 @@ use Monolog\DateTimeImmutable;
 use Symfony\Component\Config\Definition\Exception\DuplicateKeyException;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
-class UserItemHelper
+readonly class UserItemHelper
 {
     public function __construct(
-        private readonly EntityManagerInterface $em,
+        private EntityManagerInterface $em,
         #[Autowire('%kernel.project_dir%/public/media')]
-        private readonly string $mediaDir
+        private string                 $mediaDir
     )
     {
     }
@@ -131,5 +131,18 @@ class UserItemHelper
         $item = $this->em->getRepository(Item::class)->find($itemId);
 
         return $user && $item && $item->getUser()->getId() === $user->getId();
+    }
+
+    public function getItem(
+        int $itemId
+    ): ?Item
+    {
+        return $this->em->getRepository(Item::class)->find($itemId);
+    }
+
+    public function isAdmin(?string $hashUser): bool
+    {
+        $user = $this->em->getRepository(UserHash::class)->findOneBy(['value' => $hashUser]);
+        return $user && $user->getUser()->getId() == AdminHelper::ADMIN_USER_ID;
     }
 }

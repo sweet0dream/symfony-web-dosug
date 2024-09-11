@@ -112,7 +112,7 @@
             <div class="row g-1">
                 <div class="col-{% if user.items|length <= 1 %}6{% else %}4{% endif %}">
                     <a
-                            href="#"
+                            href="/user/item/edit/{{ item.id }}"
                             class="btn btn-light btn-sm text-secondary w-100 pb-0 text-center position-relative"
                             style="padding-top:8px"
                     >
@@ -124,7 +124,7 @@
                 </div>
                 <div class="col-{% if user.items|length <= 1 %}6{% else %}4{% endif %}">
                     <a
-                            href="#photo{{ item.id }}" data-bs-toggle="modal"
+                            href="/user/item/photo/{{ item.id }}"
                             class="btn btn-light btn-sm text-secondary w-100 pb-0 text-center position-relative"
                             style="padding-top:8px"
                     >
@@ -138,80 +138,33 @@
                 </div>
                 {% if user.items|length > 1 %}
                     <div class="col-4">
-                        <a href="#" class="btn btn-danger btn-sm w-100">
+                        <a href="#removeItem{{ item.id }}" data-bs-toggle="modal" class="btn btn-danger btn-sm w-100">
                             <i class="fa-solid fa-trash"></i>
                         </a>
                     </div>
+                    {# modal remove item #}
+                    <div class="modal fade" id="removeItem{{ item.id }}" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content text-bg-danger">
+                                <div class="modal-body p-2">
+                                    <div class="row g-1">
+                                        <div class="col-6">
+                                            <p class="mt-2 mb-0 text-center">Удалить анкету?</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="text-end">
+                                                <button type="button" class="btn btn-link btn-sm text-white text-decoration-none">Да</button>
+                                                <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Отмена</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {# !modal remove item #}
                 {% endif %}
             </div>
         </div>
     </div>
-    <!-- modal photo -->
-    <div class="modal fade" id="photo{{ item.id }}" tabindex="-1" aria-labelledby="photo{{ item.id }}" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header py-2 px-3">
-                    <p class="modal-title ff1 text-center" id="photo{{ item.id }}">Управление фото анкеты #{{ item.id }}</p>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-                </div>
-                <div class="modal-body p-2 text-center">
-                    <ul class="nav nav-tabs justify-content-center mb-2" id="photosTab" role="tablist">
-                        {% for key, photo in item.itemphotos %}
-                        <li class="nav-item" role="presentation">
-                            <a class="p-1 nav-link position-relative {% if photo.hasmain == true %}active{% endif %}"
-                               id="photo{{ item.id }}{{ photo.id }}-tab"
-                               data-bs-toggle="tab"
-                               data-bs-target="#photo{{ item.id }}{{ photo.id }}"
-                               type="button"
-                               role="tab"
-                               aria-controls="photo{{ item.id }}{{ photo.id }}"
-                               aria-selected="true">
-                                <img
-                                        src="{{ asset('/media/' ~ item.id ~ '/src/' ~ photo.filename) | imagine_filter('editPhotoItemInAdmin') }}"
-                                        alt="{{ photo.filename }}"
-                                        class="rounded-1 shadow-sm"
-                                >
-                            </a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    <div class="tab-content" id="photosContent">
-                        {% for photo in item.itemphotos %}
-                        <div
-                                class="tab-pane fade show {% if photo.hasmain == true %}active{% endif %}"
-                                id="photo{{ item.id }}{{ photo.id }}"
-                                role="tabpanel"
-                                aria-labelledby="photo{{ item.id }}{{ photo.id }}-tab"
-                        >
-                            <div class="position-relative">
-                                <div class="position-absolute" style="top:10px;left:10px">
-                                    {% if photo.hasmain == true %}
-                                        <strong>Главное фото анкеты нельзя удалить</strong>
-                                    {% else %}
-                                        <button class="btn btn-light btn-sm">
-                                            <i class="fa-solid fa-check"></i> Сделать главной
-                                        </button>
-                                    {% endif %}
-                                </div>
-                                {% if photo.hasmain == false %}
-                                <div class="position-absolute" style="top:10px;right:10px">
-                                    <button class="btn btn-danger btn-sm">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </div>
-                                {% endif %}
-                                <img
-                                        src="{{ asset('/media/' ~ item.id ~ '/src/' ~ photo.filename) | imagine_filter('editPhotoItemInAdminFull') }}"
-                                        class="img-thumbnail w-100 shadow-lg"
-                                        alt="{{ photo.filename }}"
-                                >
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- !modal photo -->
 </form>

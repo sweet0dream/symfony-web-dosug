@@ -34,7 +34,7 @@
                 </div>
             {% endif %}
             <div class="col-{% if user.events|length == 0 %}12{% else %}6{% endif %} text-end">
-                <a href="#" class="text-secondary">
+                <a href="#removeUserAndItems{{ user.id }}" data-bs-toggle="modal" class="text-secondary">
                     <small>Удалить пользователя{% if user.items|length != 0 %}{% if user.items|length <=1 %} и анкету{% else %} и все анкеты{% endif %}{% endif %}</small>
                 </a>
             </div>
@@ -43,4 +43,25 @@
             {% include 'user/adm/render/user/events.html.twig' with {user_events: user.events} %}
         {% endif %}
     </div>
+    {# modal remove user & all items #}
+    <div class="modal fade" id="removeUserAndItems{{ user.id }}" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-bg-danger">
+                <div class="modal-body p-2">
+                    <div class="row g-1">
+                        <div class="col-6">
+                            <p class="mt-2 mb-0 text-center">Удалить пользователя и {{ user.items|length|suffix_number(['анкету', 'анкеты', 'анкет']) }}?</p>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-end">
+                                <button type="button" class="btn btn-link btn-sm text-white text-decoration-none">Да</button>
+                                <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Отмена</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# !modal remove user & all items #}
 </div>

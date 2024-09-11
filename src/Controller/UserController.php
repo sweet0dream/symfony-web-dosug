@@ -41,7 +41,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_auth', ['action' => 'login']);
         }
 
-        if ($user->getId() == 1) {
+        if ($user->getId() == AdminHelper::ADMIN_USER_ID) {
             if ($request->getMethod() === 'POST') {
                 $this->addFlash('notify', $this->adminHelper->makeAction($request));
 
