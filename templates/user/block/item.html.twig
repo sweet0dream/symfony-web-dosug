@@ -84,7 +84,7 @@
                                                 required
                                             {% endif %}
                                     >
-                                        {% if key == 'edit' and item[keyFieldset][keyField] == null %}
+                                        {% if item is defined and item[keyFieldset][keyField] == null or key == 'add' %}
                                         <option
                                                 selected
                                                 disabled
@@ -94,7 +94,7 @@
                                         {% for keyOption, valueOption in valueField.value %}
                                             <option
                                                     value="{{ keyOption }}"
-                                                    {% if item[keyFieldset][keyField] != null and item[keyFieldset][keyField] == keyOption %}selected{% endif %}
+                                                    {% if key == 'edit' and item[keyFieldset][keyField] != null and item[keyFieldset][keyField] == keyOption %}selected{% endif %}
                                             >{{ valueOption }}</option>
                                         {% endfor %}
                                     </select>

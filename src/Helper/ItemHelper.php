@@ -65,7 +65,8 @@ class ItemHelper {
         'date',
         'status',
         'url',
-        'events'
+        'events',
+        'editable'
     ];
 
     private const array RENDER_LIST = [
@@ -186,6 +187,7 @@ class ItemHelper {
             ],
             'status' => $this->getStatuses(),
             'events' => $this->item->getEvents(),
+            'editable' => $this->getEditableItem()
         ];
 
         return is_null($prepare) ? $data : array_combine(
@@ -197,6 +199,38 @@ class ItemHelper {
                 self::RENDER_LIST[$prepare]
             )
         );
+    }
+
+    private function getEditableItem(): array
+    {
+        $fields = (new IntimAnketaContract($this->type))->getField();
+        unset($fields['info']['name']);
+
+        $info = [];
+        foreach ($this->item->getInfo() as $k => $v) {
+            if (isset($fields['info'][$k])) {
+                $info[$k] = $v;
+            }
+        }
+
+        return [
+            'info' => [
+                'fields' => $fields['info'],
+                'values' => $info
+            ],
+            'service' => [
+                'fields' => $fields['service'],
+                'values' => $this->item->getService()
+            ],
+            'price' => [
+                'fields' => $fields['price'],
+                'values' => $this->item->getPrice()
+            ],
+            'text' => [
+                'fields' => $fields['dop'],
+                'values' => $this->item->getInfo()['text']
+            ]
+        ];
     }
 
     private function getStatuses(): array
