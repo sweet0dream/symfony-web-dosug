@@ -2,16 +2,18 @@
 
 namespace App\Helper;
 
+use App\Entity\Item;
 use App\Entity\User;
 use App\Entity\UserHash;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 
-class UserHelper
+readonly class UserHelper
 {
     public function __construct(
-        private readonly EntityManagerInterface $em,
-        private readonly ItemHelper $itemHelper
+        private EntityManagerInterface $em,
+        private ItemHelper $itemHelper,
+        private EventHelper $eventHelper
     )
     {
     }
@@ -94,6 +96,22 @@ class UserHelper
         }
 
         return $result ?? ['error' => 'unknownError'];
+    }
+
+    public function actionItemLk(
+        int $itemId,
+        array $data
+    ): array
+    {
+        $result = $this->itemHelper->updateItemPartially(
+            $item = $this->em->getRepository(Item::class)->find($itemId),
+            key($data),
+            $data[key($data)]
+        );
+
+        $this->eventHelper->addEvent($item, $result);
+
+        return $result;
     }
 
     public function validateAuth(?string $hash): ?User

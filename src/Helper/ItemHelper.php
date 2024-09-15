@@ -176,7 +176,7 @@ class ItemHelper {
             'photo_count' => count($this->item->getItemPhotos()),
             'photo' => $this->getPhotoValue(),
             'price' => $this->getPriceValue(),
-            'text' => $this->item->getInfo()['text'],
+            'text' => $this->item->getInfo()['text'] ?? '',
             'priority' => $this->item->getItemStatus()->getPremiumPriority(),
             'online' => (bool)$this->item->getUser()->getUserHash()?->getId(),
             'url' => $this->generateUrl(),
@@ -214,6 +214,10 @@ class ItemHelper {
         }
 
         return [
+            'contact' => [
+                'name' => $this->item->getName(),
+                'phone' => $this->item->getPhone()
+            ],
             'info' => [
                 'fields' => $fields['info'],
                 'values' => $info
@@ -228,7 +232,7 @@ class ItemHelper {
             ],
             'text' => [
                 'fields' => $fields['dop'],
-                'values' => $this->item->getInfo()['text']
+                'values' => $this->item->getInfo()['text'] ?? ''
             ]
         ];
     }
@@ -399,6 +403,47 @@ class ItemHelper {
         $this->em->flush();
 
         return $item->getId();
+    }
+
+    public function updateItemPartially(
+        Item $item,
+        string $key,
+        array $data
+    ): array
+    {
+        switch ($key) {
+            case 'contact':
+                $item
+                    ->setName($data['name'])
+                    ->setPhone(CommonHelper::getPhoneFormat('+7' . $data['phone']))
+                ;
+                break;
+            case 'info':
+                $item->setInfo(isset($data['text'])
+                    ? array_merge($item->getInfo(), (array)$data)
+                    : array_merge($data, ['text' => $item->getInfo()['text']])
+                );
+                $action = isset($data['text']) ? 'text' : 'info';
+                break;
+            case 'service':
+                $item->setService($data);
+                break;
+            case 'price':
+                $item->setPrice($data);
+                break;
+        }
+
+        $item->setUpdatedAt(new DateTimeImmutable('now'));
+
+        $this->em->persist($item);
+        $this->em->flush();
+
+        return [
+            'updated_item_by_user' => [
+                'id' => $item->getId(),
+                'action' => $action ?? $key
+            ]
+        ];
     }
 
     public function uploadPhoto(

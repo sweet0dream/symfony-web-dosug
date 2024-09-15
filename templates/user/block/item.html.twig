@@ -98,7 +98,7 @@
                                             >{{ valueOption }}</option>
                                         {% endfor %}
                                     </select>
-                                    <label for="keyField">
+                                    <label for="{{ keyField }}">
                                         {{ valueField.name }} {% if required %}<span class="text-danger">*</span>{% endif %}
                                     </label>
                                 </div>
@@ -131,14 +131,14 @@
                         {% elseif valueField.type is defined and valueField.type == 'textarea' %}
                             <div class="col-12">
                                 <div class="form-floating">
-                                <textarea
-                                        class="form-control"
-                                        placeholder=""
-                                        id="{{ keyField }}"
-                                        name="{{ key }}[info][{{ keyField }}]"
-                                        style="height: 100px"
-                                        {% if required %} required{% endif %}
-                                >{% if item.info[keyField] is defined %}{{ item.info[keyField] }}{% endif %}</textarea>
+                                    <textarea
+                                            class="form-control"
+                                            placeholder=""
+                                            id="{{ keyField }}"
+                                            name="{{ key }}[info][{{ keyField }}]"
+                                            style="height: 100px"
+                                            {% if required %} required{% endif %}
+                                    >{% if item.info[keyField] is defined %}{{ item.info[keyField] }}{% endif %}</textarea>
                                     <label for="{{ keyField }}">
                                         {{ valueField.name }} {% if required %}<span class="text-danger">*</span>{% endif %}
                                     </label>

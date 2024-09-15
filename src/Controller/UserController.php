@@ -54,6 +54,19 @@ class UserController extends AbstractController
             ]);
         }
 
+        if ($request->getMethod() === 'POST') {
+            $key = key($request->request->all());
+            $data = $request->request->all()[$key];
+
+            switch ($key) {
+                case 'edit':
+                    $id = $data['id'];
+                    unset($data['id']);
+                    $this->userHelper->actionItemLk($id, $data);
+                    return $this->redirectToRoute('user_lk');
+            }
+        }
+
         $items = $this->userHelper->getAllItems($user);
 
         usort($items, fn($a, $b) => $b['id'] - $a['id']);

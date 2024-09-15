@@ -1,10 +1,10 @@
-{{ dump(item.editable) }}
 <div class="card mb-1 position-relative">
     <div class="card-header text-secondary p-1">
         <div class="row g-0">
             <div class="col-10 d-flex align-items-center">
                 <span class="ms-1 text-white">
-                    ID {{ item.id }}: {{ item.type.value }} <strong>{{ item.name }}</strong>, телефон: <strong>{{ item.phone }}</strong> <a href="#" class="text-secondary"><small>изменить</small></a>
+                    ID {{ item.id }}: {{ item.type.value }} <strong>{{ item.name }}</strong>, телефон: <strong>{{ item.phone }}</strong>
+                    <a href="#editContact{{ item.id }}" data-bs-toggle="modal" class="text-secondary"><small>изменить</small></a>
                 </span>
             </div>
             <div class="col-2 text-end">
@@ -51,10 +51,10 @@
                             <div class="card-header py-1 px-2">
                                 <div class="row g-0">
                                     <div class="col-8">
-                                        Инфо
+                                        Параметры
                                     </div>
                                     <div class="col-4 text-end">
-                                        <a href="#" class="text-secondary"><small>изменить</small></a>
+                                        <a href="#editInfo{{ item.id }}" data-bs-toggle="modal" class="text-secondary"><small>изменить</small></a>
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
                                         Цены
                                     </div>
                                     <div class="col-4 text-end">
-                                        <a href="#" class="text-secondary"><small>изменить</small></a>
+                                        <a href="#editPrice{{ item.id }}" data-bs-toggle="modal" class="text-secondary"><small>изменить</small></a>
                                     </div>
                                 </div>
                             </div>
@@ -112,7 +112,7 @@
                                 Услуги
                             </div>
                             <div class="col-4 text-end">
-                                <a href="#" class="text-secondary"><small>изменить</small></a>
+                                <a href="#editService{{ item.id }}" data-bs-toggle="modal" class="text-secondary"><small>изменить</small></a>
                             </div>
                         </div>
                     </div>
@@ -120,7 +120,10 @@
                         {{ services|join(' / ') }}
                     </div>
                 </div>
-                <p class="mt-2 mb-1">{{ item.text }} <a href="#" class="text-secondary"><small>изменить</small></a></p>
+                <p class="mt-2 mb-1">
+                    {{ item.text }}
+                    <a href="#editText{{ item.id }}" data-bs-toggle="modal" class="text-secondary"><small>изменить</small></a>
+                </p>
             </div>
         </div>
         {% if item.events|length > 0 %}
@@ -153,6 +156,206 @@
             </div>
         </div>
     </div>
+    {# editable modal #}
+    <div class="modal fade" id="editContact{{ item.id }}" tabindex="-1" aria-labelledby="editContact{{ item.id }}Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <form method="POST" class="modal-content">
+                <input type="hidden" name="edit[id]" value="{{ item.id }}">
+                <div class="modal-header py-1 px-2">
+                    <p class="modal-title " id="editContact{{ item.id }}Label">Редактировать контакты #{{ item.id }}</p>
+                </div>
+                <div class="modal-body p-2">
+                    <div class="form-floating mb-1">
+                        <input
+                                type="text"
+                                name="edit[contact][name]"
+                                class="form-control"
+                                id="name"
+                                placeholder=""
+                                oninvalid="this.setCustomValidity('Обязательно нужно заполнить: Имя/Псевдоним')"
+                                value="{{ item.name }}"
+                                required
+                        >
+                        <label for="name">Имя/Псевдоним</label>
+                    </div>
+                    <div class="form-floating">
+                        <input
+                                type="text"
+                                name="edit[contact][phone]"
+                                class="form-control"
+                                id="phone"
+                                placeholder=""
+                                oninvalid="this.setCustomValidity('Обязательно нужно заполнить: Номер телефона')"
+                                value="{{ item.phone|replace({"+7": ""}) }}"
+                                required
+                        >
+                        <label for="phone">Имя/Псевдоним</label>
+                    </div>
+                </div>
+                <div class="modal-footer p-1">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Обновить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="editInfo{{ item.id }}" tabindex="-1" aria-labelledby="editInfo{{ item.id }}Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <form method="POST" class="modal-content">
+                <div class="modal-header py-1 px-2">
+                    <p class="modal-title " id="editInfo{{ item.id }}Label">Редактировать параметры #{{ item.id }}</p>
+                </div>
+                <div class="modal-body px-2 py-1">
+                    <input type="hidden" name="edit[id]" value="{{ item.id }}">
+                    {% for keyField, valueField in item.editable.info.fields %}
+                        <div class="form-floating mt-1 mb-1">
+                            <select
+                                    class="form-select"
+                                    id="{{ keyField }}"
+                                    name="edit[info][{{ keyField }}]"
+                                    {% if valueField.required is defined %}
+                                        oninvalid="this.setCustomValidity(
+                                                'Обязательно нужно выбрать значение поля: {{ valueField.name }}'
+                                                )"
+                                        oninput="this.setCustomValidity('')"
+                                        required
+                                    {% endif %}
+                            >
+                                {% if item.editable.info.values[keyField] is not defined or item.editable.info.values[keyField] == null %}
+                                    <option
+                                            selected
+                                            disabled
+                                            value=""
+                                    >Выбрать</option>
+                                {% endif %}
+                                {% for keyOption, valueOption in valueField.value %}
+                                    <option
+                                            value="{{ keyOption }}"
+                                            {% if item.editable.info.values[keyField] is defined and item.editable.info.values[keyField] == keyOption %}selected{% endif %}
+                                    >{{ valueOption }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="{{ keyField }}">
+                                {{ valueField.name }} {% if valueField.required is defined %}<span class="text-danger">*</span>{% endif %}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer p-1">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Обновить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="editPrice{{ item.id }}" tabindex="-1" aria-labelledby="editPrice{{ item.id }}Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <form method="POST" class="modal-content">
+                <div class="modal-header py-1 px-2">
+                    <p class="modal-title " id="editPrice{{ item.id }}Label">Редактировать цены #{{ item.id }}</p>
+                </div>
+                <div class="modal-body px-2 py-1">
+                    <input type="hidden" name="edit[id]" value="{{ item.id }}">
+                    {% for keyField, valueField in item.editable.price.fields %}
+                        <div class="form-floating mt-1 mb-1">
+                            <input
+                                    type="text"
+                                    class="form-control"
+                                    id="{{ keyField }}"
+                                    name="edit[price][{{ keyField }}]"
+                                    {% if valueField.required is defined %}
+                                        oninvalid="this.setCustomValidity('Обязательно заполнить значение поля: {{ valueField.name }}')"
+                                        oninput="this.setCustomValidity('')"
+                                        required
+                                    {% endif %}
+                                    {% if item.editable.price.values[keyField] is defined %}
+                                        value="{{ item.editable.price.values[keyField] }}"
+                                    {% else %}
+                                        placeholder=""
+                                    {% endif %}
+                            >
+                            <label for="{{ keyField }}">
+                                {{ valueField.name }} {% if valueField.required is defined %}<span class="text-danger">*</span>{% endif %}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer p-1">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Обновить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="editService{{ item.id }}" tabindex="-1" aria-labelledby="editService{{ item.id }}Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <form method="POST" class="modal-content">
+                <div class="modal-header py-1 px-2">
+                    <p class="modal-title " id="editService{{ item.id }}Label">Редактировать услуги #{{ item.id }}</p>
+                </div>
+                <div class="modal-body px-2 py-1">
+                    <input type="hidden" name="edit[id]" value="{{ item.id }}">
+                    {% for keyField, valueField in item.editable.service.fields %}
+                        <div class="card mt-1 mb-1">
+                            <div class="card-header">{{ valueField.name }}</div>
+                            <div class="card-body">
+                                {% for keyCheckbox, valueCheckbox in valueField.value %}
+                                    <div class="form-check form-switch">
+                                        <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                role="switch"
+                                                id="{{ keyField }}{{ keyCheckbox }}"
+                                                name="edit[service][{{ keyField }}][]"
+                                                value="{{ keyCheckbox }}"
+                                                {% if item.editable.service.values[keyField] is defined and keyCheckbox in item.editable.service.values[keyField] %}checked{% endif %}
+                                        >
+                                        <label class="form-check-label" for="{{ keyField }}{{ keyCheckbox }}">
+                                            {{ valueCheckbox|capitalize }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer p-1">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Обновить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="editText{{ item.id }}" tabindex="-1" aria-labelledby="editText{{ item.id }}Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <form method="POST" class="modal-content">
+                <div class="modal-header py-1 px-2">
+                    <p class="modal-title " id="editService{{ item.id }}Label">Редактировать комментарий #{{ item.id }}</p>
+                </div>
+                <div class="modal-body px-2 py-1">
+                    <input type="hidden" name="edit[id]" value="{{ item.id }}">
+                        <div class="form-floating">
+                            <textarea
+                                    class="form-control"
+                                    placeholder=""
+                                    id="text"
+                                    name="edit[info][text]"
+                                    style="height: 100px"
+                                    required
+                            >{{ item.editable.text.values }}</textarea>
+                            <label for="text">
+                                Дополнительно о себе <span class="text-danger">*</span>
+                            </label>
+                        </div>
+                </div>
+                <div class="modal-footer p-1">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Обновить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {# !editable modal #}
     {# modal remove #}
     <div class="modal fade" id="remove{{ item.id }}" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">

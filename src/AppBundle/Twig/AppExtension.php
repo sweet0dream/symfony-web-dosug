@@ -101,7 +101,14 @@ class AppExtension extends AbstractExtension
                     'added' => 'добавлено ' . $this->getModalPhoto($valueAction['id'], 'новое фото', $valueAction['value']),
                     'removed' => 'удалено ' . $valueAction['value'] . ' фото',
                     'has_main' => 'установлено ' . $this->getModalPhoto($valueAction['id'], 'главное фото', $valueAction['value'])
-                ][$valueAction['action']]
+                ][$valueAction['action']],
+                'updated_item_by_user' => 'отредактирован блок &laquo;' . [
+                    'contact' => 'Контакты',
+                    'info' => 'Параметры',
+                    'price' => 'Цены',
+                    'service' => 'Услуги',
+                    'text' => 'Комментарий'
+                ][$valueAction['action']] . '&raquo;'
             },
             'UTF-8');
     }
@@ -112,9 +119,10 @@ class AppExtension extends AbstractExtension
         ?string $file
     ): string
     {
+        $modalKey = str_replace('.', '', $file . $id);
         return '
-            <a href="#' . $file . '" data-bs-toggle="modal" class="text-success">' . $anchor . '</a>
-            <div class="modal fade" id="' . $file . '" tabindex="-1" aria-hidden="true">
+            <a href="#' . $modalKey . '" data-bs-toggle="modal" class="text-success">' . $anchor . '</a>
+            <div class="modal fade" id="' . $modalKey . '" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content position-relative">
                         <button type="button" class="btn-close position-absolute top-0 start-100 translate-middle" data-bs-dismiss="modal" aria-label="Close"></button>
