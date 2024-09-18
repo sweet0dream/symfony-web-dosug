@@ -172,8 +172,8 @@ class ItemHelper {
             'phone' => $this->item->getPhone(),
             'info' => $this->getInfoValue(),
             'service' => $this->getServiceValue(),
-            'photo_main' => $this->getMainPhoto(),
             'photo_count' => count($this->item->getItemPhotos()),
+            'photo_main' => $this->getPathPhoto($this->getMainPhoto(), $this->item->getId()),
             'photo' => $this->getPhotoValue(),
             'price' => $this->getPriceValue(),
             'text' => $this->item->getInfo()['text'] ?? '',
@@ -263,32 +263,30 @@ class ItemHelper {
         ];
     }
 
-    private function getMainPhoto(): ?string
+    private function getMainPhoto(): string
     {
         $photos = $this->item->getItemPhotos();
 
-        if (!empty($photos)) {
-            $filename = array_values(
-                array_filter(
-                    array_map(
-                        fn(ItemPhoto $photo) => $photo->hasMain() ? $photo->getFileName() : null,
-                        $photos->toArray()
-                    )
+        return array_values(
+            array_filter(
+                array_map(
+                    fn(ItemPhoto $photo) => $photo->hasMain() ? $photo->getFileName() : null,
+                    $photos->toArray()
                 )
-            )[0] ?? $photos->last()->getFilename();
-        }
-
-        return isset($filename) ? $this->getPathPhoto($filename, $this->item->getId()) : null;
+            )
+        )[0] ?? $photos->last()->getFileName();
     }
 
     private function getPhotoValue(): array
     {
-        $result = [];
-        foreach ($this->item->getItemPhotos() as $photo) {
-            $result[] = $this->getPathPhoto($photo->getFileName(), $this->item->getId());
-        }
-
-        return $result;
+        return array_filter(
+            array_map(
+                fn($photo) => $this->getMainPhoto() != $photo->getFileName()
+                    ? $this->getPathPhoto($photo->getFileName(), $this->item->getId())
+                    : null,
+                $this->item->getItemPhotos()->toArray()
+            )
+        );
     }
 
     private function getPathPhoto(string $filename, int $itemId): string

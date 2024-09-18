@@ -1,5 +1,43 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Item {{ item.id }}{% endblock %}
+
 {% block body %}
-<h1>{{ item.name }}</h1>
+    {{ dump(item) }}
+    <div class="wrap container-md py-2 mt-3">
+        <div class="row g-1 full">
+            <div class="col-3">
+                <div class="main_photo">
+                    <a href="{{ item.photo_main }}" class="text-decoration-none">
+                        <img
+                                src="{{ asset(item.photo_main) | imagine_filter('renderFullMainPhoto') }}"
+                                class="img-fluid img-thumbnail"
+                                alt=""
+                        >
+                    </a>
+                </div>
+            </div>
+            <div class="col-9">
+                <div class="row g-1">
+                    <div class="thumbs">
+                    {% for photo in item.photo %}
+                        <a href="{{ photo }}" class="text-decoration-none">
+                            <img
+                                    src="{{ asset(photo) | imagine_filter('renderFullPhoto') }}"
+                                    class="img-thumbnail"
+                                    alt=""
+                            />
+                        </a>
+                    {% endfor %}
+                    </div>
+                </div>
+                <h1 class="text-end">{{ item.type.value }} {{ item.name }}</h1>
+            </div>
+        </div>
+    </div>
 {% endblock %}
+
+
+
+
+
