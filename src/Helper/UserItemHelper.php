@@ -9,8 +9,7 @@ use App\Entity\User;
 use App\Entity\UserHash;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Monolog\DateTimeImmutable;
-use Symfony\Component\Config\Definition\Exception\DuplicateKeyException;
+use DateTimeImmutable;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 readonly class UserItemHelper
@@ -37,8 +36,13 @@ readonly class UserItemHelper
                 ->setLogin($data['user']['login'])
                 ->setPassword($data['user']['password'])
                 ->setPasswordView($data['user']['password'])
-                ->setCreatedAt($now)
-                ->setUpdatedAt($now)
+                ->setCreatedAt(isset($data['item']['created_at'])
+                    ? (new DateTimeImmutable())->setTimestamp(strtotime($data['item']['created_at']))
+                    : $now
+                )
+                ->setUpdatedAt(isset($data['item']['updated_at'])
+                    ? (new DateTimeImmutable())->setTimestamp(strtotime($data['item']['created_at']))
+                    : $now)
             ;
             try {
                 $this->em->persist($user);
@@ -58,9 +62,9 @@ readonly class UserItemHelper
                 ->setInfo($data['item']['info'])
                 ->setService($data['item']['service'])
                 ->setPrice($data['item']['price'])
-                ->setCreatedAt((new DateTimeImmutable(strtotime($data['item']['created_at']))))
-                ->setUpdatedAt((new DateTimeImmutable(strtotime($data['item']['updated_at']))))
-                ->setTopedAt((new DateTimeImmutable(strtotime($data['item']['toped_at']))))
+                ->setCreatedAt((new DateTimeImmutable())->setTimestamp(strtotime($data['item']['created_at'])))
+                ->setUpdatedAt((new DateTimeImmutable())->setTimestamp(strtotime($data['item']['updated_at'])))
+                ->setTopedAt((new DateTimeImmutable())->setTimestamp(strtotime($data['item']['toped_at'])))
             ;
             try {
                 $this->em->persist($item);
@@ -112,7 +116,7 @@ readonly class UserItemHelper
         if (isset($user) && $user instanceof User) {
             return [
                 'login' => $user->getLogin(),
-                'password' => $user->getPasswordView(),
+                'password' => $user->getPasswordView()
             ];
         }
 

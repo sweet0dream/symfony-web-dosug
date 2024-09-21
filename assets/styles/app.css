@@ -403,6 +403,9 @@ form.upload .input-file input[type=file] {
 .intro .item .info i.role:after {
     background-image: url('images/icon/role.webp');
 }
+.intro .item .info i.body:after {
+    background-image: url('images/icon/body.webp');
+}
 .intro .item .info i.express:after {
     background-image: url('images/icon/express.webp');
 }
