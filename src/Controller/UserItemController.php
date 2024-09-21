@@ -39,6 +39,53 @@ class UserItemController extends AbstractController
      * @throws DecodingExceptionInterface
      * @throws Exception
      */
+    #[Route('/import_all', name: 'import_data_all', priority: 2)]
+    public function importDataAll(Request $request)
+    {
+        $ids = explode(',', $this->httpClient->request(
+            'GET',
+            'https://export.luxedosug.mom/?id=all'
+        )->toArray()['ids']);
+
+        if (file_exists('import.txt')) {
+            $savedId = explode(',', file_get_contents('import.txt'));
+        }
+
+        $result = [];
+        $count = 0;
+        foreach ($ids as $id) {
+            if (isset($savedId) && in_array($id, $savedId)) {
+                continue;
+            }
+            $result[$id] = $this->userItemHelper->importData($this->httpClient->request(
+                'GET',
+                'https://export.luxedosug.mom',
+                [
+                    'query' => [
+                        'id' => $id
+                    ]
+                ]
+            )->toArray());
+            $saveToFile[] = $id;
+            $count++;
+            if ($count == 5) break;
+        }
+
+        if (!empty($saveToFile)) {
+            file_put_contents('import.txt', implode(',', isset($savedId) ? array_merge($savedId, $saveToFile) : $saveToFile));
+        }
+
+        dd($result);
+    }
+
+    /**
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws Exception
+     */
     #[Route('/import', name: 'import_data', methods: ['GET', 'POST'], priority: 2)]
     public function importData(Request $request): Response
     {

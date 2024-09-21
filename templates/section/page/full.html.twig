@@ -1,13 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Item {{ item.id }}{% endblock %}
+{% block title %}{{ item.type.value }} {{ item.name }}{% endblock %}
 
 {% block body %}
-    {{ dump(item) }}
     <div class="wrap container-md py-2 mt-3">
         <div class="row g-1 full">
-            <div class="col-3">
-                <div class="main_photo">
+            <div class="col-12 col-md-3">
+                <div class="main_photo text-center">
                     <a href="{{ item.photo_main }}" class="text-decoration-none">
                         <img
                                 src="{{ asset(item.photo_main) | imagine_filter('renderFullMainPhoto') }}"
@@ -16,10 +15,7 @@
                         >
                     </a>
                 </div>
-            </div>
-            <div class="col-9">
-                <div class="row g-1">
-                    <div class="thumbs">
+                <div class="thumbs mt-1 text-center">
                     {% for photo in item.photo %}
                         <a href="{{ photo }}" class="text-decoration-none">
                             <img
@@ -29,9 +25,72 @@
                             />
                         </a>
                     {% endfor %}
+                </div>
+            </div>
+            <div class="col-12 col-md-9">
+                <h1 class="text-center my-2">{{ item.type.value }} {{ item.name }}</h1>
+                <div class="phone text-center mb-2">
+                    {{ item.phone }}
+                </div>
+                <div class="row g-1">
+                    <div class="col-12 col-md-6">
+                        <div class="card h-100 text-bg-dark">
+                            <div class="card-header p-2">Параметры анкеты</div>
+                            <div class="card-body p-2">
+                                <div class="row g-1">
+                                    {% for info in item.info %}
+                                        <div class="col-6 text-end text-secondary">{{ info.name }}:</div>
+                                        <div class="col-6">{{ info.value }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="card h-100 text-bg-dark">
+                            <div class="card-header p-2">Стоимость услуг</div>
+                            <div class="card-body p-2">
+                                <div class="row g-1">
+                                    {% for price in item.price %}
+                                        <div class="col-6 text-end text-secondary">{{ price.name }}:</div>
+                                        <div class="col-6">{{ price.value }} рублей</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <h1 class="text-end">{{ item.type.value }} {{ item.name }}</h1>
+
+                        <div class="row g-1 mt-1 justify-content-center">
+                            {% for serviceKey,serviceBlock in item.editable.service.fields %}
+                                {% if item.editable.service.values[serviceKey] is defined %}
+                                <div class="col-12 col-lg-4">
+                                    <div class="card">
+                                        <div class="card-body p-1">
+                                            <ul class="m-0 ps-0 text-end">
+                                                {% for key,value in serviceBlock.value %}
+                                                    {% if key in item.editable.service.values[serviceKey] %}
+                                                        <li class="list-group-item"><i class="fa-solid fa-check text-success"></i> {{ serviceBlock.name }} {{ value }}</li>
+                                                    {% else %}
+                                                        <li class="list-group-item text-secondary opacity-25" style="filter:blur(1px)">{{ serviceBlock.name }} {{ value }}</li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                <figure class="text-center mt-2">
+                    <blockquote class="blockquote">
+                        <p style="line-height: 1.1em">{{ item.text }}</p>
+                    </blockquote>
+                    <figcaption class="blockquote-footer mt-1">
+                        <cite title="Source Title">{{ item.type.value }} {{ item.name }}</cite>
+                    </figcaption>
+                </figure>
             </div>
         </div>
     </div>
