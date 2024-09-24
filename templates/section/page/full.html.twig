@@ -15,17 +15,27 @@
                         >
                     </a>
                 </div>
-                <div class="thumbs mt-1 text-center">
+                {% if is_mobile() %}
                     {% for photo in item.photo %}
-                        <a href="{{ photo }}" class="text-decoration-none">
-                            <img
-                                    src="{{ asset(photo) | imagine_filter('renderFullPhoto') }}"
-                                    class="img-thumbnail"
-                                    alt=""
-                            />
-                        </a>
+                        <img
+                                src="{{ asset(photo) | imagine_filter('renderFullMainPhoto') }}"
+                                class="img-fluid img-thumbnail"
+                                alt=""
+                        >
                     {% endfor %}
-                </div>
+                {% else %}
+                    <div class="thumbs mt-1 text-center">
+                        {% for photo in item.photo %}
+                            <a href="{{ photo }}" class="text-decoration-none">
+                                <img
+                                        src="{{ asset(photo) | imagine_filter('renderFullPhoto') }}"
+                                        class="img-thumbnail"
+                                        alt=""
+                                />
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
             <div class="col-12 col-md-9">
                 <h1 class="text-center my-2">{{ item.type.value }} {{ item.name }}</h1>

@@ -1,18 +1,21 @@
 <footer>
     <div class="inner">
         <div class="row g-0">
-            <div class="col-4">
-                <nav class="nav flex-column">
+            <div class="col-12 col-md-4">
+                <nav class="nav flex-column text-center py-1">
                     {% for key,value in meta %}
-                        <a href="/{{ value.slug }}" class="nav-link text-white">{{ value.title }}</a>
+                        <a href="/{{ value.slug }}" class="nav-link text-white p-1">{{ value.title }}</a>
                     {% endfor %}
                 </nav>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-md-4">
 
             </div>
-            <div class="col-4">
-
+            <div class="col-12 col-md-4">
+                <p class="text-center">
+                    Портал Люкс Досуг работает уже {{ date('now').diff(date('2010-01-01 00:00')).y|suffix_number(['год', 'года', 'лет']) }}. <br />
+                    Все права защищены ©
+                </p>
             </div>
         </div>
     </div>
