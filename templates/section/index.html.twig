@@ -4,6 +4,9 @@
 {% block description %}{{ meta[key]['description'] }}{% endblock %}
 
 {% block body %}
+    {% if advert is defined %}
+        {% include 'section/block/advert.html.twig' with advert %}
+    {% endif %}
     {% if items.premium is defined %}
         {% include 'section/block/premium.html.twig' with {items: items.premium} %}
     {% endif %}

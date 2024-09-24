@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Helper\AdvertHelper;
 use App\Helper\ItemHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -9,7 +10,10 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ItemController extends AbstractController
 {
-    public function __construct(private readonly ItemHelper $itemHelper)
+    public function __construct(
+        private readonly ItemHelper $itemHelper,
+        private readonly AdvertHelper $advertHelper
+    )
     {
     }
 
@@ -18,7 +22,8 @@ class ItemController extends AbstractController
     {
         return $this->render('section/index.html.twig', [
             'key' => 'main',
-            'items' => $this->itemHelper->getActiveItems()
+            'items' => $this->itemHelper->getActiveItems(),
+            'advert' => $this->advertHelper->getItems('main')
         ]);
     }
 
@@ -31,7 +36,8 @@ class ItemController extends AbstractController
 
         return $this->render('section/index.html.twig', [
             'key' => ItemHelper::TYPE[$type],
-            'items' => $this->itemHelper->getActiveItems($type)
+            'items' => $this->itemHelper->getActiveItems($type),
+            'advert' => $this->advertHelper->getItems(ItemHelper::TYPE[$type])
         ]);
     }
 

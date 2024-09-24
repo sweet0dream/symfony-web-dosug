@@ -85,7 +85,22 @@ form.upload .input-file input[type=file] {
     width: 0;
     height: 0;
 }
-
+/* advert */
+.adv {
+    background: rgba(0,0,0,0.65);
+}
+.adv .item {
+    position: relative;
+}
+.adv .item:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 0 10px 5px inset rgba(0,0,0,0.75);
+}
 /* sectionPremium */
 .premium {
     position: relative;

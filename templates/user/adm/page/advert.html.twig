@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Управление баннерами{% endblock %}
+
+{% block body %}
+    <div class="wrap container-md py-2 mt-3">
+        <div class="text-center">
+            <form method="POST" class="upload" enctype="multipart/form-data">
+                <label class="input-file">
+                    <input
+                            type="file"
+                            id="files"
+                            name="upload[]"
+                            multiple="multiple"
+                            accept="image/*"
+                            oninput="form.submit()"
+                    >
+                    <span class="btn btn-success"><i class="fa-solid fa-folder-plus"></i> Добавить баннеры</span>
+                </label>
+            </form>
+        </div>
+        {% if items is not empty %}
+        <div class="row g-1 justify-content-center mt-1">
+            {% for item in items %}
+                <div class="col-3">
+                    <div class="card{% if item.section is null %} text-bg-danger{% endif %}">
+                        <a href="#file{{ item.filename }}" data-bs-toggle="modal">
+                            <img src="{{ asset('advert/' ~ item.filename ~ '.webp') }}" class="card-img-top" alt="{{ item.filename }}">
+                        </a>
+                        {% if item.section is not null %}
+                        <div class="card-body p-1">
+                            <p class="card-text text-center m-0">
+                                <small>
+                                    {% if item.section|length < 5 %}
+                                        <span class="text-info-emphasis">{{ item.section|map(value => meta[value].item_menu)|join(', ') }}</span>
+                                    {% else %}
+                                        <span class="text-success-emphasis">Все разделы</span>
+                                    {% endif %}
+                                </small>
+                            </p>
+                        </div>
+                        {% endif %}
+                        <div class="card-footer p-1">
+                            <div class="row g-1">
+                                <div class="col-9 d-flex justify-content-center align-items-center">
+                                    <p class="m-0 text-center text-danger-emphasis">{{ item.createdAt|format_date}}</p>
+                                </div>
+                                <div class="col-3">
+                                    <a href="#edit{{ item.filename }}" data-bs-toggle="modal" class="btn btn-light btn-sm w-100">
+                                        <i class="fa-solid fa-pen text-secondary"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    {# modal view adv #}
+                    <div class="modal fade" id="file{{ item.filename }}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content position-relative overflow-hidden">
+                                <div class="position-absolute top-0 end-0 p-2">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <img src="{{ asset('advert/' ~ item.filename ~ '.webp') }}" alt="{{ item.filename }}">
+                            </div>
+                        </div>
+                    </div>
+                    {# !modal view adv #}
+                    {# modal edit adv #}
+                    <div class="modal fade" id="edit{{ item.filename }}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-sm modal-dialog-centered">
+                            <div class="modal-content position-relative overflow-hidden">
+                                <form method="POST" class="card position-relative">
+                                    <input type="hidden" name="id" value="{{ item.id }}">
+                                    <div class="position-absolute top-0 end-0 p-2">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <img src="{{ asset('advert/' ~ item.filename ~ '.webp') }}" class="card-img-top" alt="{{ item.filename }}">
+                                    <div class="card-body p-2">
+                                        <p class="text-center mb-2">В каких разделах разместить?</p>
+                                        {% for key,value in meta %}
+                                            <div class="form-check form-switch">
+                                                <input
+                                                        class="form-check-input"
+                                                        type="checkbox"
+                                                        role="switch"
+                                                        id="{{ key }}{{ item.id }}"
+                                                        name="section[]"
+                                                        value="{{ key }}"
+                                                        {% if key in item.section %}checked{% endif %}
+                                                />
+                                                <label
+                                                        class="form-check-label"
+                                                        for="{{ key }}{{ item.id }}"
+                                                >{{ value.item_menu }}</label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="card-footer p-1 text-end">
+                                        <div id="remove{{ item.id }}" class="collapse">
+                                            <div class="card card-body bg-danger p-1 mb-1">
+                                                <div class="row g-1">
+                                                    <div class="col-8 d-flex justify-content-center align-items-center">
+                                                        <p class="m-0">Точно удалить?</p>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <button
+                                                                class="btn btn-outline-light btn-sm w-100"
+                                                                name="action"
+                                                                value="remove"
+                                                        >Да</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button
+                                                class="btn btn-success btn-sm"
+                                                name="action"
+                                                value="update"
+                                        >Обновить</button>
+                                        <a href="#remove{{ item.id }}" data-bs-toggle="collapse" class="btn btn-danger btn-sm">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {# !modal edit adv #}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+
+
+
+

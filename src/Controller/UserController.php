@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Helper\AdminHelper;
+use App\Helper\AdvertHelper;
 use App\Helper\UserHelper;
+use App\Helper\UserItemHelper;
 use Sweet0dream\IntimAnketaContract;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -26,7 +28,9 @@ class UserController extends AbstractController
 
     public function __construct(
         private readonly UserHelper $userHelper,
-        private readonly AdminHelper $adminHelper
+        private readonly UserItemHelper $userItemHelper,
+        private readonly AdminHelper $adminHelper,
+        private readonly AdvertHelper $advertHelper
     )
     {
     }
@@ -75,6 +79,27 @@ class UserController extends AbstractController
             'user' => $user,
             'items' => $items,
             'types' => IntimAnketaContract::TYPE
+        ]);
+    }
+
+    #[Route('/user/admin/advert', name: 'user_admin_advert', methods: ['GET', 'POST'])]
+    public function viewAdminAdvert(Request $request): Response
+    {
+        if (!$this->userItemHelper->isAdmin($request->cookies->get('auth_hash'))) {
+            return $this->redirectToRoute('user_lk');
+        }
+
+        if ($request->getMethod() === 'POST') {
+            $this->advertHelper->mapAction(
+                isset($request->files->all()['upload']) ? array_merge(
+                    $request->files->all()['upload'], ['action' => 'upload']
+                ) : $request->request->all()
+            );
+
+            return $this->redirectToRoute('user_admin_advert');
+        }
+        return $this->render('user/adm/page/advert.html.twig', [
+            'items' => $this->advertHelper->getItems()
         ]);
     }
 
