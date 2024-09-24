@@ -21,10 +21,12 @@
 
 ###> liip/imagine-bundle ###
 /public/media/cache/
-/public/media/*
 ###< liip/imagine-bundle ###
 
 ###> custom ###
+/public/media/*
+/public/advert/*
+/public/import.txt
 /~error.log
 /~web.conf
 ###< custom ###
