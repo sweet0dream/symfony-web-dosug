@@ -34,7 +34,7 @@ readonly class AdvertHelper {
             ? $items
             : array_filter(
                 array_map(
-                    fn($value) => in_array($type, $value->getSection()) ? $value : null,
+                    fn($value) => !is_null($value->getSection()) && in_array($type, $value->getSection()) ? $value : null,
                     $items
                 )
             );
