@@ -7,7 +7,14 @@
 <div class="position-relative item">
     <div class="row g-0">
         <div class="d-flex align-items-center col-12 col-md-5">
-            <a href="{{ item.url }}" class="thumb" style="background-image: url('{{ asset(item.photo_main) | imagine_filter("renderIntroItem") }}')">
+            <a href="{{ item.url }}" class="position-relative thumb" style="background-image: url('{{ asset(item.photo_main) | imagine_filter("renderIntroItem") }}')">
+                {% if item.realy == true %}
+                    <div class="position-absolute top-0 start-0">
+                        <div class="bg-success bg-dark bg-opacity-50 text-center text-white rounded p-2 m-1">
+                            <i class="fa-solid fa-camera"></i>
+                        </div>
+                    </div>
+                {% endif %}
                 <div class="name">
                     <h3>
                         <span>{{ item.name }}</span>

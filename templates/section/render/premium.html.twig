@@ -8,6 +8,13 @@
         style="background-image:url({{ asset(item.photo_main) | imagine_filter('renderIntroItem') }})"
         onclick="document.location='{{ item.url }}'"
 >
+    {% if item.realy == true %}
+        <div class="position-absolute top-50 end-0 translate-middle-y">
+            <div class="bg-success bg-dark bg-opacity-50 text-center text-white rounded-start p-2 ms-2">
+                 <i class="fa-solid fa-camera"></i>
+            </div>
+        </div>
+    {% endif %}
     <div class="position-absolute top-0 start-0 w-100 pt-2 pb-5 text-end title">
         {% if item.priority != null %}
             <div class="position-absolute start-0 top-0 p-1 priority">

@@ -7,7 +7,14 @@
         <div class="row g-1 full">
             <div class="col-12 col-md-3">
                 {% if is_mobile() == false %}
-                    <div class="main_photo text-center">
+                    <div class="main_photo text-center position-relative">
+                        {% if item.realy == true %}
+                            <div class="position-absolute bottom-0 left-0 w-100 text-center">
+                                <div class="bg-dark text-white bg-opacity-50 d-inline-block border border-success border-2 border-opacity-75 rounded-3 m-2 p-2">
+                                    <p class="m-0"><i class="fa-solid fa-camera me-1"></i> Реальные фото</p>
+                                </div>
+                            </div>
+                        {% endif %}
                         <a href="#photo_main{{ item.id }}" data-bs-toggle="modal" class="text-decoration-none">
                             <img
                                     src="{{ asset(item.photo_main) | imagine_filter('renderFullMainPhoto') }}"
@@ -28,6 +35,11 @@
                     </div>
                 {% endif %}
                 {% if is_mobile() %}
+                    {% if item.realy == true %}
+                        <div class="bg-success bg-gradient text-white text-center rounded-top p-2">
+                            <p class="m-0"><i class="fa-solid fa-camera me-1"></i> Реальные фото</p>
+                        </div>
+                    {% endif %}
                     <div id="gallery{{ item.id }}" class="carousel slide">
                         <div class="carousel-indicators">
                             <button type="button" style="height:15px" data-bs-target="#gallery{{ item.id }}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>

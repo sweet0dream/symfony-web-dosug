@@ -36,7 +36,8 @@ class ItemHelper {
         'info',
         'price',
         'text',
-        'url'
+        'url',
+        'realy'
     ];
     private const string RENDER_TYPE_PREMIUM = 'premium';
     private const array FILTER_FIELDS_PREMIUM = [
@@ -48,7 +49,8 @@ class ItemHelper {
         'phone',
         'info',
         'price',
-        'url'
+        'url',
+        'realy'
     ];
     private const string RENDER_TYPE_USER_LK = 'lk';
     private const array FILTER_FIELDS_USER_LK = [
@@ -186,6 +188,7 @@ class ItemHelper {
                 'toped' => $this->item->getTopedAt()
             ],
             'status' => $this->getStatuses(),
+            'realy' => $this->item->getItemStatus()->isRealy(),
             'events' => $this->item->getEvents(),
             'editable' => $this->getEditableItem()
         ];
@@ -245,6 +248,7 @@ class ItemHelper {
             if ($result['premium']) {
                 $result['premium_priority'] = $this->item->getItemStatus()->getPremiumPriority();
             }
+            $result['realy'] = $this->item->getItemStatus()->isRealy();
         }
 
         return $result;
