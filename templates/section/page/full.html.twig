@@ -6,42 +6,89 @@
     <div class="wrap container-md py-2 mt-3">
         <div class="row g-1 full">
             <div class="col-12 col-md-3">
-                <div class="main_photo text-center">
-                    <a href="{{ item.photo_main }}" class="text-decoration-none">
-                        <img
-                                src="{{ asset(item.photo_main) | imagine_filter('renderFullMainPhoto') }}"
-                                class="img-fluid img-thumbnail"
-                                alt=""
-                        >
-                    </a>
-                </div>
+                {% if is_mobile() == false %}
+                    <div class="main_photo text-center">
+                        <a href="#photo_main{{ item.id }}" data-bs-toggle="modal" class="text-decoration-none">
+                            <img
+                                    src="{{ asset(item.photo_main) | imagine_filter('renderFullMainPhoto') }}"
+                                    class="img-fluid img-thumbnail"
+                                    alt=""
+                            >
+                        </a>
+                        <div class="modal fade" id="photo_main{{ item.id }}" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content position-relative">
+                                    <div class="position-absolute top-0 end-0 p-2">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <img src="{{ asset(item.photo_main) }}" alt="photo">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
                 {% if is_mobile() %}
-                    {% for photo in item.photo %}
-                        <img
-                                src="{{ asset(photo) | imagine_filter('renderFullMainPhoto') }}"
-                                class="img-fluid img-thumbnail"
-                                alt=""
-                        >
-                    {% endfor %}
+                    <div id="gallery{{ item.id }}" class="carousel slide">
+                        <div class="carousel-indicators">
+                            <button type="button" style="height:15px" data-bs-target="#gallery{{ item.id }}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            {% for key in item.photo|keys %}
+                                <button type="button" style="height:15px" data-bs-target="#gallery{{ item.id }}" data-bs-slide-to="{{ key }}" aria-current="true" aria-label="Slide 1"></button>
+                            {% endfor %}
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="{{ asset(item.photo_main) }}" class="d-block w-100" alt="123">
+                            </div>
+                            {% for key, photo in item.photo %}
+                            <div class="carousel-item">
+                                <img src="{{ asset(photo) }}" class="d-block w-100" alt="123">
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#gallery{{ item.id }}" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#gallery{{ item.id }}" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
                 {% else %}
                     <div class="thumbs mt-1 text-center">
-                        {% for photo in item.photo %}
-                            <a href="{{ photo }}" class="text-decoration-none">
+                        {% for key, photo in item.photo %}
+                            <a href="#photo{{ item.id }}{{ key }}" data-bs-toggle="modal" class="text-decoration-none">
                                 <img
                                         src="{{ asset(photo) | imagine_filter('renderFullPhoto') }}"
-                                        class="img-thumbnail"
-                                        alt=""
+                                        class="img-thumbnail mt-1"
+                                        alt="{{ photo }}"
                                 />
                             </a>
+                            <div class="modal fade" id="photo{{ item.id }}{{ key }}" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content position-relative">
+                                        <div class="position-absolute top-0 end-0 p-2">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <img src="{{ asset(photo) }}" alt="photo">
+                                    </div>
+                                </div>
+                            </div>
                         {% endfor %}
                     </div>
                 {% endif %}
             </div>
             <div class="col-12 col-md-9">
                 <h1 class="text-center my-2">{{ item.type.value }} {{ item.name }}</h1>
-                <div class="phone text-center mb-2">
-                    {{ item.phone }}
-                </div>
+                {% if is_mobile() %}
+                    <a href="tel:{{ item.phone }}" class="btn btn-danger w-100 mb-1">
+                        <i class="fa-solid fa-phone"></i> Позвонить сейчас
+                    </a>
+                {% else %}
+                    <div class="alert alert-success text-center mb-2 phone" role="alert">
+                        <p class="m-0">{{ item.phone }}</p>
+                    </div>
+                {% endif %}
                 <div class="row g-1">
                     <div class="col-12 col-md-6">
                         <div class="card h-100 text-bg-dark">
@@ -74,8 +121,8 @@
                     {% for serviceKey,serviceBlock in item.editable.service.fields %}
                         {% if item.editable.service.values[serviceKey] is defined %}
                             <div class="col-12 col-lg-4">
-                                <div class="card">
-                                    <div class="card-body p-1">
+                                <div class="card bg-black bg-gradient border-0 shadow-lg">
+                                    <div class="card-body px-2 py-1">
                                         <ul class="m-0 ps-0 text-end">
                                             {% for key,value in serviceBlock.value %}
                                                 {% if key in item.editable.service.values[serviceKey] %}

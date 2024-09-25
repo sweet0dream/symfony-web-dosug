@@ -2,11 +2,16 @@
     <div class="inner">
         <div class="row g-0">
             <div class="col-12 col-md-4">
-                <nav class="nav flex-column text-center py-1">
-                    {% for key,value in meta %}
-                        <a href="/{{ value.slug }}" class="nav-link text-white p-1">{{ value.title }}</a>
+                <div class="p-1">
+                    {% for value in meta %}
+                        <a
+                                href="/{{ value.slug }}"
+                                class="btn btn-outline-light w-100 opacity-50 mb-1"
+                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                                title="{{ value.title }}"
+                        >{{ value.item_menu|upper }}</a>
                     {% endfor %}
-                </nav>
+                </div>
             </div>
             <div class="col-12 col-md-4">
 
