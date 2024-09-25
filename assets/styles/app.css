@@ -31,6 +31,9 @@ h1, h2, h3, h4, h5, h6, .title, .ff2 {
 .ff3 {
     font-family: "Roboto Slab", serif;
 }
+.blockquote-footer::before {
+    content: "@ ";
+}
 section.content {
     flex: 1 0 auto;
 }

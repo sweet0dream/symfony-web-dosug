@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ item.type.value }} {{ item.name }}{% endblock %}
+{% block title %}{{ item.type.value }} {{ item.name }} -  {{ meta[item.type.key].title }}{% endblock %}
 
 {% block body %}
     <div class="wrap container-md py-2 mt-3">
@@ -70,35 +70,33 @@
                         </div>
                     </div>
                 </div>
-
-                        <div class="row g-1 mt-1 justify-content-center">
-                            {% for serviceKey,serviceBlock in item.editable.service.fields %}
-                                {% if item.editable.service.values[serviceKey] is defined %}
-                                <div class="col-12 col-lg-4">
-                                    <div class="card">
-                                        <div class="card-body p-1">
-                                            <ul class="m-0 ps-0 text-end">
-                                                {% for key,value in serviceBlock.value %}
-                                                    {% if key in item.editable.service.values[serviceKey] %}
-                                                        <li class="list-group-item"><i class="fa-solid fa-check text-success"></i> {{ serviceBlock.name }} {{ value }}</li>
-                                                    {% else %}
-                                                        <li class="list-group-item text-secondary opacity-25" style="filter:blur(1px)">{{ serviceBlock.name }} {{ value }}</li>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </ul>
-                                        </div>
+                <div class="row g-1 mt-1 justify-content-center">
+                    {% for serviceKey,serviceBlock in item.editable.service.fields %}
+                        {% if item.editable.service.values[serviceKey] is defined %}
+                            <div class="col-12 col-lg-4">
+                                <div class="card">
+                                    <div class="card-body p-1">
+                                        <ul class="m-0 ps-0 text-end">
+                                            {% for key,value in serviceBlock.value %}
+                                                {% if key in item.editable.service.values[serviceKey] %}
+                                                    <li class="list-group-item"><i class="fa-solid fa-check text-success"></i> {{ serviceBlock.name }} {{ value }}</li>
+                                                {% else %}
+                                                    <li class="list-group-item text-secondary opacity-25" style="filter:blur(1px)">{{ serviceBlock.name }} {{ value }}</li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
                                     </div>
                                 </div>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
                 <figure class="text-center mt-2">
-                    <blockquote class="blockquote">
-                        <p style="line-height: 1.1em">{{ item.text }}</p>
+                    <blockquote class="blockquote mb-2">
+                        <p class="ps-4 fs-6" style="line-height: 1.1em">{{ item.text }}</p>
                     </blockquote>
-                    <figcaption class="blockquote-footer mt-1">
-                        <cite title="Source Title">{{ item.type.value }} {{ item.name }}</cite>
+                    <figcaption class="blockquote-footer text-warning my-0">
+                        <cite title="{{ item.type.value }} {{ item.name }}">{{ item.type.value }} {{ item.name }}</cite>
                     </figcaption>
                 </figure>
             </div>
