@@ -6,11 +6,14 @@ use App\Entity\Item;
 use App\Entity\ItemPhoto;
 use App\Entity\ItemStatus;
 use App\Entity\User;
+use CodeBuds\WebPConverter\WebPConverter;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use FilesystemIterator;
 use Sweet0dream\IntimAnketaContract;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ItemHelper {
@@ -448,6 +451,9 @@ class ItemHelper {
         ];
     }
 
+    /**
+     * @throws Exception
+     */
     public function uploadPhoto(
         int $id,
         array $photos
@@ -456,11 +462,26 @@ class ItemHelper {
         $dateUploaded = (new DateTimeImmutable('now'))->format('Ymd');
         foreach ($photos as $photo) {
             if ($photo instanceof UploadedFile) {
-                $saveFile = $dateUploaded . '_' . base64_encode(rand(111,999)) . '.' . $photo->guessExtension();
+
+                $saveFile = $dateUploaded . '_' . base64_encode(rand(111,999));
+                $saveSrcFile = $saveFile . '.' . $photo->guessExtension();
+
                 $photo->move(
                     $this->mediaDir . '/' . $id . '/src',
-                    $saveFile
+                    $saveSrcFile
                 );
+
+                dd(WebPConverter::createWebpImage(
+                    new File($this->mediaDir . '/' . $id . '/src/' . $saveSrcFile),
+                    [
+                        'saveFile' => true,
+                        'force' => true,
+                        'filename' => $saveFile,
+                        'quality' => 80,
+                        'savePath' => $this->mediaDir . '/' . $id . '/src'
+                    ]
+                ));
+
                 $uploadedPhotos[] = $saveFile;
             }
         }

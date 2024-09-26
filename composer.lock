@@ -4,8 +4,56 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ab9cf5ea5796311f4acf50efa320b9c2",
+    "content-hash": "58cf65fec4a13987413e81ecf2b616db",
     "packages": [
+        {
+            "name": "codebuds/webp-converter",
+            "version": "0.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codebuds33/webp-converter.git",
+                "reference": "712dee91a1b316130ea2ca553a90b9528f7a3048"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codebuds33/webp-converter/zipball/712dee91a1b316130ea2ca553a90b9528f7a3048",
+                "reference": "712dee91a1b316130ea2ca553a90b9528f7a3048",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "php": "^8.1",
+                "symfony/http-foundation": "^6.1"
+            },
+            "require-dev": {
+                "rector/rector": "^0.15.21",
+                "roave/security-advisories": "dev-latest",
+                "symfony/mime": "^6.1",
+                "symfony/phpunit-bridge": "^6.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CodeBuds\\WebPConverter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dennis de Best",
+                    "email": "dennis@codebuds.com"
+                }
+            ],
+            "description": "A service that uses php GD to convert Jpeg, Png, Gif and Bmp into WebP",
+            "support": {
+                "issues": "https://github.com/codebuds33/webp-converter/issues",
+                "source": "https://github.com/codebuds33/webp-converter/tree/0.6.0"
+            },
+            "time": "2023-08-05T12:07:58+00:00"
+        },
         {
             "name": "composer/semver",
             "version": "3.4.0",
