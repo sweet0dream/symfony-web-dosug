@@ -109,7 +109,8 @@ class AppExtension extends AbstractExtension
                     'price' => 'Цены',
                     'service' => 'Услуги',
                     'text' => 'Комментарий'
-                ][$valueAction['action']] . '&raquo;'
+                ][$valueAction['action']] . '&raquo;',
+                'updated_item_by_admin' => 'данные отредактированы администратором'
             },
             'UTF-8');
     }

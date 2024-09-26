@@ -28,7 +28,7 @@
                             </button>
                         {% else %}
                             <button
-                                    class="btn btn-outline-danger btn-sm w-100"
+                                    class="btn btn-outline-warning btn-sm w-100"
                                     disabled
                             >
                                 Активация невозможна: нет фото
@@ -134,7 +134,7 @@
                 <div class="col-{% if user.items|length <= 1 %}6{% else %}4{% endif %}">
                     <a
                             href="/user/item/photo/{{ item.id }}"
-                            class="btn {% if item.itemphotos|length > 0 %}btn-light text-secondary{% else %}btn-danger text-light{% endif %} btn-sm w-100 pb-0 text-center position-relative"
+                            class="btn btn-{% if item.itemphotos|length > 0 %}light{% else %}warning{% endif %} text-secondary btn-sm w-100 pb-0 text-center position-relative"
                             style="padding-top:8px"
                     >
                         <div

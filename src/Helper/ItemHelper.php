@@ -411,6 +411,12 @@ class ItemHelper {
         $this->em->persist($item);
         $this->em->flush();
 
+        $this->eventHelper->addEvent($item, [
+            'updated_item_by_admin' => [
+                'id' => $item->getId()
+            ]
+        ]);
+
         return $item->getId();
     }
 
