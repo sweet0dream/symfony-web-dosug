@@ -18,16 +18,12 @@
         <div class="row g-1">
             <div class="col-12 col-lg-3 text-center d-flex align-items-center justify-content-center">
                 <div>
-                    <div class="position-relative">
-                        <div class="position-absolute left-0 bottom-0 w-100">
-                            <div class="m-1">
-                                <a href="/user/item/photo/{{ item.id }}" class="btn btn-light text-secondary btn-sm w-100">
-                                    <i class="fa-solid fa-image"></i> {{ item.photo_count }} фото
-                                </a>
-                            </div>
-                        </div>
-                        <img src="{{ asset(item.photo_main) | imagine_filter("editPhotoItem") }}" class="rounded-1 img-fluid" alt="">
-                    </div>
+                    {% if item.photo_main is not null %}
+                        <img src="{{ asset(item.photo_main) | imagine_filter("editPhotoItem") }}" class="rounded-1 img-fluid mb-1" alt="">
+                    {% endif %}
+                    <a href="/user/item/photo/{{ item.id }}" class="btn btn-light text-secondary btn-sm w-100">
+                        <i class="fa-solid fa-image"></i> {% if item.photo_main == null %}Загрузить фото{% else %}{{ item.photo_count }} фото{% endif %}
+                    </a>
                     {% if item.events|length > 0 %}
                         <button
                                 data-bs-toggle="collapse"
@@ -42,8 +38,8 @@
                 </div>
             </div>
             <div class="col-12 col-lg-9">
-                <div class="alert alert-{% if item.status.active == false %}warning{% else %}success{% endif %} p-2 mb-1 text-center">
-                    Анкета {% if item.status.active == false %}НЕ АКТИВНА! Обратитесь к администратору.{% else %}АКТИВНА.{% if item.status.premium == true %} Установлен статус ПРЕМИУМ{% if item.status.premium_priority != null %} с приоритетом на {{ item.status.premium_priority }} место{% endif %}.{% endif %}{% endif %}
+                <div class="alert alert-{% if item.status.active == false %}{% if item.photo_main == null %}danger{% else %}warning{% endif %}{% else %}success{% endif %} p-2 mb-1 text-center">
+                    Анкета {% if item.status.active == false %}НЕ АКТИВНА! {% if item.photo_main == null %}Без ФОТО активация невозможна.{% else %}Обратитесь к администратору.{% endif %}{% else %}АКТИВНА.{% if item.status.premium == true %} Установлен статус ПРЕМИУМ{% if item.status.premium_priority != null %} с приоритетом на {{ item.status.premium_priority }} место{% endif %}.{% endif %}{% endif %}
                 </div>
                 <div class="row g-1 mb-1">
                     <div class="col-12 col-md-6">

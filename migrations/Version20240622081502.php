@@ -54,15 +54,15 @@ final class Version20240622081502 extends AbstractMigration
             );
     }
 
-    public function postUp(Schema $schema): void
-    {
-        foreach (self::TEST_ITEMS_STATUS as $itemStatus) {
-            $this->connection->insert(
-                $this->tableItemStatus,
-                $itemStatus
-            );
-        }
-    }
+//    public function postUp(Schema $schema): void
+//    {
+//        foreach (self::TEST_ITEMS_STATUS as $itemStatus) {
+//            $this->connection->insert(
+//                $this->tableItemStatus,
+//                $itemStatus
+//            );
+//        }
+//    }
 
     public function down(Schema $schema): void
     {

@@ -80,25 +80,25 @@ final class Version20240705113517 extends AbstractMigration
         ;
     }
 
-    public function postUp(Schema $schema): void
-    {
-        foreach (self::TEST_ITEMS_PHOTO as $itemId => $itemPhotoEntity) {
-            foreach($itemPhotoEntity as $itemPhoto) {
-                $path = 'public/media/' . $itemId . '/src/';
-                if (!file_exists($path . $itemPhoto['file_name'])) {
-                    if (!is_dir($path)) {
-                        mkdir($path, 0755, true);
-                    }
-                    copy($itemPhoto['link_to_copy'], $path . $itemPhoto['file_name']);
-                }
-                unset($itemPhoto['link_to_copy']);
-                $this->connection->insert(
-                    $this->tableItemPhoto,
-                    array_merge($itemPhoto, ['item_id' => $itemId])
-                );
-            }
-        }
-    }
+//    public function postUp(Schema $schema): void
+//    {
+//        foreach (self::TEST_ITEMS_PHOTO as $itemId => $itemPhotoEntity) {
+//            foreach($itemPhotoEntity as $itemPhoto) {
+//                $path = 'public/media/' . $itemId . '/src/';
+//                if (!file_exists($path . $itemPhoto['file_name'])) {
+//                    if (!is_dir($path)) {
+//                        mkdir($path, 0755, true);
+//                    }
+//                    copy($itemPhoto['link_to_copy'], $path . $itemPhoto['file_name']);
+//                }
+//                unset($itemPhoto['link_to_copy']);
+//                $this->connection->insert(
+//                    $this->tableItemPhoto,
+//                    array_merge($itemPhoto, ['item_id' => $itemId])
+//                );
+//            }
+//        }
+//    }
 
     public function down(Schema $schema): void
     {

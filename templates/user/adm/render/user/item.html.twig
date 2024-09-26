@@ -17,14 +17,23 @@
                 </div>
                 {% if item.itemstatus.active == false %}
                     <div class="col-10">
-                        <button
-                                class="btn btn-outline-primary btn-sm w-100"
-                                name="item[active]"
-                                type="submit"
-                                value="1"
-                        >
-                            <i class="fa-solid fa-toggle-off"></i> Опубликовать
-                        </button>
+                        {% if item.itemphotos|length > 0 %}
+                            <button
+                                    class="btn btn-outline-primary btn-sm w-100"
+                                    name="item[active]"
+                                    type="submit"
+                                    value="1"
+                            >
+                                <i class="fa-solid fa-toggle-off"></i> Опубликовать
+                            </button>
+                        {% else %}
+                            <button
+                                    class="btn btn-outline-danger btn-sm w-100"
+                                    disabled
+                            >
+                                Активация невозможна: нет фото
+                            </button>
+                        {% endif %}
                     </div>
                 {% else %}
                     <div class="col">
@@ -125,15 +134,15 @@
                 <div class="col-{% if user.items|length <= 1 %}6{% else %}4{% endif %}">
                     <a
                             href="/user/item/photo/{{ item.id }}"
-                            class="btn btn-light btn-sm text-secondary w-100 pb-0 text-center position-relative"
+                            class="btn {% if item.itemphotos|length > 0 %}btn-light text-secondary{% else %}btn-danger text-light{% endif %} btn-sm w-100 pb-0 text-center position-relative"
                             style="padding-top:8px"
                     >
                         <div
                                 class="position-absolute top-0 start-50 translate-middle-x text-uppercase"
                                 style="font-size:.7rem">Фото</div>
                         <span style="font-size:.65rem">
-                                            <i class="fa-solid fa-images"></i> <span class="text-secondary">{{ item.itemphotos|length }}</span>
-                                        </span>
+                            <i class="fa-solid fa-images"></i> {{ item.itemphotos|length }}
+                        </span>
                     </a>
                 </div>
                 {% if user.items|length > 1 %}

@@ -100,7 +100,8 @@ class AppExtension extends AbstractExtension
                 'change_photos' => [
                     'added' => 'добавлено ' . $this->getModalPhoto($valueAction['id'], 'новое фото', $valueAction['value']),
                     'removed' => 'удалено ' . $valueAction['value'] . ' фото',
-                    'has_main' => 'установлено ' . $this->getModalPhoto($valueAction['id'], 'главное фото', $valueAction['value'])
+                    'has_main' => 'установлено ' . $this->getModalPhoto($valueAction['id'], 'главное фото', $valueAction['value']),
+                    'reset_statuses' => 'скрыта из-за отсутствия фото'
                 ][$valueAction['action']],
                 'updated_item_by_user' => 'отредактирован блок &laquo;' . [
                     'contact' => 'Контакты',

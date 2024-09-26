@@ -15,7 +15,7 @@
         {% for item in user.items %}
             {% include 'user/adm/render/user/item.html.twig' with {item} %}
         {% else %}
-            <p>Нет анкет</p>
+            <p class="text-center mt-1 mb-0 text-secondary">Нет добавленых анкет</p>
         {% endfor %}
     </div>
     <div class="card-footer p-1">

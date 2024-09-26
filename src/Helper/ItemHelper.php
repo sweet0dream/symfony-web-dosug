@@ -71,7 +71,8 @@ class ItemHelper {
         'status',
         'url',
         'events',
-        'editable'
+        'editable',
+        'eligible_activation'
     ];
 
     private const array RENDER_LIST = [
@@ -172,13 +173,16 @@ class ItemHelper {
     {
         $data = [
             'id' => $this->item->getId(),
+            'eligible_activation' => count($this->item->getItemPhotos()),
             'type' => $this->getTypeValue(),
             'name' => $this->item->getName(),
             'phone' => $this->item->getPhone(),
             'info' => $this->getInfoValue(),
             'service' => $this->getServiceValue(),
             'photo_count' => count($this->item->getItemPhotos()),
-            'photo_main' => $this->getPathPhoto($this->getMainPhoto(), $this->item->getId()),
+            'photo_main' => !is_null($this->getMainPhoto())
+                ? $this->getPathPhoto($this->getMainPhoto(), $this->item->getId())
+                : null,
             'photo' => $this->getPhotoValue(),
             'price' => $this->getPriceValue(),
             'text' => $this->item->getInfo()['text'] ?? '',
@@ -270,7 +274,7 @@ class ItemHelper {
         ];
     }
 
-    private function getMainPhoto(): string
+    private function getMainPhoto(): ?string
     {
         $photos = $this->item->getItemPhotos();
 
@@ -281,7 +285,7 @@ class ItemHelper {
                     $photos->toArray()
                 )
             )
-        )[0] ?? $photos->last()->getFileName();
+        )[0] ?? $photos->last() ? $photos->last()->getFileName() : null;
     }
 
     private function getPhotoValue(): array
@@ -464,25 +468,28 @@ class ItemHelper {
             if ($photo instanceof UploadedFile) {
 
                 $saveFile = $dateUploaded . '_' . base64_encode(rand(111,999));
-                $saveSrcFile = $saveFile . '.' . $photo->guessExtension();
+                $extensionFile = $photo->guessExtension();
+                $saveSrcFile = $saveFile . '.' . $extensionFile;
 
                 $photo->move(
                     $this->mediaDir . '/' . $id . '/src',
                     $saveSrcFile
                 );
 
-                dd(WebPConverter::createWebpImage(
-                    new File($this->mediaDir . '/' . $id . '/src/' . $saveSrcFile),
-                    [
-                        'saveFile' => true,
-                        'force' => true,
-                        'filename' => $saveFile,
-                        'quality' => 80,
-                        'savePath' => $this->mediaDir . '/' . $id . '/src'
-                    ]
-                ));
+                if ($extensionFile != 'webp') {
+                    WebPConverter::createWebpImage(
+                        new File($this->mediaDir . '/' . $id . '/src/' . $saveSrcFile),
+                        [
+                            'saveFile' => true,
+                            'force' => true,
+                            'filename' => $saveFile,
+                            'quality' => 80,
+                            'savePath' => $this->mediaDir . '/' . $id . '/src'
+                        ]
+                    );
+                }
 
-                $uploadedPhotos[] = $saveFile;
+                $uploadedPhotos[] = $saveFile . '.webp';
             }
         }
 
@@ -519,15 +526,15 @@ class ItemHelper {
         array|string $file
     ): bool
     {
-        if (is_array($file)) {
-            foreach ($file as $oneFile) {
-                $removePhotos[] = $this->removeFilename($id, $oneFile);
-            }
-        } else {
-            $removePhotos[] = $this->removeFilename($id, $file);
-        }
+        $removePhotos = is_array($file)
+            ? array_map(function($oneFile) use ($id) {
+                return $this->removeFilename($id, $oneFile);
+            }, $file)
+            : [$this->removeFilename($id, $file)];
 
         if (!empty($removePhotos)) {
+            $this->item = $this->em->getRepository(Item::class)->find($id);
+
             foreach ($removePhotos as $removePhoto) {
                 $itemPhoto = $this->em->getRepository(ItemPhoto::class)->findOneBy(['fileName' => $removePhoto]);
                 if (!is_null($itemPhoto)) {
@@ -537,13 +544,27 @@ class ItemHelper {
 
             $this->em->flush();
 
-            $this->eventHelper->addEvent($item = $this->em->getRepository(Item::class)->find($id), [
+            $this->eventHelper->addEvent($this->item, [
                 'change_photos' => [
-                    'id' => $item->getId(),
+                    'id' => $this->item->getId(),
                     'action' => 'removed',
                     'value' => count($removePhotos),
                 ]
             ]);
+
+            // hide item with empty photos
+            if (count($this->item->getItemPhotos()) == 0) {
+                $this->resetAllStatuses($this->item->getItemStatus());
+
+                $this->eventHelper->addEvent($this->item, [
+                    'change_photos' => [
+                        'id' => $this->item->getId(),
+                        'action' => 'reset_statuses',
+                        'value' => 1
+                    ]
+                ]);
+            }
+            // !hide item with empty photos
         }
 
         return true;
@@ -594,14 +615,37 @@ class ItemHelper {
     ): ?string
     {
         $path = $this->mediaDir . '/' . $id;
-        $filename = $path . '/src/' . $file;
 
-        if (file_exists($filename)) {
-            unlink($filename);
+        $removeFiles = array_filter(
+            array_map(
+                fn($scanFile) => explode('.', $scanFile)[0] == explode('.', $file)[0] ? $scanFile : null,
+                array_diff(scandir($path . '/src'), ['..', '.'])
+            )
+        );
+
+        if (!empty($removeFiles)) {
+            foreach ($removeFiles as $removeFile) {
+                if (file_exists($path . '/src/' . $removeFile)) {
+                    unlink($path . '/src/' . $removeFile);
+                }
+            }
         }
 
         $this->checkAndRemoveEmptyPath($path);
 
         return $file;
+    }
+
+    public function resetAllStatuses(ItemStatus $itemStatus): void
+    {
+        $itemStatus
+            ->setActive(false)
+            ->setPremium(false)
+            ->setRealy(false)
+            ->setPremiumPriority(null)
+        ;
+
+        $this->em->persist($itemStatus);
+        $this->em->flush();
     }
 }

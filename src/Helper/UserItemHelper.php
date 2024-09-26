@@ -7,10 +7,12 @@ use App\Entity\ItemPhoto;
 use App\Entity\ItemStatus;
 use App\Entity\User;
 use App\Entity\UserHash;
+use CodeBuds\WebPConverter\WebPConverter;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use DateTimeImmutable;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\File\File;
 
 readonly class UserItemHelper
 {
@@ -74,16 +76,30 @@ readonly class UserItemHelper
             }
         }
 
-        if (isset($data['item']['photo']) && isset($item) && $item instanceof Item) {
+        if (isset($item) && $item instanceof Item) {
             foreach ($data['item']['photo'] as $photo) {
                 $pathItemPhoto = $this->mediaDir . '/'. $item->getId() .'/src/';
                 if (!is_dir($pathItemPhoto)) {
                     mkdir($pathItemPhoto, 0755, true);
                 }
-                $newFileName = (new DateTimeImmutable('now'))->format('Ymd') . '_' . base64_encode(rand(111,999)) . '.jpg';
-                copy($photo['file_name'], $this->mediaDir . '/'. $item->getId() .'/src/' . $newFileName);
+                $newFileName = (new DateTimeImmutable('now'))->format('Ymd') . '_' . base64_encode(rand(111,999));
+                $srcPath = $this->mediaDir . '/'. $item->getId() .'/src';
+
+                copy($photo['file_name'], $srcPath . '/' . $newFileName . '.jpg');
+
+                WebPConverter::createWebpImage(
+                    new File($srcPath . '/' . $newFileName . '.jpg'),
+                    [
+                        'saveFile' => true,
+                        'force' => true,
+                        'filename' => $newFileName,
+                        'quality' => 80,
+                        'savePath' => $srcPath
+                    ]
+                );
+
                 $itemPhoto = (new ItemPhoto())
-                    ->setFileName($newFileName)
+                    ->setFileName($newFileName . '.webp')
                     ->setCreatedAt($now)
                     ->setHasMain($photo['has_main'] ?? false);
                 ;

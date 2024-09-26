@@ -93,18 +93,18 @@ final class Version20240621114620 extends AbstractMigration
         ;
     }
 
-    public function postUp(Schema $schema): void
-    {
-        foreach (self::TEST_ITEMS as $item) {
-            $this->connection->insert(
-                $this->tableItem,
-                array_merge(
-                    ['user_id' => 2],
-                    array_map(fn($value) => is_array($value) ? json_encode($value) : $value, $item)
-                )
-            );
-        }
-    }
+//    public function postUp(Schema $schema): void
+//    {
+//        foreach (self::TEST_ITEMS as $item) {
+//            $this->connection->insert(
+//                $this->tableItem,
+//                array_merge(
+//                    ['user_id' => 2],
+//                    array_map(fn($value) => is_array($value) ? json_encode($value) : $value, $item)
+//                )
+//            );
+//        }
+//    }
 
     public function down(Schema $schema): void
     {
