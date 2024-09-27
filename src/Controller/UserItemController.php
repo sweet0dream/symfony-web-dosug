@@ -75,7 +75,7 @@ class UserItemController extends AbstractController
             file_put_contents('import.txt', implode(',', isset($savedId) ? array_merge($savedId, $saveToFile) : $saveToFile));
         }
 
-        dd($result);
+         dd(implode(' / ', array_map(fn($value) => $value['redirect'], $result)));
     }
 
     /**

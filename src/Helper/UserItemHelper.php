@@ -132,7 +132,8 @@ readonly class UserItemHelper
         if (isset($user) && $user instanceof User) {
             return [
                 'login' => $user->getLogin(),
-                'password' => $user->getPasswordView()
+                'password' => $user->getPasswordView(),
+                'redirect' => 'rewrite ^' . $data['link'] . '$ /' . array_flip(ItemHelper::TYPE)[$item->getType()] . '/id' . $item->getId() . ' permanent;'
             ];
         }
 
