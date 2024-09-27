@@ -30,8 +30,27 @@
                             <li><a href="/user/login" class="dropdown-item">Вход</a></li>
                             <li><a href="/user/regin" class="dropdown-item">Регистрация</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a href="#" class="dropdown-item">Стоимость</a></li>
+                            <li><a href="#contact" data-bs-toggle="modal" class="dropdown-item">Администрация</a></li>
                         </ul>
+                    </div>
+                    <div class="modal fade" id="contact" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header px-2 py-1">
+                                    <p class="modal-title">Контакты администрации</p>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <p class="my-1">По всем вопросам обращайтесь:</p>
+                                    <p class="my-1">
+                                        <i class="fa-solid fa-mobile-retro"></i> +7(917)219-41-45
+                                    </p>
+                                    <p class="my-1">
+                                        <i class="fa-solid fa-envelope-open-text"></i> luxedosug@yandex.ru
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 {% else %}
                     <div class="row g-1">
