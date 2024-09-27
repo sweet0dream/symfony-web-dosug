@@ -30,4 +30,5 @@
 /~error.log
 /~web.conf
 /*.tpl
+/*.stpl
 ###< custom ###
