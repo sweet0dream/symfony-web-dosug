@@ -29,4 +29,5 @@
 /public/import.txt
 /~error.log
 /~web.conf
+/*.tpl
 ###< custom ###
