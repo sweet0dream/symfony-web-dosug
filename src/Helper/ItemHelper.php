@@ -278,14 +278,18 @@ class ItemHelper {
     {
         $photos = $this->item->getItemPhotos();
 
-        return array_values(
+        $selectMainPhoto = array_values(
             array_filter(
                 array_map(
                     fn(ItemPhoto $photo) => $photo->hasMain() ? $photo->getFileName() : null,
                     $photos->toArray()
                 )
             )
-        )[0] ?? $photos->last() ? $photos->last()->getFileName() : null;
+        );
+
+        return !empty($selectMainPhoto)
+            ? $selectMainPhoto[0]
+            : ($photos->last() ? $photos->last()->getFileName() : null);
     }
 
     private function getPhotoValue(): array
