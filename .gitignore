@@ -31,4 +31,6 @@
 /~web.conf
 /*.tpl
 /*.stpl
+/public/robots.txt
+/public/sitemap.xml
 ###< custom ###
