@@ -35,6 +35,10 @@
                 </div>
             {% endif %}
             <div class="col-12 col-lg-{% if priority is not null %}9{% else %}12{% endif %}">
+                {# <div class="input-group mb-1">
+                    <input type="text" class="form-control" placeholder="Поиск анкет по номеру телефона" aria-label="Поиск анкет по номеру телефона">
+                    <button class="btn btn-success" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div> #}
                 {% include 'user/adm/block/section-users.html.twig' with {users} %}
             </div>
         </div>
