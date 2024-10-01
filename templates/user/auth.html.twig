@@ -27,16 +27,6 @@
                         {{ error[message] }}
                     </div>
                 {% endfor %}
-                {% for user in app.flashes('info') %}
-                    {% set login = user.login %}
-                    {% set password = user.password %}
-                    <div class="alert alert-success text-center mb-1" role="alert">
-                        Анкета успешно импортирована.<br /><br />
-                        <strong>Логин:</strong> {{ login }}<br />
-                        <strong>Пароль:</strong> {{ password }}<br /><br />
-                        Нажмите на кнопку «Войти» чтоб перейти к редактированию анкеты и заполните недостающие данные.
-                    </div>
-                {% endfor %}
 
                 {# Поля для авторизации #}
                 <div class="form-floating mb-1">
@@ -46,7 +36,6 @@
                             id="floatingLogin"
                             name="{{ key }}[login]"
                             placeholder="Логин"
-                            value="{{ login }}"
                     >
                     <label for="floatingLogin">Ваш логин</label>
                 </div>
@@ -57,7 +46,6 @@
                             id="floatingPassword"
                             name="{{ key }}[password]"
                             placeholder="Пароль"
-                            value="{{ password }}"
                     >
                     <label for="floatingPassword">Ваш пароль</label>
                 </div>
@@ -70,9 +58,6 @@
                 {% endif %}
                 <button class="btn btn-light w-100 py-2" type="submit">{{ title[key][2] }}</button>
                 <a href="{{ title[key][3][0] }}" class="btn btn-link text-white w-100 py-2">{{ title[key][3][1] }}</a>
-                {% if key == 'regin' %}
-                    <a href="/import" class="btn btn-link text-white w-100 py-2">Импорт со старого сайта</a>
-                {% endif %}
             </form>
         </main>
         </div>
