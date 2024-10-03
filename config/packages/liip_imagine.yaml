@@ -1,5 +1,4 @@
 liip_imagine:
-    driver: "gd"
     twig:
         mode: lazy
     resolvers:
@@ -7,34 +6,29 @@ liip_imagine:
             web_path:
                 web_root: '%kernel.project_dir%/public'
                 cache_prefix: 'media/cache'
-    webp:
-        generate: true
     default_filter_set_settings:
-        quality: 50
-        format: webp
+        quality: 75
 
     filter_sets:
         cache: ~
 
         editPhotoItem:
+            quality: 100
             filters:
-                thumbnail: { size: [ 250, 250 ], mode: outbound }
+                thumbnail: { size: [ 200, 200 ], mode: outbound }
 
         renderIntroItem:
+            quality: 50
             filters:
-                thumbnail: { size: [ 300, 350 ], mode: outbound }
-                #relative_resize:
-                #    widen: 300
-
-        editPhotoItemInAdmin:
-            filters:
-                thumbnail: { size: [ 50, 50 ], mode: outbound }
+                thumbnail: { size: [ 250, 300 ], mode: outbound }
 
         renderFullMainPhoto:
+            quality: 65
             filters:
                 relative_resize:
                     widen: 480
 
         renderFullPhoto:
+            quality: 30
             filters:
                 thumbnail: { size: [ 120, 120 ], mode: outbound }
