@@ -1,0 +1,10 @@
+version: '3.7'
+services:
+    database:
+        image: 'mariadb:latest'
+        container_name: mariadb
+        environment:
+            MYSQL_ROOT_PASSWORD: 123456
+            MYSQL_DATABASE: dosug
+        ports:
+            - '3306'
