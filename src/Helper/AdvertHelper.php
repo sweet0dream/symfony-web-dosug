@@ -3,6 +3,7 @@
 namespace App\Helper;
 
 use App\Entity\Advert;
+use App\Repository\AdvertRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -20,15 +21,16 @@ readonly class AdvertHelper {
 
     public function __construct(
         private EntityManagerInterface $em,
+        private AdvertRepository $advertRepository,
         #[Autowire('%kernel.project_dir%/public/advert')]
-        private readonly string $advertDir,
+        private string $advertDir,
     )
     {
     }
 
     public function getItems(?string $type = null): array
     {
-        $items = $this->em->getRepository(Advert::class)->findAll();
+        $items = $this->advertRepository->findAll();
 
         return is_null($type)
             ? $items
@@ -104,7 +106,7 @@ readonly class AdvertHelper {
 
     private function updateItem(array $data): void
     {
-        $item = $this->em->getRepository(Advert::class)->findOneBy(['id' => $data['id']]);
+        $item = $this->advertRepository->findOneBy(['id' => $data['id']]);
 
         $this->em->persist(
             $item->setSection($data['section'] ?? [])
@@ -114,7 +116,7 @@ readonly class AdvertHelper {
 
     private function removeItem(array $data): void
     {
-        $item = $this->em->getRepository(Advert::class)->findOneBy(['id' => $data['id']]);
+        $item = $this->advertRepository->findOneBy(['id' => $data['id']]);
 
         if (unlink($this->advertDir . '/' . $item->getFilename() . '.webp')) {
             $this->em->remove($item);

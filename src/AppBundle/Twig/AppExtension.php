@@ -7,6 +7,7 @@ use App\Entity\Item;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
 use Sweet0dream\IntimAnketaContract;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Twig\Extension\AbstractExtension;
 use Twig\Markup;
 use Twig\TwigFilter;
@@ -27,6 +28,14 @@ class AppExtension extends AbstractExtension
         '11' => 'ноября',
         '12' => 'декабря'
     ];
+
+    public function __construct(
+        #[Autowire('%kernel.project_dir%/public')]
+        private readonly string $publicDir
+    )
+    {
+    }
+
     public function getFilters(): array
     {
         return array(
@@ -122,7 +131,7 @@ class AppExtension extends AbstractExtension
     ): string
     {
         $modalKey = str_replace('.', '', $file . $id);
-        return '
+        return file_exists($this->publicDir . '/media/' . $id . '/src/' . $file) ? '
             <a href="#' . $modalKey . '" data-bs-toggle="modal" class="text-success">' . $anchor . '</a>
             <div class="modal fade" id="' . $modalKey . '" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
@@ -132,6 +141,6 @@ class AppExtension extends AbstractExtension
                     </div>
                 </div>
             </div>
-        ';
+        ' : $anchor . ' (уже удалено)';
     }
 }

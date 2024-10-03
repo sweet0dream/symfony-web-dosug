@@ -16,6 +16,16 @@ class ItemRepository extends ServiceEntityRepository
         parent::__construct($registry, Item::class);
     }
 
+    public function findItemsAll(): array
+    {
+        return $this->findBy([], ['topedAt' => 'DESC']);
+    }
+
+    public function findItemsByType(string $type): array
+    {
+        return $this->findBy(['type' => $type], ['topedAt' => 'DESC']);
+    }
+
     //    /**
     //     * @return Item[] Returns an array of Item objects
     //     */

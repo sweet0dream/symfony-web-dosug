@@ -20,15 +20,13 @@ readonly class EventHelper {
         array $event
     ): void
     {
-        $addEvent = new Event();
-        $addEvent
-            ->setItem($item)
-            ->setUser($item->getUser())
-            ->setEvent(serialize($event))
-            ->setCreatedAt(new DateTimeImmutable('now'));
-
-        $this->em->persist($addEvent);
+        $this->em->persist(
+            (new Event())
+                ->setItem($item)
+                ->setUser($item->getUser())
+                ->setEvent(serialize($event))
+                ->setCreatedAt(new DateTimeImmutable('now'))
+        );
         $this->em->flush();
     }
-
 }

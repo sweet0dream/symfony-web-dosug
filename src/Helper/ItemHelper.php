@@ -6,6 +6,8 @@ use App\Entity\Item;
 use App\Entity\ItemPhoto;
 use App\Entity\ItemStatus;
 use App\Entity\User;
+use App\Repository\ItemPhotoRepository;
+use App\Repository\ItemRepository;
 use CodeBuds\WebPConverter\WebPConverter;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -83,6 +85,8 @@ class ItemHelper {
 
     public function __construct(
         private readonly EntityManagerInterface $em,
+        private readonly ItemRepository $itemRepository,
+        private readonly ItemPhotoRepository $itemPhotoRepository,
         private readonly EventHelper $eventHelper,
         #[Autowire('%kernel.project_dir%/public/media')]
         private readonly string $mediaDir,
@@ -94,9 +98,9 @@ class ItemHelper {
 
     public function getActiveItems($type = null): array
     {
-        $items = $type && isset(self::TYPE[$type]) ?
-            $this->em->getRepository(Item::class)->findBy(['type' => self::TYPE[$type]], ['topedAt' => 'DESC']) :
-            $this->em->getRepository(Item::class)->findBy([], ['topedAt' => 'DESC']);
+        $items = $type && isset(self::TYPE[$type])
+            ? $this->itemRepository->findItemsByType(self::TYPE[$type])
+            : $this->itemRepository->findItemsAll();
 
         foreach ($items as $item) {
             if ($item->getItemStatus()->isActive()) {
@@ -140,19 +144,21 @@ class ItemHelper {
         return array_filter($combine);
     }
 
+    public function getItem(int $id)
+    {
+        return $this->itemRepository->find($id);
+    }
+
     public function getOneItem(
-        string $type,
-        int $id
+        int $id,
+        string $type
     ): ?array
     {
-        $item = $this->em->getRepository(Item::class)->findOneBy([
-            'type' => ItemHelper::TYPE[$type],
-            'id' => $id
-        ]);
+        $item = $this->getItem($id);
 
         if ($item) {
             $this->item = $item;
-            $this->type = $item->getType() ?? $type;
+            $this->type = $item->getType() ?? self::TYPE[$type];
         }
 
         return $item ? $this->prepareItem() : null;
@@ -357,7 +363,7 @@ class ItemHelper {
 
     public function getPhoto(int $id): ?array
     {
-        return $this->em->getRepository(Item::class)->find($id)->getItemPhotos()->toArray();
+        return $this->getItem($id)->getItemPhotos()->toArray();
     }
 
     public function hasMainPhoto(int $id): bool
@@ -504,7 +510,7 @@ class ItemHelper {
         }
 
         if (!empty($uploadedPhotos)) {
-            $item = $this->em->getRepository(Item::class)->find($id);
+            $item = $this->getItem($id);
             foreach ($uploadedPhotos as $uploadedPhoto) {
                 $item->addItemPhoto(
                     (new ItemPhoto())
@@ -543,10 +549,10 @@ class ItemHelper {
             : [$this->removeFilename($id, $file)];
 
         if (!empty($removePhotos)) {
-            $this->item = $this->em->getRepository(Item::class)->find($id);
+            $this->item = $this->getItem($id);
 
             foreach ($removePhotos as $removePhoto) {
-                $itemPhoto = $this->em->getRepository(ItemPhoto::class)->findOneBy(['fileName' => $removePhoto]);
+                $itemPhoto = $this->itemPhotoRepository->findOneBy(['fileName' => $removePhoto]);
                 if (!is_null($itemPhoto)) {
                     $this->em->remove($itemPhoto);
                 }
@@ -585,7 +591,7 @@ class ItemHelper {
         string $file,
     ): true
     {
-        $item = $this->em->getRepository(Item::class)->find($id);
+        $item = $this->getItem($id);
 
         foreach ($item->getItemPhotos() as $photo) {
             $photo->setHasMain(

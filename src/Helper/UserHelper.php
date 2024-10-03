@@ -2,9 +2,9 @@
 
 namespace App\Helper;
 
-use App\Entity\Item;
 use App\Entity\User;
 use App\Entity\UserHash;
+use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -12,6 +12,7 @@ readonly class UserHelper
 {
     public function __construct(
         private EntityManagerInterface $em,
+        private UserRepository $userRepository,
         private ItemHelper $itemHelper,
         private EventHelper $eventHelper
     )
@@ -20,7 +21,7 @@ readonly class UserHelper
 
     public function actionLogin(array $data): array
     {
-        $user = $this->em->getRepository(User::class)->findOneBy(['login' => $data['login']]);
+        $user = $this->userRepository->findOneBy(['login' => $data['login']]);
         if (!$user) {
             $result['error'] = 'loginNotFound';
         }
@@ -72,7 +73,7 @@ readonly class UserHelper
             $result['error'] = 'passwordNotEquals';
         }
 
-        if ($this->em->getRepository(User::class)->findOneBy(['login' => $data['login']])) {
+        if ($this->userRepository->findOneBy(['login' => $data['login']])) {
             $result['error'] = 'loginAlreadyExists';
         }
 
@@ -104,7 +105,7 @@ readonly class UserHelper
     ): array
     {
         $result = $this->itemHelper->updateItemPartially(
-            $item = $this->em->getRepository(Item::class)->find($itemId),
+            $item = $this->itemHelper->getItem($itemId),
             key($data),
             $data[key($data)]
         );

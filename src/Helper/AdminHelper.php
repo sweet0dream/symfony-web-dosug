@@ -3,8 +3,9 @@
 namespace App\Helper;
 
 use App\Entity\Item;
-use App\Entity\ItemStatus;
-use App\Entity\User;
+use App\Repository\ItemRepository;
+use App\Repository\ItemStatusRepository;
+use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +23,9 @@ readonly class AdminHelper {
 
     public function __construct(
         private EntityManagerInterface $em,
+        private UserRepository $userRepository,
+        private ItemRepository $itemRepository,
+        private ItemStatusRepository $itemStatusRepository,
         private EventHelper $eventHelper
     )
     {
@@ -29,7 +33,7 @@ readonly class AdminHelper {
 
     public function getAllUsers(): array
     {
-        return $this->em->getRepository(User::class)->findBy(
+        return $this->userRepository->findBy(
             [],
             ['createdAt' => 'DESC']
         );
@@ -37,7 +41,7 @@ readonly class AdminHelper {
 
     public function getPremiumPriorityItems(): ?array
     {
-        $premiumItems = $this->em->getRepository(ItemStatus::class)->findBy(
+        $premiumItems = $this->itemStatusRepository->findBy(
             ['premium' => true],
             ['premium_priority' => 'ASC']
         );
@@ -80,7 +84,7 @@ readonly class AdminHelper {
         $data = $request->request->all()[$keyForm];
         $itemId = array_shift($data);
 
-        $item = $this->em->getRepository(Item::class)->find($itemId);
+        $item = $this->itemRepository->find($itemId);
 
         switch (array_key_first($request->request->all())) {
             case 'item':

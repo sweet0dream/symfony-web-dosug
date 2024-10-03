@@ -22,9 +22,6 @@ return [
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],
-    '@hotwired/turbo' => [
-        'version' => '8.0.5',
-    ],
     'bootstrap' => [
         'version' => '5.3.3',
     ],
@@ -34,5 +31,8 @@ return [
     'bootstrap/dist/css/bootstrap.min.css' => [
         'version' => '5.3.3',
         'type' => 'css',
+    ],
+    '@hotwired/turbo' => [
+        'version' => '8.0.10',
     ],
 ];

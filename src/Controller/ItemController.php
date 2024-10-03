@@ -47,7 +47,7 @@ class ItemController extends AbstractController
         string $id
     ): Response
     {
-        $item = $this->itemHelper->getOneItem($type, (int)$id);
+        $item = $this->itemHelper->getOneItem((int)$id, $type);
 
         if (is_null($item)) {
             return $this->pageNotFound();
