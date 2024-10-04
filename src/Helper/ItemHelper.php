@@ -664,4 +664,18 @@ class ItemHelper {
         $this->em->persist($itemStatus);
         $this->em->flush();
     }
+
+    public function getItemsForSitemap(): array
+    {
+        return array_map(
+            fn($item) => [
+                'updated' => $item->getUpdatedAt()->format(DATE_ATOM),
+                'param' => [
+                    'type' => array_flip(self::TYPE)[$item->getType()],
+                    'id' => $item->getId()
+                ]
+            ],
+            $this->itemRepository->findAll()
+        );
+    }
 }
