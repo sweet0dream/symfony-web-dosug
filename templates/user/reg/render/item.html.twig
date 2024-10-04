@@ -9,7 +9,7 @@
             </div>
             <div class="col-2 text-end">
                 <a href="#remove{{ item.id }}" data-bs-toggle="modal" class="text-danger text-decoration-none me-1">
-                    <i class="fa-solid fa-trash"></i>
+                    <i class="bi bi-trash-fill"></i>
                 </a>
             </div>
         </div>
@@ -22,7 +22,7 @@
                         <img src="{{ asset(item.photo_main) | imagine_filter("editPhotoItem") }}" class="rounded-1 img-fluid mb-1" alt="">
                     {% endif %}
                     <a href="/user/item/photo/{{ item.id }}" class="btn btn-light text-secondary btn-sm w-100">
-                        <i class="fa-solid fa-image"></i> {% if item.photo_main == null %}Загрузить фото{% else %}{{ item.photo_count }} фото{% endif %}
+                        <i class="bi bi-image-fill"></i> {% if item.photo_main == null %}Загрузить фото{% else %}{{ item.photo_count }} фото{% endif %}
                     </a>
                     {% if item.events|length > 0 %}
                         <button
@@ -32,7 +32,7 @@
                                 aria-controls="events{{ item.id }}"
                                 class="btn btn-outline-secondary btn-sm w-100 mt-1"
                         >
-                            <i class="fa-solid fa-clipboard-user"></i> Лента действий <span class="badge text-bg-secondary">{{ item.events|length }}</span>
+                            <i class="bi bi-person-badge-fill"></i> Лента действий <span class="badge text-bg-secondary">{{ item.events|length }}</span>
                         </button>
                     {% endif %}
                 </div>

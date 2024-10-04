@@ -7,7 +7,7 @@
                     <a href="/{{ meta[item.type].slug }}/id{{ item.id }}" target="_blank" class="btn btn-dark btn-sm w-100 text-start px-1">
                         <div class="row g-0">
                             <div class="col-4">
-                                <i class="fa-solid fa-user opacity-25"></i>
+                                <i class="bi bi-person-fill opacity-25"></i>
                             </div>
                             <div class="col-8 text-center">
                                 {{ item.id }}
@@ -24,7 +24,7 @@
                                     type="submit"
                                     value="1"
                             >
-                                <i class="fa-solid fa-toggle-off"></i> Опубликовать
+                                <i class="bi bi-toggle-off"></i> Опубликовать
                             </button>
                         {% else %}
                             <button
@@ -47,7 +47,7 @@
                             <div
                                     class="position-absolute top-0 start-50 translate-middle-x text-uppercase"
                                     style="font-size:.7rem">Активна</div>
-                            <i class="fa-solid fa-circle" style="font-size:.65rem"></i>
+                            <i class="bi bi-check-circle-fill" style="font-size:.75rem"></i>
                         </button>
                     </div>
                     <div class="col">
@@ -61,7 +61,7 @@
                             <div
                                     class="position-absolute top-0 start-50 translate-middle-x text-uppercase"
                                     style="font-size:.7rem">Премиум</div>
-                            <i class="fa-solid fa-crown" style="font-size:.65rem"></i>
+                            <i class="bi bi-star-fill" style="font-size:.75rem"></i>
                         </button>
                     </div>
                     <div class="col">
@@ -75,7 +75,7 @@
                             <div
                                     class="position-absolute top-0 start-50 translate-middle-x text-uppercase"
                                     style="font-size:.7rem">Реальна</div>
-                            <i class="fa-solid fa-camera" style="font-size:.65rem"></i>
+                            <i class="bi bi-camera-fill" style="font-size:.75rem"></i>
                         </button>
                     </div>
                     <div class="col">
@@ -89,7 +89,7 @@
                             <div
                                     class="position-absolute top-0 start-50 translate-middle-x text-uppercase"
                                     style="font-size:.7rem">Поднять</div>
-                            <i class="fa-solid fa-chevron-up" style="font-size:.65rem"></i>
+                            <i class="bi bi-caret-up-fill" style="font-size:.75rem"></i>
                         </button>
                     </div>
                 {% endif %}
@@ -128,7 +128,7 @@
                         <div
                                 class="position-absolute top-0 start-50 translate-middle-x text-uppercase"
                                 style="font-size:.7rem">Данные</div>
-                        <i class="fa-solid fa-file-pen" style="font-size:.65rem"></i>
+                        <i class="bi bi-pencil-square" style="font-size:.75rem"></i>
                     </a>
                 </div>
                 <div class="col-{% if user.items|length <= 1 %}6{% else %}4{% endif %}">
@@ -140,15 +140,15 @@
                         <div
                                 class="position-absolute top-0 start-50 translate-middle-x text-uppercase"
                                 style="font-size:.7rem">Фото</div>
-                        <span style="font-size:.65rem">
-                            <i class="fa-solid fa-images"></i> {{ item.itemphotos|length }}
+                        <span style="font-size:.75rem">
+                            <i class="bi bi-images"></i> {{ item.itemphotos|length }}
                         </span>
                     </a>
                 </div>
                 {% if user.items|length > 1 %}
                     <div class="col-4">
                         <a href="#removeItem{{ item.id }}" data-bs-toggle="modal" class="btn btn-danger btn-sm w-100">
-                            <i class="fa-solid fa-trash"></i>
+                            <i class="bi bi-trash-fill"></i>
                         </a>
                     </div>
                     {# modal remove item #}
