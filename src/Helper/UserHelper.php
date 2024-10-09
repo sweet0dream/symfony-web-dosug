@@ -56,7 +56,7 @@ readonly class UserHelper
         return $result ?? ['error' => 'unknownError'];
     }
 
-    public function actionLogout(string $hash): true
+    public function actionLogout(?string $hash): true
     {
         $userHash = $this->em->getRepository(UserHash::class)->findOneBy(['value' => $hash]);
         if (!is_null($userHash)) {
