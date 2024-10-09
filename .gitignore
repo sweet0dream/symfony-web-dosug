@@ -33,4 +33,5 @@
 /*.stpl
 /public/robots.txt
 /public/sitemap.xml
+/public/config.yaml
 ###< custom ###

@@ -3,14 +3,16 @@
 namespace App\AppBundle\Twig;
 
 use App\Entity\Event;
-use App\Entity\Item;
+use App\Helper\ConfigHelper;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
-use Sweet0dream\IntimAnketaContract;
+use ReflectionClass;
+use ReflectionMethod;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Twig\Extension\AbstractExtension;
 use Twig\Markup;
 use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
@@ -31,9 +33,21 @@ class AppExtension extends AbstractExtension
 
     public function __construct(
         #[Autowire('%kernel.project_dir%/public')]
-        private readonly string $publicDir
+        private readonly string $publicDir,
+        private readonly ConfigHelper $configHelper,
     )
     {
+    }
+
+    public function getFunctions(): array
+    {
+        foreach ((new ReflectionClass(ConfigHelper::class))->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+            if ($method->getName() != '__construct' && str_starts_with($method->getName(), 'get')) {
+                $functions[] = new TwigFunction($method->getName(), [$this->configHelper, $method->getName()]);
+            }
+        }
+
+        return $functions ?? [];
     }
 
     public function getFilters(): array

@@ -12,53 +12,6 @@ final class Version20240621114620 extends AbstractMigration
 {
 
     private string $tableItem = 'item';
-    private const array TEST_ITEMS = [
-        [
-            'phone' => '+7(987)654-32-10',
-            'name' => 'Алина',
-            'type' => 'ind',
-            'info' => [
-                'year' => 2,
-                'height' => 20,
-                'weight' => 20,
-                'chest' => 2,
-                'hair' => 3,
-                'text' => 'Test1 test1 test1 test1 test1 test1 test1 test1 test1 test1'
-            ],
-            'service' => [
-                'sex' => ['sk', 'sa'],
-                'min' => ['mp', 'mg']
-            ],
-            'price' => [
-                'express' => 1500,
-                'onehour' => 2500,
-                'twohour' => 4500,
-                'night' => 15000
-            ]
-        ], [
-            'phone' => '+7(987)654-32-11',
-            'name' => 'Михаил',
-            'type' => 'man',
-            'info' => [
-                'year' => 4,
-                'height' => 25,
-                'weight' => 25,
-                'mbr' => 4,
-                'body' => 2,
-                'text' => 'Test2 test2 test2 test2 test2 test2 test2 test2 test2 test2'
-            ],
-            'service' => [
-                'sex' => ['sk', 'sa'],
-                'min' => ['mp', 'mg']
-            ],
-            'price' => [
-                'express' => 1000,
-                'onehour' => 1500,
-                'twohour' => 3000,
-                'night' => 10000
-            ]
-        ]
-    ];
 
     public function getDescription(): string
     {
@@ -92,19 +45,6 @@ final class Version20240621114620 extends AbstractMigration
             )
         ;
     }
-
-//    public function postUp(Schema $schema): void
-//    {
-//        foreach (self::TEST_ITEMS as $item) {
-//            $this->connection->insert(
-//                $this->tableItem,
-//                array_merge(
-//                    ['user_id' => 2],
-//                    array_map(fn($value) => is_array($value) ? json_encode($value) : $value, $item)
-//                )
-//            );
-//        }
-//    }
 
     public function down(Schema $schema): void
     {

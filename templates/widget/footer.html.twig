@@ -14,11 +14,11 @@
                 </div>
             </div>
             <div class="col-12 col-md-4">
-                <div {{ stimulus_controller('hello') }}></div>
+                <!--<div {{ stimulus_controller('hello') }}></div>-->
             </div>
             <div class="col-12 col-md-4">
                 <p class="text-center">
-                    Портал Люкс Досуг работает уже {{ date('now').diff(date('2010-01-01 00:00')).y|suffix_number(['год', 'года', 'лет']) }}. <br />
+                    Портал {{ site_name }} работает уже {{ date('now').diff(date('2010-01-01 00:00')).y|suffix_number(['год', 'года', 'лет']) }}. <br />
                     Все права защищены ©
                 </p>
             </div>

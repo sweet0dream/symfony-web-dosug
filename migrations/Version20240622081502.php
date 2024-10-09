@@ -12,22 +12,6 @@ final class Version20240622081502 extends AbstractMigration
 {
     private string $tableItemStatus = 'item_status';
 
-    private const array TEST_ITEMS_STATUS = [
-        [
-            'item_id' => 1,
-            'active' => 1,
-            'premium' => 1,
-            'premium_priority' => null,
-            'realy' => 1
-        ], [
-            'item_id' => 2,
-            'active' => 1,
-            'premium' => 0,
-            'premium_priority' => null,
-            'realy' => 0
-        ]
-    ];
-
     public function getDescription(): string
     {
         return 'Added item status table';
@@ -53,16 +37,6 @@ final class Version20240622081502 extends AbstractMigration
                 'FK_FDF910D3126F525E'
             );
     }
-
-//    public function postUp(Schema $schema): void
-//    {
-//        foreach (self::TEST_ITEMS_STATUS as $itemStatus) {
-//            $this->connection->insert(
-//                $this->tableItemStatus,
-//                $itemStatus
-//            );
-//        }
-//    }
 
     public function down(Schema $schema): void
     {

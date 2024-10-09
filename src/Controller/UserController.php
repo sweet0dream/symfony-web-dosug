@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Helper\AdminHelper;
 use App\Helper\AdvertHelper;
+use App\Helper\ConfigHelper;
 use App\Helper\UserHelper;
 use App\Helper\UserItemHelper;
 use Sweet0dream\IntimAnketaContract;
@@ -30,7 +31,8 @@ class UserController extends AbstractController
         private readonly UserHelper $userHelper,
         private readonly UserItemHelper $userItemHelper,
         private readonly AdminHelper $adminHelper,
-        private readonly AdvertHelper $advertHelper
+        private readonly AdvertHelper $advertHelper,
+        private readonly ConfigHelper $configHelper
     )
     {
     }
@@ -100,6 +102,26 @@ class UserController extends AbstractController
         }
         return $this->render('user/adm/page/advert.html.twig', [
             'items' => $this->advertHelper->getItems()
+        ]);
+    }
+
+    #[Route('/user/admin/config', name: 'user_admin_config', methods: ['GET', 'POST'])]
+    public function viewAdminConfig(Request $request): Response
+    {
+        if (!$this->userItemHelper->isAdmin($request->cookies->get('auth_hash'))) {
+            return $this->redirectToRoute('user_lk');
+        }
+
+        $config = $this->configHelper->loadConfig();
+
+        if ($request->getMethod() === 'POST') {
+            $this->configHelper->updateConfig($request->request->all()['config']);
+
+            return $this->redirectToRoute('user_admin_config');
+        }
+
+        return $this->render('user/adm/page/config.html.twig', [
+            'data' => $config
         ]);
     }
 

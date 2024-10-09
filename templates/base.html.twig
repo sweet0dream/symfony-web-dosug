@@ -1,5 +1,6 @@
 {% set user_hash = app.request.cookies.get('auth_hash') %}
-{% set city = city_term|split(',') %}
+{% set site_name = getSiteName() %}
+{% set city = getCities() %}
 {% set meta = {
     'main': {
         'slug': '',

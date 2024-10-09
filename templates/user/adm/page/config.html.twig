@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Основная конфигурация проекта{% endblock %}
+
+{% block body %}
+    {% set cities = data.cities|split(',') %}
+    <div class="wrap container-md py-2 mt-3">
+        <h1 class="text-center">Основные настройки сайта</h1>
+        <form method="POST">
+            <div class="row g-1">
+                <div class="col-6">
+                    <div class="form-floating mb-3">
+                        <input type="text" name="config[site_name]" class="form-control" id="siteName" placeholder="" value="{{ data.sitename }}">
+                        <label for="siteName">Имя проекта (используется в метаданных)</label>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-floating mb-3">
+                        <input type="number" name="config[max_photo_upload]" class="form-control" id="maxPhotoUpload" min="0" max="25" placeholder="" value="{{ data.maxphotoupload }}">
+                        <label for="maxPhotoUpload">Максимальное количество загружаемых фото в анкету</label>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center">Настройки региональности</p>
+            <div class="row g-1">
+                <div class="col-4">
+                    <div class="form-floating mb-3">
+                        <input type="text" name="config[cities][]" class="form-control" id="siteName" placeholder="" value="{{ cities[0] }}">
+                        <label for="siteName">Город (именительный падеж)</label>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-floating mb-3">
+                        <input type="text" name="config[cities][]" class="form-control" id="siteName" placeholder="" value="{{ cities[1] }}">
+                        <label for="siteName">Города (родительный падеж)</label>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-floating mb-3">
+                        <input type="text" name="config[cities][]" class="form-control" id="siteName" placeholder="" value="{{ cities[2] }}">
+                        <label for="siteName">в Городе (предложный падеж с предлогом)</label>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-light">Обновить настройки</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
