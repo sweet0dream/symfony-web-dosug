@@ -15,21 +15,21 @@ readonly class ConfigHelper {
     public function __construct(
         private EntityManagerInterface $em,
         private ConfigRepository $configRepository,
-        #[Autowire('%kernel.project_dir%/public')]
-        private readonly string $publicDir,
+        #[Autowire('%kernel.cache_dir%/config.yaml')]
+        private string $configFile,
     )
     {
     }
 
     public function loadConfig(): ?Config
     {
-        if (!file_exists($this->publicDir.'/config.yaml')) {
-            file_put_contents($this->publicDir . '/config.yaml', Yaml::dump($this->configRepository->load()));
+        if (!file_exists($this->configFile)) {
+            file_put_contents($this->configFile, Yaml::dump($this->configRepository->load()));
         }
 
         $config = (new Serializer([new ObjectNormalizer()]))
             ->denormalize(
-                Yaml::parseFile($this->publicDir . '/config.yaml'),
+                Yaml::parseFile($this->configFile),
                 Config::class,
             );
 
@@ -48,7 +48,7 @@ readonly class ConfigHelper {
 
     public function updateConfig(array $data): void
     {
-        $currentConfig = $this->publicDir.'/config.yaml';
+        $currentConfig = $this->configFile;
 
         if (file_exists($currentConfig)) {
             unlink($currentConfig);
