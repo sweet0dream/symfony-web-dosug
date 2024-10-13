@@ -41,6 +41,11 @@ readonly class ConfigHelper {
         return $this->loadConfig()->getSiteName();
     }
 
+    public function getMaxPhotoUpload(): int
+    {
+        return $this->loadConfig()->getMaxPhotoUpload();
+    }
+
     public function getCities(): array
     {
         return explode(',', $this->loadConfig()->getCities());

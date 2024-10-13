@@ -60,6 +60,8 @@
             >Удалить</button>
         </div>
         <div class="text-center" id="upload">
+            {% set max_upload = getMaxPhotoUpload() %}
+            {% if max_upload == 0 or photos|length < max_upload %}
             <form method="POST" class="upload" enctype="multipart/form-data">
                 <input type="hidden" name="action[item]" value="{{ id }}" />
                 <label class="input-file">
@@ -71,9 +73,16 @@
                             accept="image/*"
                             oninput="form.submit()"
                     >
-                    <span class="btn btn-success"><i class="bi bi-folder-plus"></i> Загрузить фото</span>
+                    <span class="btn btn-success">
+                        <i class="bi bi-folder-plus"></i> Загрузить фото
+                        {% if max_upload != 0 %}
+                            <span class="d-block opacity-50" style="font-size:.75rem;line-height:.5rem">Можно загрузить ещё {{ (max_upload-photos|length)|suffix_number(['файл', 'файла', 'файлов']) }}</span>
+
+                        {% endif %}
+                    </span>
                 </label>
             </form>
+            {% endif %}
         </div>
     </div>
     </div>

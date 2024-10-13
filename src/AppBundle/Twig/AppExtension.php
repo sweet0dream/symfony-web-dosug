@@ -42,7 +42,7 @@ class AppExtension extends AbstractExtension
     public function getFunctions(): array
     {
         foreach ((new ReflectionClass(ConfigHelper::class))->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
-            if ($method->getName() != '__construct' && str_starts_with($method->getName(), 'get')) {
+            if (str_starts_with($method->getName(), 'get')) {
                 $functions[] = new TwigFunction($method->getName(), [$this->configHelper, $method->getName()]);
             }
         }
