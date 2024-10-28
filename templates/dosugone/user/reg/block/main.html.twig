@@ -1,5 +1,10 @@
 {% for item in items %}
     {% include 'user/reg/render/item.html.twig' with {item: item} %}
 {% else %}
-    <p>Нет анкет</p>
+    <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading text-center"><i class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"></i> Пустой аккаунт</h4>
+        <p class="text-center">Нет ни одной добавленной анкеты, добавьте одну или более для использования сервисов сайта.</p>
+        <hr>
+        <p class="mb-0">Совет: анкеты желательно регистрировать на разные номера телефонов чтобы охватить больший поток целевых клиентов.</p>
+    </div>
 {% endfor %}

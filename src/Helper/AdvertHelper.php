@@ -82,10 +82,10 @@ readonly class AdvertHelper {
         $saveItems = [];
         foreach ($files as $file) {
             if ($file instanceof UploadedFile) {
-                $filename = $this->generateFilename();
+                $filename = $this->generateFilename() . '.' . $file->guessExtension();
                 $file->move(
                     $this->advertDir,
-                    $filename . '.' . $file->guessExtension()
+                    $filename
                 );
                 $saveItems[] = $filename;
             }
@@ -118,7 +118,7 @@ readonly class AdvertHelper {
     {
         $item = $this->advertRepository->findOneBy(['id' => $data['id']]);
 
-        if (unlink($this->advertDir . '/' . $item->getFilename() . '.webp')) {
+        if (unlink($this->advertDir . '/' . $item->getFilename())) {
             $this->em->remove($item);
             $this->em->flush();
         }
