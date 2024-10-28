@@ -13,7 +13,7 @@ class ItemPhoto
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'itemPhotos')]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'], inversedBy: 'itemPhotos')]
     private ?Item $item = null;
 
     #[ORM\Column(length: 255)]

@@ -33,7 +33,7 @@ final class Version20240705113517 extends AbstractMigration
                 $schema->getTable('item'),
                 ['item_id'],
                 ['id'],
-                ['onUpdate' => 'CASCADE'],
+                ['onDelete' => 'CASCADE', 'onUpdate' => 'CASCADE'],
                 'FK_3E109FC8126F525E'
             )
         ;
