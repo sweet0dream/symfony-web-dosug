@@ -471,6 +471,16 @@ class ItemHelper {
         ];
     }
 
+    public function deleteItem(Item $item): void
+    {
+        foreach ($item->getItemPhotos() as $photo) {
+            $this->removeFilename($item->getId(), $photo->getFileName());
+        }
+
+        $this->em->remove($item);
+        $this->em->flush();
+    }
+
     /**
      * @throws Exception
      */

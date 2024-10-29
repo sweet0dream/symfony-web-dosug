@@ -102,17 +102,24 @@ readonly class UserHelper
     public function actionItemLk(
         int $itemId,
         array $data
-    ): array
+    ): void
     {
+        $item = $this->itemHelper->getItem($itemId);
+
         $result = $this->itemHelper->updateItemPartially(
-            $item = $this->itemHelper->getItem($itemId),
+            $item,
             key($data),
             $data[key($data)]
         );
 
         $this->eventHelper->addEvent($item, $result);
+    }
 
-        return $result;
+    public function actionRemoveItem(int $itemId): void
+    {
+        $item = $this->itemHelper->getItem($itemId);
+
+        $this->itemHelper->deleteItem($item);
     }
 
     public function validateAuth(?string $hash): ?User
@@ -123,5 +130,20 @@ readonly class UserHelper
     public function getAllItems(User $user): array
     {
         return $this->itemHelper->getAllItemsForUser($user);
+    }
+
+    public function getUser(int $userId): ?User
+    {
+        return $this->userRepository->find($userId);
+    }
+
+    public function deleteUser(User $user): void
+    {
+        foreach ($user->getItems() as $item) {
+            $this->itemHelper->deleteItem($item);
+        }
+
+        $this->em->remove($user);
+        $this->em->flush();
     }
 }

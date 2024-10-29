@@ -369,7 +369,14 @@
                         </div>
                         <div class="col-6">
                             <div class="text-end">
-                                <button type="button" class="btn btn-link btn-sm text-white text-decoration-none">Да</button>
+                                <form method="POST" class="d-inline-block">
+                                    <button
+                                            type="submit"
+                                            class="btn btn-link btn-sm text-white text-decoration-none"
+                                            name="delete[id]"
+                                            value="{{ item.id }}"
+                                    >Да</button>
+                                </form>
                                 <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Отмена</button>
                             </div>
                         </div>

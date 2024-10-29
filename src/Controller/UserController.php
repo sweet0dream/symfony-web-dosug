@@ -63,14 +63,15 @@ class UserController extends AbstractController
         if ($request->getMethod() === 'POST') {
             $key = key($request->request->all());
             $data = $request->request->all()[$key];
+            $id = $data['id'];
+            unset($data['id']);
 
-            switch ($key) {
-                case 'edit':
-                    $id = $data['id'];
-                    unset($data['id']);
-                    $this->userHelper->actionItemLk($id, $data);
-                    return $this->redirectToRoute('user_lk');
-            }
+            match ($key) {
+                'edit' => $this->userHelper->actionItemLk($id, $data),
+                'delete' => $this->userHelper->actionRemoveItem($id)
+            };
+
+            return $this->redirectToRoute('user_lk');
         }
 
         $items = $this->userHelper->getAllItems($user);
@@ -82,6 +83,23 @@ class UserController extends AbstractController
             'items' => $items,
             'types' => IntimAnketaContract::TYPE
         ]);
+    }
+
+    #[Route('/admin/delete/{userId}', name: 'admin_delete_user', methods: ['GET'])]
+    public function deleteUser(Request $request, int $userId): Response
+    {
+        $user = $this->userHelper->getUser($userId);
+
+        if (
+            !$this->userItemHelper->isAdmin($request->cookies->get('auth_hash'))
+            || is_null($user)
+        ) {
+            return $this->redirectToRoute('user_lk');
+        }
+
+        $this->userHelper->deleteUser($user);
+
+        return $this->redirectToRoute('user_lk');
     }
 
     #[Route('/user/admin/advert', name: 'user_admin_advert', methods: ['GET', 'POST'])]

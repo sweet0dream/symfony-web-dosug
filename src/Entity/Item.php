@@ -53,7 +53,7 @@ class Item
     /**
      * @var Collection<int, ItemPhoto>
      */
-    #[ORM\OneToMany(targetEntity: ItemPhoto::class, mappedBy: 'item', cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: ItemPhoto::class, mappedBy: 'item', cascade: ['persist', 'remove'])]
     private Collection $itemPhotos;
 
     /**

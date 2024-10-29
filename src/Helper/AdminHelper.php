@@ -18,7 +18,8 @@ readonly class AdminHelper {
         'active',
         'premium',
         'realy',
-        'top'
+        'top',
+        'delete'
     ];
 
     public function __construct(
@@ -26,7 +27,8 @@ readonly class AdminHelper {
         private UserRepository $userRepository,
         private ItemRepository $itemRepository,
         private ItemStatusRepository $itemStatusRepository,
-        private EventHelper $eventHelper
+        private EventHelper $eventHelper,
+        private ItemHelper $itemHelper
     )
     {
     }
@@ -102,7 +104,7 @@ readonly class AdminHelper {
                 return null;
         }
 
-        if(isset($result)) {
+        if(!empty($result)) {
             $this->eventHelper->addEvent($item, $result);
         }
 
@@ -191,6 +193,13 @@ readonly class AdminHelper {
                 'value' => true
             ]
         ];
+    }
+
+    private function actionDelete(Item $item): array
+    {
+        $this->itemHelper->deleteItem($item);
+
+        return [];
     }
 
     private function saveChanges(Item $item): void
