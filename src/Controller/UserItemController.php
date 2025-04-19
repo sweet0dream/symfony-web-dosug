@@ -96,6 +96,7 @@ class UserItemController extends AbstractController
                 'info' => $item->getInfo(),
                 'service' => $item->getService(),
                 'price' => $item->getPrice(),
+                'rao' => $item->getRao(),
                 'text' => $item->getInfo()['text']
             ]
         ]);

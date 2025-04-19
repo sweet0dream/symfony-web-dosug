@@ -51,6 +51,11 @@ readonly class ConfigHelper {
         return explode(',', $this->loadConfig()->getCities());
     }
 
+    public function getDistricts(): array
+    {
+        return $this->loadConfig()->getDistrictsCity();
+    }
+
     public function updateConfig(array $data): void
     {
         $currentConfig = $this->configFile;
@@ -59,12 +64,14 @@ readonly class ConfigHelper {
             unlink($currentConfig);
         }
 
+        $config = $this->configRepository->find(1);
+
         $this->em->persist(
-            $this
-                ->configRepository->find(1)
+            $config
                 ->setSiteName($data['site_name'])
                 ->setMaxPhotoUpload($data['max_photo_upload'])
                 ->setCities(implode(',', $data['cities']))
+                ->setDistrictsCity(array_merge($config->getDistrictsCity(), $data['districts']))
         );
         $this->em->flush();
     }

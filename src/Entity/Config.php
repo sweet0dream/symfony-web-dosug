@@ -22,6 +22,9 @@ class Config
     #[ORM\Column(nullable: true)]
     private ?string $cities = null;
 
+    #[ORM\Column]
+    private array $districtsCity = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,18 @@ class Config
     public function setCities(string $cities): static
     {
         $this->cities = $cities;
+
+        return $this;
+    }
+
+    public function getDistrictsCity(): array
+    {
+        return $this->districtsCity;
+    }
+
+    public function setDistrictsCity(array $districtsCity): static
+    {
+        $this->districtsCity = $districtsCity;
 
         return $this;
     }

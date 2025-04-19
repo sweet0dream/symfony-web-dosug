@@ -1,15 +1,13 @@
-{%
-    set nameFieldset = {
+{% set nameFieldset = {
     'info': 'Основная информация',
     'service': 'Список услуг',
     'price': 'Стоимость услуг',
     'dop': 'Комментарий к анкете'
-}
-%}
+} %}
 {% if item.id is defined %}
-{% set key = 'edit' %}
+    {% set key = 'edit' %}
 {% else %}
-{% set key = 'add' %}
+    {% set key = 'add' %}
 {% endif %}
 <div class="wrap container-md py-2 mt-3">
     <form method="POST">
@@ -85,11 +83,12 @@
                                             {% endif %}
                                     >
                                         {% if item is defined and item[keyFieldset][keyField] == null or key == 'add' %}
-                                        <option
-                                                selected
-                                                disabled
-                                                value=""
-                                        >Выбрать</option>
+                                            <option
+                                                    selected
+                                                    disabled
+                                                    value=""
+                                            >Выбрать
+                                            </option>
                                         {% endif %}
                                         {% for keyOption, valueOption in valueField.value %}
                                             <option
@@ -99,7 +98,8 @@
                                         {% endfor %}
                                     </select>
                                     <label for="{{ keyField }}">
-                                        {{ valueField.name }} {% if required %}<span class="text-danger">*</span>{% endif %}
+                                        {{ valueField.name }} {% if required %}<span
+                                                class="text-danger">*</span>{% endif %}
                                     </label>
                                 </div>
                             </div>
@@ -124,7 +124,8 @@
                                             {% endif %}
                                     >
                                     <label for="{{ keyField }}">
-                                        {{ valueField.name }} {% if required %}<span class="text-danger">*</span>{% endif %}
+                                        {{ valueField.name }} {% if required %}<span
+                                                class="text-danger">*</span>{% endif %}
                                     </label>
                                 </div>
                             </div>
@@ -140,7 +141,8 @@
                                             {% if required %} required{% endif %}
                                     >{% if item.info[keyField] is defined %}{{ item.info[keyField] }}{% endif %}</textarea>
                                     <label for="{{ keyField }}">
-                                        {{ valueField.name }} {% if required %}<span class="text-danger">*</span>{% endif %}
+                                        {{ valueField.name }} {% if required %}<span
+                                                class="text-danger">*</span>{% endif %}
                                     </label>
                                 </div>
                             </div>
@@ -173,6 +175,25 @@
                 </div>
             </fieldset>
         {% endfor %}
+        <fieldset>
+            <legend class="my-2 text-center">Район предоставления услуг</legend>
+            <div class="row g-1">
+                {% for keyRao, valueRao in districts %}
+                    <div class="col-6">
+                        <input
+                                type="radio"
+                                class="btn-check"
+                                name="{{ key }}[rao]"
+                                value="{{ keyRao }}"
+                                id="rao{{ keyRao }}"
+                                autocomplete="off"
+                                {% if (item.id is defined and item.rao == keyRao) or keyRao == 0 %} checked{% endif %}
+                        >
+                        <label class="btn w-100" for="rao{{ keyRao }}">{{ valueRao }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+        </fieldset>
         <button class="btn btn-primary w-100 py-2 mt-2" type="submit">Сохранить</button>
     </form>
 </div>

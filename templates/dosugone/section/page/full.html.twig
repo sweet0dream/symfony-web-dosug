@@ -94,12 +94,26 @@
                 <h1 class="text-center my-2">{{ item.type.value }} {{ item.name }}</h1>
                 {% if item.status.active == true %}
                     {% if is_mobile() %}
-                        <a href="tel:{{ item.phone }}" class="btn btn-danger w-100 mb-1">
-                            <i class="bi bi-telephone-fill"></i> Позвонить сейчас
-                        </a>
+                        <div class="alert alert-secondary p-2 mb-1">
+                            <p class="mb-2 text-center">
+                                <i class="bi bi-cursor-fill"></i> {% if item.rao == 0 %}Работаю на выезд{% else %}Район {{ districts[item.rao] }}{% endif %}
+                            </p>
+                            <a href="tel:{{ item.phone }}" class="btn btn-danger w-100">
+                                <i class="bi bi-telephone-fill"></i> Позвонить сейчас
+                            </a>
+                        </div>
                     {% else %}
                         <div class="alert alert-success text-center mb-2 phone" role="alert">
-                            <p class="m-0">{{ item.phone }}</p>
+                            <p class="ff3 mb-1">
+                                <i class="bi bi-phone-vibrate-fill"></i> {{ item.phone }}
+                            </p>
+                            <p class="m-0">
+                                {% if item.rao == 0 %}
+                                    Работаю ТОЛЬКО НА ВЫЕЗД!
+                                {% else %}
+                                    Принимаю у себя, район {{ districts[item.rao] }}, выезд по договоренности
+                                {% endif %}
+                            </p>
                         </div>
                     {% endif %}
                 {% else %}

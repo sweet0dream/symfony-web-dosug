@@ -10,13 +10,15 @@
             <div class="row g-1">
                 <div class="col-6">
                     <div class="form-floating mb-3">
-                        <input type="text" name="config[site_name]" class="form-control" id="siteName" placeholder="" value="{{ data.sitename }}">
+                        <input type="text" name="config[site_name]" class="form-control" id="siteName" placeholder=""
+                               value="{{ data.sitename }}">
                         <label for="siteName">Имя проекта (используется в метаданных)</label>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="form-floating mb-3">
-                        <input type="number" name="config[max_photo_upload]" class="form-control" id="maxPhotoUpload" min="0" max="25" placeholder="" value="{{ data.maxphotoupload }}">
+                        <input type="number" name="config[max_photo_upload]" class="form-control" id="maxPhotoUpload"
+                               min="0" max="25" placeholder="" value="{{ data.maxphotoupload }}">
                         <label for="maxPhotoUpload">Максимальное количество загружаемых фото в анкету</label>
                     </div>
                 </div>
@@ -25,24 +27,62 @@
             <div class="row g-1">
                 <div class="col-4">
                     <div class="form-floating mb-3">
-                        <input type="text" name="config[cities][]" class="form-control" id="siteName" placeholder="" value="{{ cities[0] }}">
+                        <input type="text" name="config[cities][]" class="form-control" id="siteName" placeholder=""
+                               value="{{ cities[0] }}">
                         <label for="siteName">Город (именительный падеж)</label>
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-floating mb-3">
-                        <input type="text" name="config[cities][]" class="form-control" id="siteName" placeholder="" value="{{ cities[1] }}">
+                        <input type="text" name="config[cities][]" class="form-control" id="siteName" placeholder=""
+                               value="{{ cities[1] }}">
                         <label for="siteName">Города (родительный падеж)</label>
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-floating mb-3">
-                        <input type="text" name="config[cities][]" class="form-control" id="siteName" placeholder="" value="{{ cities[2] }}">
+                        <input type="text" name="config[cities][]" class="form-control" id="siteName" placeholder=""
+                               value="{{ cities[2] }}">
                         <label for="siteName">в Городе (предложный падеж с предлогом)</label>
                     </div>
                 </div>
             </div>
-            <div class="text-center">
+            <p class="text-center">Районы города</p>
+            <div class="row g-1 justify-content-md-center">
+                <div class="col-6">
+                    {% for key, district in data.districtsCity %}
+                        <div class="row g-1 mb-1">
+                            <div class="col-2">
+                                <label class="w-100">
+                                    <input type="text" class="form-control text-center" value="{{ key+1 }}" disabled>
+                                </label>
+                            </div>
+                            <div class="col-10">
+                                <label class="w-100">
+                                    <input type="text" class="form-control text-center" value="{{ district }}" disabled>
+                                </label>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="mb-1 text-center">
+                        <div class="btn btn-success" onclick="addDistrict()">
+                            <i class="bi bi-plus"></i> Добавить новый район
+                        </div>
+                    </div>
+                    <div id="i0" class="mt-1"></div>
+                </div>
+                <script>
+                    var x = 0;
+                    function addDistrict() {
+                        const ph = 'Введите название нового района';
+                        const input = '<input type="text" name="config[districts][]" class="form-control text-center" placeholder="'+ph+'">';
+                        const block = '<div id="i' + (x + 1) + '" class="mt-1"></div>';
+                        document.getElementById('i' + x).innerHTML = input + block;
+                        x++;
+                    }
+                </script>
+            </div>
+            <div class="text-center pt-2">
                 <button class="btn btn-light">Обновить настройки</button>
             </div>
         </form>

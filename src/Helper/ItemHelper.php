@@ -74,7 +74,8 @@ class ItemHelper {
         'url',
         'events',
         'editable',
-        'eligible_activation'
+        'eligible_activation',
+        'rao'
     ];
 
     private const array RENDER_LIST = [
@@ -203,6 +204,7 @@ class ItemHelper {
             'status' => $this->getStatuses(),
             'realy' => $this->item->getItemStatus()->isRealy(),
             'events' => $this->item->getEvents(),
+            'rao' => $this->item->getRao(),
             'editable' => $this->getEditableItem()
         ];
 
@@ -222,12 +224,9 @@ class ItemHelper {
         $fields = (new IntimAnketaContract($this->type))->getField();
         unset($fields['info']['name']);
 
-        $info = [];
-        foreach ($this->item->getInfo() as $k => $v) {
-            if (isset($fields['info'][$k])) {
-                $info[$k] = $v;
-            }
-        }
+        $info = array_filter($this->item->getInfo(), function ($k) use ($fields) {
+            return isset($fields['info'][$k]);
+        }, ARRAY_FILTER_USE_KEY);
 
         return [
             'contact' => [
@@ -415,6 +414,7 @@ class ItemHelper {
             ->setInfo($data['info'])
             ->setService($data['service'])
             ->setPrice($data['price'])
+            ->setRao($data['rao'])
             ->setUpdatedAt(new DateTimeImmutable('now'))
         ;
 
@@ -456,6 +456,8 @@ class ItemHelper {
             case 'price':
                 $item->setPrice($data);
                 break;
+            case 'rao':
+                $item->setRao($data['value']);
         }
 
         $item->setUpdatedAt(new DateTimeImmutable('now'));

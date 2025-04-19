@@ -63,6 +63,9 @@ class Item
     #[ORM\OrderBy(['createdAt' => 'DESC'])]
     private Collection $events;
 
+    #[ORM\Column]
+    private ?int $rao = null;
+
     public function __construct()
     {
         $this->itemPhotos = new ArrayCollection();
@@ -272,6 +275,18 @@ class Item
                 $event->setItem(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRao(): ?int
+    {
+        return $this->rao;
+    }
+
+    public function setRao(int $rao): static
+    {
+        $this->rao = $rao;
 
         return $this;
     }

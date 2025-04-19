@@ -101,7 +101,7 @@
                         {% set services = services|merge([service.name ~ ' ' ~ value]) %}
                     {% endfor %}
                 {% endfor %}
-                <div class="card text-bg-dark">
+                <div class="card text-bg-dark mb-1">
                     <div class="card-header py-1 px-2">
                         <div class="row g-0">
                             <div class="col-8">
@@ -114,6 +114,28 @@
                     </div>
                     <div class="card-body py-2">
                         {{ services|join(' / ') }}
+                    </div>
+                </div>
+                <div class="card text-bg-dark">
+                    <div class="card-header py-1 px-2">
+                        <div class="row g-0">
+                            <div class="col-8">
+                                Апартаменты
+                            </div>
+                            <div class="col-4 text-end">
+                                <a href="#editRao{{ item.id }}"
+                                   data-bs-toggle="modal"
+                                   class="text-secondary"
+                                >
+                                    <small>изменить</small>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body py-2">
+                        <p class="text-center m-0">
+                            {{ districts[item.rao] }}
+                        </p>
                     </div>
                 </div>
                 <p class="mt-2 mb-1">
@@ -324,6 +346,31 @@
                 <div class="modal-footer p-1">
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Отмена</button>
                     <button type="submit" class="btn btn-sm btn-primary">Обновить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="editRao{{ item.id }}" tabindex="-1" aria-labelledby="editRao{{ item.id }}Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <form method="POST" class="modal-content">
+                <div class="modal-header py-1 px-2">
+                    <p class="modal-title " id="editRao{{ item.id }}Label">Изменить район апартаментов #{{ item.id }}</p>
+                </div>
+                <div class="modal-body px-2 py-1">
+                    <input type="hidden" name="edit[id]" value="{{ item.id }}">
+                    {% for key, district in districts %}
+                        <input
+                                type="radio"
+                                class="btn-check"
+                                name="edit[rao][value]"
+                                value="{{ key }}"
+                                id="rao{{ key }}"
+                                autocomplete="off"
+                                onchange="this.form.submit()"
+                                {% if key == item.rao %} checked{% endif %}
+                        >
+                        <label class="btn w-100" for="rao{{ key }}">{{ district }}</label>
+                    {% endfor %}
                 </div>
             </form>
         </div>
