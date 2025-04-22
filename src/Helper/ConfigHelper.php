@@ -66,13 +66,16 @@ readonly class ConfigHelper {
 
         $config = $this->configRepository->find(1);
 
-        $this->em->persist(
-            $config
-                ->setSiteName($data['site_name'])
-                ->setMaxPhotoUpload($data['max_photo_upload'])
-                ->setCities(implode(',', $data['cities']))
-                ->setDistrictsCity(array_merge($config->getDistrictsCity(), $data['districts']))
-        );
+        $config
+            ->setSiteName($data['site_name'])
+            ->setMaxPhotoUpload($data['max_photo_upload'])
+            ->setCities(implode(',', $data['cities']))
+        ;
+        if (isset($data['districts'])) {
+            $config->setDistrictsCity(array_merge($config->getDistrictsCity(), $data['districts']));
+        }
+
+        $this->em->persist($config);
         $this->em->flush();
     }
 
