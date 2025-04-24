@@ -66,6 +66,9 @@ class Item
     #[ORM\Column]
     private ?int $rao = null;
 
+    #[ORM\OneToOne(mappedBy: 'item', cascade: ['persist', 'remove'])]
+    private ?ItemWork $itemWork = null;
+
     public function __construct()
     {
         $this->itemPhotos = new ArrayCollection();
@@ -287,6 +290,23 @@ class Item
     public function setRao(int $rao): static
     {
         $this->rao = $rao;
+
+        return $this;
+    }
+
+    public function getItemWork(): ?ItemWork
+    {
+        return $this->itemWork;
+    }
+
+    public function setItemWork(ItemWork $itemWork): static
+    {
+        // set the owning side of the relation if necessary
+        if ($itemWork->getItem() !== $this) {
+            $itemWork->setItem($this);
+        }
+
+        $this->itemWork = $itemWork;
 
         return $this;
     }
